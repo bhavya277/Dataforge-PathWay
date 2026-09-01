@@ -1,0 +1,41 @@
+# Software & Asset License Record
+
+## 1. Project License
+This project is open-sourced under the **MIT License**.
+
+```
+MIT License
+
+Copyright (c) 2026 DataForge × Pathway Project Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+## 2. Third-Party Dependencies & Licenses
+
+| Dependency / Library | Purpose | License |
+|---|---|---|
+| **NumPy** | Python scientific verification & Monte Carlo sweeps | BSD 3-Clause |
+| **Next.js / React** | Production web application framework | MIT License |
+| **Tailwind CSS** | Styling & layout design system | MIT License |
+| **Lucide React** | Scientific icons & UI glyphs | ISC License |
+| **Framer Motion** | Physics-based causal motion & transitions | MIT License |
+| **Katex / MathJax** | High-fidelity mathematical rendering | MIT License |

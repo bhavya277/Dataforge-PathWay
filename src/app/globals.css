@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #08090c;
+  --foreground: #f0f4f8;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbars for high-density matrix views */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d1017;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222733;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2e3445;
+}
+
+/* Subtle glowing borders */
+.frontier-glow {
+  box-shadow: 0 0 25px -5px rgba(0, 229, 255, 0.15);
+}
+
+.frontier-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.frontier-border-active {
+  border: 1px solid rgba(0, 229, 255, 0.4);
+}
