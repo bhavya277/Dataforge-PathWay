@@ -2,7 +2,6 @@
 
 import React from "react";
 import { RetrievalBreakdown } from "@/lib/types";
-import { CheckCircle2, AlertTriangle, XCircle, ArrowRight } from "lucide-react";
 
 interface DualReadoutProps {
   retrieval: RetrievalBreakdown;
@@ -17,85 +16,60 @@ export const DualReadout: React.FC<DualReadoutProps> = ({ retrieval, dim }) => {
     signalComponent,
     interferenceComponent,
     cosineSimilarity,
-    l2Error,
+    cosineError,
+    rawL2Error,
     interferenceToSignalRatio,
   } = retrieval;
 
-  // Determine retrieval quality status
-  let statusBadge = (
-    <span className="flex items-center space-x-1 text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1 rounded-full text-xs font-mono font-medium">
-      <CheckCircle2 className="w-3.5 h-3.5" />
-      <span>EXACT RECALL</span>
-    </span>
-  );
-
-  if (cosineSimilarity < 0.5) {
-    statusBadge = (
-      <span className="flex items-center space-x-1 text-rose-400 bg-rose-950/60 border border-rose-500/30 px-2.5 py-1 rounded-full text-xs font-mono font-medium">
-        <XCircle className="w-3.5 h-3.5" />
-        <span>INTERFERENCE COLLAPSE</span>
-      </span>
-    );
-  } else if (cosineSimilarity < 0.95) {
-    statusBadge = (
-      <span className="flex items-center space-x-1 text-amber-400 bg-amber-950/60 border border-amber-500/30 px-2.5 py-1 rounded-full text-xs font-mono font-medium">
-        <AlertTriangle className="w-3.5 h-3.5" />
-        <span>CROSS-TALK NOISE</span>
-      </span>
-    );
-  }
-
-  // Max value for bar chart normalization
+  // Max value for bar scaling
   let maxBar = 0.001;
   for (let i = 0; i < dim; i++) {
     maxBar = Math.max(
       maxBar,
       Math.abs(groundTruthValue[i] || 0),
       Math.abs(retrievedValue[i] || 0),
+      Math.abs(signalComponent[i] || 0),
       Math.abs(interferenceComponent[i] || 0)
     );
   }
 
   return (
-    <div className="bg-[#11141B] border border-white/10 rounded-xl p-5 shadow-xl">
-      {/* Top Header & Metrics */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/10 gap-3">
+    <div className="bg-[#101217] border border-white/[0.08] rounded-lg p-4 font-mono text-xs">
+      {/* Header & Status */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/[0.06] pb-3 gap-2">
         <div>
-          <div className="flex items-center space-x-2">
-            <h3 className="text-sm font-semibold text-white">Dual Readout: Ground Truth vs Retrieved</h3>
-            {statusBadge}
+          <span className="text-xs font-bold text-white tracking-wider">RETRIEVAL READOUT & DECOMPOSITION</span>
+          <div className="text-[11px] text-slate-400 mt-0.5">
+            Query: <strong className="text-cyan-400">{queryLabel}</strong> (q = k_{queryLabel.slice(-1)})
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Query: <span className="font-mono text-cyan-300 font-semibold">{queryLabel}</span> (q = k_{queryLabel.slice(-1)})
-          </p>
         </div>
 
-        {/* Quantitative Metric Badges */}
-        <div className="flex items-center space-x-3 text-xs font-mono">
-          <div className="bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 text-right">
-            <span className="text-[10px] text-slate-400 block uppercase">Cosine Similarity (Direction)</span>
+        {/* Quantitative Metrics Bar */}
+        <div className="flex items-center space-x-2 text-[11px]">
+          <div className="bg-black/50 px-2.5 py-1 rounded border border-white/5 text-right">
+            <span className="text-[9px] text-slate-400 block uppercase">Cosine Error (1-cos)</span>
             <span
-              className={`font-bold text-sm ${
-                cosineSimilarity > 0.95
+              className={`font-bold ${
+                cosineError < 0.05
                   ? "text-emerald-400"
-                  : cosineSimilarity > 0.5
+                  : cosineError < 0.3
                   ? "text-amber-400"
                   : "text-rose-400"
               }`}
             >
-              {cosineSimilarity.toFixed(4)}
+              {cosineError.toFixed(4)}
             </span>
           </div>
 
-          <div className="bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 text-right">
-            <span className="text-[10px] text-slate-400 block uppercase">Raw L2 Error (||ŷ - v||)</span>
-            <span className="font-bold text-sm text-cyan-300">{l2Error.toFixed(4)}</span>
+          <div className="bg-black/50 px-2.5 py-1 rounded border border-white/5 text-right">
+            <span className="text-[9px] text-slate-400 block uppercase">Raw L2 Error (||ŷ - v||)</span>
+            <span className="font-bold text-cyan-300">{rawL2Error.toFixed(4)}</span>
           </div>
 
-          <div className="bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 text-right">
-            <span className="text-[10px] text-slate-400 block uppercase">ISR (Interference/Signal)</span>
+          <div className="bg-black/50 px-2.5 py-1 rounded border border-white/5 text-right">
+            <span className="text-[9px] text-slate-400 block uppercase">ISR (Interference/Signal)</span>
             <span
-              className={`font-bold text-sm ${
+              className={`font-bold ${
                 interferenceToSignalRatio < 0.1
                   ? "text-emerald-400"
                   : interferenceToSignalRatio < 0.8
@@ -109,86 +83,119 @@ export const DualReadout: React.FC<DualReadoutProps> = ({ retrieval, dim }) => {
         </div>
       </div>
 
-      {/* Educational Note on Vector Magnitude Normalization */}
-      <div className="mt-3 p-2 bg-black/30 border border-white/5 rounded text-[11px] font-mono text-slate-400 flex items-center justify-between">
-        <span>
-          <strong className="text-slate-200">Note:</strong> Ground truth vector v is normalized (||v|| = 1.0), whereas retrieved vector ŷ accumulates unnormalized energy across associations. Cosine similarity measures pure directional fidelity; Raw L2 error measures total Euclidean divergence.
-        </span>
+      {/* Vector Decomposition Grid */}
+      <div className="mt-4 space-y-3">
+        {/* Row 1: Target vs Retrieved */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {/* Target Value Vector */}
+          <div className="bg-black/30 p-2.5 rounded border border-cyan-500/20">
+            <div className="flex justify-between text-[10px] text-slate-400 mb-1.5">
+              <span className="text-cyan-400 font-bold">Target Vector v_target (||v|| = 1.0)</span>
+              <span>d = {dim}</span>
+            </div>
+            <div
+              className="grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+            >
+              {groundTruthValue.slice(0, dim).map((val, idx) => (
+                <div key={idx} className="flex flex-col items-center">
+                  <div className="w-full bg-[#161a22] h-8 rounded-[1px] flex items-end justify-center overflow-hidden">
+                    <div
+                      className="w-full bg-cyan-400"
+                      style={{ height: `${(Math.abs(val) / maxBar) * 100}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-[8px] text-slate-400 mt-0.5">{val.toFixed(1)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Model Retrieved Output */}
+          <div className="bg-black/30 p-2.5 rounded border border-white/10">
+            <div className="flex justify-between text-[10px] text-slate-400 mb-1.5">
+              <span className="text-white font-bold">Retrieved Output ŷ = S q</span>
+              <span>Signal + Cross-Talk</span>
+            </div>
+            <div
+              className="grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+            >
+              {retrievedValue.slice(0, dim).map((val, idx) => (
+                <div key={idx} className="flex flex-col items-center">
+                  <div className="w-full bg-[#161a22] h-8 rounded-[1px] flex items-end justify-center overflow-hidden">
+                    <div
+                      className="w-full bg-slate-200"
+                      style={{ height: `${(Math.abs(val) / maxBar) * 100}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-[8px] text-slate-400 mt-0.5">{val.toFixed(1)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: Exact Algebraic Decomposition */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {/* Target Signal Component */}
+          <div className="bg-black/20 p-2 rounded border border-emerald-500/20">
+            <div className="flex justify-between text-[10px] text-slate-400 mb-1">
+              <span className="text-emerald-400 font-bold">Target Signal Component (λ^(t-j) v_j (k_jᵀ q))</span>
+              <span>Mag: {retrieval.signalMagnitude.toFixed(2)}</span>
+            </div>
+            <div
+              className="grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+            >
+              {signalComponent.slice(0, dim).map((val, idx) => (
+                <div key={idx} className="flex flex-col items-center">
+                  <div className="w-full bg-[#161a22] h-6 rounded-[1px] flex items-end justify-center overflow-hidden">
+                    <div
+                      className="w-full bg-emerald-400"
+                      style={{ height: `${(Math.abs(val) / maxBar) * 100}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-[8px] text-slate-400 mt-0.5">{val.toFixed(1)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Cross-Talk Contamination */}
+          <div className="bg-black/20 p-2 rounded border border-amber-500/20">
+            <div className="flex justify-between text-[10px] text-slate-400 mb-1">
+              <span className="text-amber-400 font-bold">Cross-Talk Interference (∑_{`i ≠ j`} λ^(t-i) v_i (k_iᵀ q))</span>
+              <span>Mag: {retrieval.crosstalkMagnitude.toFixed(2)}</span>
+            </div>
+            <div
+              className="grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+            >
+              {interferenceComponent.slice(0, dim).map((val, idx) => (
+                <div key={idx} className="flex flex-col items-center">
+                  <div className="w-full bg-[#161a22] h-6 rounded-[1px] flex items-end justify-center overflow-hidden">
+                    <div
+                      className="w-full bg-amber-400"
+                      style={{ height: `${(Math.abs(val) / maxBar) * 100}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-[8px] text-slate-400 mt-0.5">{val.toFixed(1)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Vector Comparison Bars */}
-      <div className="mt-5 space-y-4 font-mono text-xs">
-        {/* Ground Truth Vector */}
-        <div>
-          <div className="flex justify-between text-slate-400 text-[11px] mb-1">
-            <span className="flex items-center space-x-1.5">
-              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-              <span className="text-slate-200 font-semibold">Ground Truth Vector (v_target)</span>
-            </span>
-            <span>d = {dim}</span>
-          </div>
-          <div className="grid grid-cols-8 gap-1.5 bg-black/40 p-2.5 rounded-lg border border-cyan-500/20">
-            {groundTruthValue.slice(0, dim).map((val, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div className="w-full bg-[#1A1E27] h-10 rounded flex items-end justify-center overflow-hidden p-0.5">
-                  <div
-                    className="w-full bg-cyan-400 rounded-sm transition-all"
-                    style={{ height: `${(Math.abs(val) / maxBar) * 100}%` }}
-                  ></div>
-                </div>
-                <span className="text-[10px] text-slate-400 mt-1">{val.toFixed(2)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Retrieved Model Output Vector */}
-        <div>
-          <div className="flex justify-between text-slate-400 text-[11px] mb-1">
-            <span className="flex items-center space-x-1.5">
-              <span className="w-2 h-2 rounded-full bg-violet-400"></span>
-              <span className="text-slate-200 font-semibold">Model Retrieved Output (ŷ = S q)</span>
-            </span>
-            <span>ŷ = Signal + Interference</span>
-          </div>
-          <div className="grid grid-cols-8 gap-1.5 bg-black/40 p-2.5 rounded-lg border border-violet-500/20">
-            {retrievedValue.slice(0, dim).map((val, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div className="w-full bg-[#1A1E27] h-10 rounded flex items-end justify-center overflow-hidden p-0.5">
-                  <div
-                    className="w-full bg-violet-400 rounded-sm transition-all"
-                    style={{ height: `${(Math.abs(val) / maxBar) * 100}%` }}
-                  ></div>
-                </div>
-                <span className="text-[10px] text-slate-400 mt-1">{val.toFixed(2)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Cross-Talk Interference Vector */}
-        <div>
-          <div className="flex justify-between text-slate-400 text-[11px] mb-1">
-            <span className="flex items-center space-x-1.5">
-              <span className="w-2 h-2 rounded-full bg-rose-500"></span>
-              <span className="text-slate-200 font-semibold">Cross-Talk Contamination (∑_{`i ≠ target`} v_i (k_iᵀ q))</span>
-            </span>
-            <span>{interferenceToSignalRatio > 0.5 ? "Dominant" : "Suppressed"}</span>
-          </div>
-          <div className="grid grid-cols-8 gap-1.5 bg-black/40 p-2.5 rounded-lg border border-rose-500/20">
-            {interferenceComponent.slice(0, dim).map((val, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div className="w-full bg-[#1A1E27] h-8 rounded flex items-end justify-center overflow-hidden p-0.5">
-                  <div
-                    className="w-full bg-rose-500 rounded-sm transition-all"
-                    style={{ height: `${(Math.abs(val) / maxBar) * 100}%` }}
-                  ></div>
-                </div>
-                <span className="text-[10px] text-slate-400 mt-1">{val.toFixed(2)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Mathematical Footnote */}
+      <div className="mt-3 pt-2 border-t border-white/[0.06] text-[10px] text-slate-400 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+        <span>
+          <strong>Metric Distinction:</strong> Cosine error measures pure angular deviation; Raw L2 error accounts for un-normalized magnitude growth in linear recurrence.
+        </span>
+        <span className="text-cyan-300 font-semibold">
+          ŷ = Target Signal + Cross-Talk (Exact)
+        </span>
       </div>
     </div>
   );

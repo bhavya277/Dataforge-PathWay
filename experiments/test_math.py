@@ -43,7 +43,7 @@ class TestLinearAssociativeMemory(unittest.TestCase):
         decay_values = [1.0, 0.9, 0.75, 0.5]
         
         for lambda_val in decay_values:
-            keys, values = generate_synthetic_keys(N, d, correlation=0.45, seed=123)
+            keys, values, _ = generate_synthetic_keys(N, d, correlation=0.45, seed=123)
             mem = LinearAssociativeMemory(d=d, lambda_decay=lambda_val)
             mem.store_sequence(keys, values)
             
@@ -61,7 +61,7 @@ class TestLinearAssociativeMemory(unittest.TestCase):
         """When rho = 0 and lambda = 1, interference component MUST be exactly zero vector."""
         d = 6
         N = 4
-        keys, values = generate_synthetic_keys(N, d, correlation=0.0, seed=456)
+        keys, values, _ = generate_synthetic_keys(N, d, correlation=0.0, seed=456)
         mem = LinearAssociativeMemory(d=d, lambda_decay=1.0)
         mem.store_sequence(keys, values)
         
@@ -69,13 +69,13 @@ class TestLinearAssociativeMemory(unittest.TestCase):
             res = mem.retrieve(keys[q_idx], target_idx=q_idx)
             np.testing.assert_allclose(res.interference_component, np.zeros(d), atol=1e-12)
             self.assertAlmostEqual(res.cosine_similarity, 1.0, places=6)
-            self.assertAlmostEqual(res.l2_error, 0.0, places=6)
+            self.assertAlmostEqual(res.raw_l2_error, 0.0, places=6)
 
     def test_gram_matrix_properties(self):
         """Gram matrix G must be symmetric with 1.0 on diagonal (unit vectors)."""
         d = 8
         N = 6
-        keys, _ = generate_synthetic_keys(N, d, correlation=0.35, seed=789)
+        keys, _, _ = generate_synthetic_keys(N, d, correlation=0.35, seed=789)
         mem = LinearAssociativeMemory(d=d)
         for k in keys:
             mem.store(k, np.zeros(d))
@@ -113,7 +113,7 @@ class TestLinearAssociativeMemory(unittest.TestCase):
         d = 6
         N = 5
         lambda_val = 0.85
-        keys, values = generate_synthetic_keys(N, d, correlation=0.25, seed=999)
+        keys, values, _ = generate_synthetic_keys(N, d, correlation=0.25, seed=999)
         mem = LinearAssociativeMemory(d=d, lambda_decay=lambda_val)
         mem.store_sequence(keys, values)
         

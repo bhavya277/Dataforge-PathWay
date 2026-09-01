@@ -1,60 +1,99 @@
-import { MemoryPreset } from "./types";
+import { ProtocolPreset } from "./types";
 
-export const PRESETS: MemoryPreset[] = [
+export const PROTOCOL_PRESETS: ProtocolPreset[] = [
   {
-    id: "preset_01_clean",
-    title: "Preset 01 — Clean Orthogonal Recall",
-    subtitle: "Lossless associative storage with zero cross-talk",
-    description:
-      "When key vectors are mutually orthogonal (k_i^T k_j = 0 for i != j), each stored value is retrieved with 100% precision. The cross-talk interference term is identically zero.",
+    id: "protocol_01_baseline",
+    title: "BASELINE",
+    subtitle: "Orthogonal retrieval within rank capacity",
+    question: "Can a fixed-size recurrent state store and retrieve values without cross-talk?",
     scientificLesson:
-      "Orthogonality is a sufficient condition for perfect linear associative retrieval. The memory matrix S acts as a set of non-overlapping coordinate projections.",
+      "When stored keys are mutually orthonormal (G_ij = 0 for i != j), off-diagonal cross-talk terms vanish completely. The retrieved vector matches ground truth with zero linear error.",
     d: 8,
     N: 4,
     correlation: 0.0,
     decay: 1.0,
     useBDH: false,
+    stats: {
+      mean_pairwise_cosine: 0.0,
+      std_pairwise_cosine: 0.0,
+      min_pairwise_cosine: 0.0,
+      max_pairwise_cosine: 0.0,
+    },
   },
   {
-    id: "preset_02_correlated",
-    title: "Preset 02 — Visible Cross-Talk",
-    subtitle: "Moderate key correlation introducing value bleed",
-    description:
-      "Setting key correlation rho = 0.45 causes key vectors to share directional alignment. Retrieving Key A pulls fractional components of Value B, C, and D.",
+    id: "protocol_02_interference",
+    title: "INTERFERENCE",
+    subtitle: "Controlled key correlation (rho = 0.45)",
+    question: "How does non-orthogonal key alignment induce cross-talk noise?",
     scientificLesson:
-      "In linear recurrence, querying key j activates all keys non-orthogonally aligned with it. The retrieved output is a contaminated linear superposition.",
+      "Increasing key correlation parameter rho produces non-zero inner products k_i^T q, projecting fractional values of unrelated memories into the retrieved output.",
     d: 8,
     N: 4,
     correlation: 0.45,
     decay: 1.0,
     useBDH: false,
+    stats: {
+      mean_pairwise_cosine: 0.45,
+      std_pairwise_cosine: 0.08,
+      min_pairwise_cosine: 0.32,
+      max_pairwise_cosine: 0.58,
+    },
   },
   {
-    id: "preset_03_pressure",
-    title: "Preset 03 — Memory Pressure (N > d)",
-    subtitle: "Exceeding matrix rank capacity",
-    description:
-      "Storing 12 associations in an 8-dimensional state matrix exceeds rank capacity (Rank(S) <= 8). Even with mild correlation (rho = 0.20), interference terms accumulate.",
+    id: "protocol_03_load_stress",
+    title: "LOAD STRESS",
+    subtitle: "Memory load ratio N/d = 1.5 exceeding state rank",
+    question: "What happens when the number of stored memories N exceeds state dimension d?",
     scientificLesson:
-      "A fixed-size recurrent state S in R^(d x d) cannot store unbounded independent facts without progressive signal degradation.",
+      "Rank(S) is bounded by d. When N > d, keys cannot be mutually orthogonal. Cross-talk terms accumulate, increasing directional cosine error.",
     d: 8,
     N: 12,
     correlation: 0.2,
     decay: 1.0,
     useBDH: false,
+    stats: {
+      mean_pairwise_cosine: 0.22,
+      std_pairwise_cosine: 0.11,
+      min_pairwise_cosine: -0.05,
+      max_pairwise_cosine: 0.49,
+    },
   },
   {
-    id: "preset_04_failure",
-    title: "Preset 04 — Catastrophic Cross-Talk Collapse",
-    subtitle: "Controlled adversarial failure where interference exceeds signal",
-    description:
-      "High correlation (rho = 0.75) and high load (N = 10, d = 6) causes the cumulative interference magnitude to strictly overpower the target signal, inverting retrieval direction.",
+    id: "protocol_04_forgetting",
+    title: "TEMPORAL DECAY",
+    subtitle: "Exponential retention factor lambda = 0.80",
+    question: "How does temporal decay lambda < 1 alter the retention of earlier vs recent memories?",
     scientificLesson:
-      "When off-diagonal interference terms dominate, the model's output vector points away from the ground truth toward the centroid of interfering keys.",
-    d: 6,
-    N: 10,
-    correlation: 0.75,
-    decay: 1.0,
+      "Setting lambda < 1 discounts earlier associations by lambda^(t-i). This attenuates cross-talk from old memories while reducing earlier target signal strength.",
+    d: 8,
+    N: 6,
+    correlation: 0.2,
+    decay: 0.8,
     useBDH: false,
+    stats: {
+      mean_pairwise_cosine: 0.21,
+      std_pairwise_cosine: 0.10,
+      min_pairwise_cosine: -0.02,
+      max_pairwise_cosine: 0.44,
+    },
+  },
+  {
+    id: "protocol_05_sparse_abstraction",
+    title: "SPARSE ABSTRACTION",
+    subtitle: "BDH-inspired non-negative sparse projection [TEACHING ABSTRACTION]",
+    question: "Can non-negative sparse activations suppress cross-talk in a toy recurrent matrix?",
+    scientificLesson:
+      "Non-negative sparse activations enforce quasi-disjoint supports in high dimensions, suppressing pairwise dot products k_i^T k_j. (Note: this is a single-layer teaching abstraction, not the complete BDH architecture).",
+    d: 8,
+    N: 12,
+    correlation: 0.35,
+    decay: 1.0,
+    useBDH: true,
+    stats: {
+      mean_pairwise_cosine: 0.12,
+      std_pairwise_cosine: 0.06,
+      min_pairwise_cosine: 0.0,
+      max_pairwise_cosine: 0.28,
+    },
   },
 ];

@@ -33,7 +33,7 @@ def verify_mathematical_equivalences():
         for N in sequence_lengths:
             for rho in correlations:
                 total_tests += 1
-                keys, values = generate_synthetic_keys(N, d, correlation=rho, seed=42 + total_tests)
+                keys, values, _ = generate_synthetic_keys(N, d, correlation=rho, seed=42 + total_tests)
                 
                 # 1. Step-by-step Recurrent Execution
                 mem = LinearAssociativeMemory(d=d, lambda_decay=1.0, learning_rate=1.0)

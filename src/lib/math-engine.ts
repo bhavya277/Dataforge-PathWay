@@ -1,4 +1,4 @@
-import { KeyValuePair, RetrievalBreakdown } from "./types";
+import { KeyValuePair, KeySetStats, RetrievalBreakdown } from "./types";
 
 // ==========================================
 // 1. Fundamental Vector & Matrix Operations
@@ -38,18 +38,6 @@ export function matrixZero(rows: number, cols: number): number[][] {
   return Array.from({ length: rows }, () => new Array(cols).fill(0));
 }
 
-export function matrixAdd(A: number[][], B: number[][], scaleB: number = 1.0): number[][] {
-  const rows = A.length;
-  const cols = A[0].length;
-  const result = matrixZero(rows, cols);
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      result[i][j] = A[i][j] + scaleB * B[i][j];
-    }
-  }
-  return result;
-}
-
 export function matrixVectorMultiply(M: number[][], v: number[]): number[] {
   const rows = M.length;
   const cols = M[0].length;
@@ -68,7 +56,7 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   const normA = vectorNorm(a);
   const normB = vectorNorm(b);
   if (normA < 1e-12 || normB < 1e-12) return 0;
-  return dotProduct(a, b) / (normA * normB);
+  return Math.max(-1.0, Math.min(1.0, dotProduct(a, b) / (normA * normB)));
 }
 
 export function l2Distance(a: number[], b: number[]): number {
@@ -81,8 +69,15 @@ export function l2Distance(a: number[], b: number[]): number {
 }
 
 // ==========================================
-// 2. Synthetic Orthonormal & Correlated Basis Generator
+// 2. Statistically Valid Isotropic Key Generator
 // ==========================================
+
+function gaussianRandom(rng: () => number): number {
+  let u = 0, v = 0;
+  while (u === 0) u = rng();
+  while (v === 0) v = rng();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
 
 function pseudoRandom(seed: number): () => number {
   let s = seed % 2147483647;
@@ -93,72 +88,108 @@ function pseudoRandom(seed: number): () => number {
   };
 }
 
+export function computeKeySetStats(keys: number[][]): KeySetStats {
+  const N = keys.length;
+  if (N <= 1) {
+    return { meanCosine: 1.0, stdCosine: 0.0, minCosine: 1.0, maxCosine: 1.0, isOrthogonal: true };
+  }
+
+  const offDiags: number[] = [];
+  for (let i = 0; i < N; i++) {
+    for (let j = i + 1; j < N; j++) {
+      offDiags.push(dotProduct(keys[i], keys[j]));
+    }
+  }
+
+  const sum = offDiags.reduce((a, b) => a + b, 0);
+  const mean = sum / offDiags.length;
+  const variance = offDiags.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / offDiags.length;
+  const std = Math.sqrt(variance);
+  const min = Math.min(...offDiags);
+  const max = Math.max(...offDiags);
+  const isOrth = Math.max(...offDiags.map(Math.abs)) < 1e-6;
+
+  return {
+    meanCosine: mean,
+    stdCosine: std,
+    minCosine: min,
+    maxCosine: max,
+    isOrthogonal: isOrth,
+  };
+}
+
 export function generateSyntheticPairs(
   N: number,
   d: number,
   correlation: number,
   seed: number = 42
-): KeyValuePair[] {
+): { pairs: KeyValuePair[]; stats: KeySetStats } {
   const rng = pseudoRandom(seed);
   const colors = [
-    "#00E5FF", // Cyan
-    "#00F5A0", // Neon Emerald
-    "#FFB800", // Amber
-    "#FF0055", // Crimson
-    "#9E00FF", // Violet
+    "#00E5FF", // Cyan (Primary target)
+    "#F59E0B", // Amber (Interference)
+    "#10B981", // Emerald
+    "#A855F7", // Purple
     "#38BDF8", // Sky Blue
     "#F43F5E", // Rose
-    "#A855F7", // Purple
-    "#10B981", // Teal
-    "#F59E0B", // Orange
-    "#EC4899", // Pink
     "#6366F1", // Indigo
+    "#EC4899", // Pink
+    "#14B8A6", // Teal
+    "#EAB308", // Yellow
   ];
 
-  // Generate orthonormal basis vectors using Gram-Schmidt
-  const basis: number[][] = [];
-  for (let i = 0; i < Math.max(d, N + 1); i++) {
-    let v = Array.from({ length: d }, () => rng() * 2 - 1);
-    for (let b of basis) {
-      const proj = dotProduct(v, b);
-      v = v.map((x, idx) => x - proj * b[idx]);
-    }
-    const norm = vectorNorm(v);
-    if (norm > 1e-6) {
-      basis.push(v.map((x) => x / norm));
-    } else {
-      // Fallback unit vector
-      const fallback = new Array(d).fill(0);
-      fallback[i % d] = 1;
-      basis.push(fallback);
-    }
-  }
+  const keys: number[][] = [];
+  const values: number[][] = [];
 
-  const u_0 = basis[basis.length - 1]; // Shared correlation vector
-  const pairs: KeyValuePair[] = [];
+  if (correlation === 0.0 && N <= d) {
+    // Exact orthonormal basis within rank capacity
+    const basis: number[][] = [];
+    for (let i = 0; i < d; i++) {
+      let v = Array.from({ length: d }, () => gaussianRandom(rng));
+      for (const b of basis) {
+        const proj = dotProduct(v, b);
+        v = v.map((x, idx) => x - proj * b[idx]);
+      }
+      basis.push(normalizeVector(v));
+    }
+    for (let i = 0; i < N; i++) {
+      keys.push(basis[i]);
+    }
+  } else {
+    // Statistically valid isotropic shared-component model
+    let u_0 = Array.from({ length: d }, () => gaussianRandom(rng));
+    u_0 = normalizeVector(u_0);
 
-  for (let i = 0; i < N; i++) {
-    const e_i = basis[i % (d - 1)];
     const sqrtRho = Math.sqrt(Math.max(0, Math.min(1, correlation)));
     const sqrtOneMinusRho = Math.sqrt(Math.max(0, 1.0 - correlation));
 
-    let k_raw = e_i.map((x, idx) => sqrtOneMinusRho * x + sqrtRho * u_0[idx]);
-    const key = normalizeVector(k_raw);
+    for (let i = 0; i < N; i++) {
+      let u_i = Array.from({ length: d }, () => gaussianRandom(rng));
+      // Remove projection on u_0 for clean control
+      const proj = dotProduct(u_i, u_0);
+      u_i = normalizeVector(u_i.map((x, idx) => x - proj * u_0[idx]));
 
-    // Value vector: independent orthonormal or unique unit vector
-    const v_raw = basis[(i + 1) % d];
-    const value = normalizeVector(v_raw);
-
-    pairs.push({
-      id: i,
-      label: `Pair ${String.fromCharCode(65 + i)}`,
-      color: colors[i % colors.length],
-      keyVector: key,
-      valueVector: value,
-    });
+      const k_i = u_i.map((x, idx) => sqrtOneMinusRho * x + sqrtRho * u_0[idx]);
+      keys.push(normalizeVector(k_i));
+    }
   }
 
-  return pairs;
+  // Independent isotropic random values
+  for (let i = 0; i < N; i++) {
+    const v_raw = Array.from({ length: d }, () => gaussianRandom(rng));
+    values.push(normalizeVector(v_raw));
+  }
+
+  const pairs: KeyValuePair[] = keys.map((k, i) => ({
+    id: i,
+    label: `Item ${i + 1}`,
+    color: colors[i % colors.length],
+    keyVector: k,
+    valueVector: values[i],
+  }));
+
+  const stats = computeKeySetStats(keys);
+  return { pairs, stats };
 }
 
 // ==========================================
@@ -180,7 +211,7 @@ export class LiveAssociativeEngine {
     decay: number = 1.0,
     learningRate: number = 1.0,
     useBDH: boolean = false,
-    sparsity: number = 0.5
+    sparsity: number = 0.4
   ) {
     this.d = d;
     this.decay = decay;
@@ -197,13 +228,13 @@ export class LiveAssociativeEngine {
     let v = pair.valueVector.slice();
 
     if (this.useBDH) {
-      // BDH: Sparse Positive Rectification (ReLU + optional TopK)
+      // BDH-inspired sparse positive projection (teaching abstraction)
       k = k.map((x) => Math.max(0, x));
       v = v.map((x) => Math.max(0, x));
     }
 
     const delta = outerProduct(v, k);
-    let nextS = matrixZero(this.d, this.d);
+    const nextS = matrixZero(this.d, this.d);
 
     for (let r = 0; r < this.d; r++) {
       for (let c = 0; c < this.d; c++) {
@@ -212,7 +243,7 @@ export class LiveAssociativeEngine {
     }
 
     if (this.useBDH && this.sparsity < 1.0) {
-      // Top-K synaptic connection retention
+      // Top-K connection retention
       const allVals: { r: number; c: number; val: number }[] = [];
       for (let r = 0; r < this.d; r++) {
         for (let c = 0; c < this.d; c++) {
@@ -249,21 +280,21 @@ export class LiveAssociativeEngine {
     const targetPair = this.pairs[targetIdx];
     const v_target = targetPair ? targetPair.valueVector : new Array(this.d).fill(0);
 
-    // Exact Signal Component: lambda^(T - 1 - targetIdx) * v_target * (k_target^T @ q)
     let signalComp = new Array(this.d).fill(0);
     let interferenceComp = new Array(this.d).fill(0);
+    let targetTimeDecay = 1.0;
 
     if (targetPair && targetIdx >= 0 && targetIdx < T) {
       let k_target = targetPair.keyVector;
       if (this.useBDH) k_target = k_target.map((x) => Math.max(0, x));
 
       const dotTarget = dotProduct(k_target, q);
-      const targetTimeDecay = Math.pow(this.decay, T - 1 - targetIdx);
+      targetTimeDecay = Math.pow(this.decay, T - 1 - targetIdx);
       signalComp = targetPair.valueVector.map(
         (val) => targetTimeDecay * this.learningRate * val * dotTarget
       );
 
-      // Interference: Sum of all other stored pairs lambda^(T - 1 - i) * v_i * (k_i^T @ q)
+      // Cross-talk decomposition
       for (let i = 0; i < this.pairs.length; i++) {
         if (i !== targetIdx) {
           let k_i = this.pairs[i].keyVector;
@@ -279,7 +310,8 @@ export class LiveAssociativeEngine {
     }
 
     const cosSim = cosineSimilarity(v_target, retrieved);
-    const l2Err = l2Distance(v_target, retrieved);
+    const cosErr = 1.0 - cosSim;
+    const rawL2 = l2Distance(v_target, retrieved);
     const signalMag = vectorNorm(signalComp);
     const crosstalkMag = vectorNorm(interferenceComp);
     const isr = crosstalkMag / (signalMag + 1e-12);
@@ -293,10 +325,12 @@ export class LiveAssociativeEngine {
       signalComponent: signalComp,
       interferenceComponent: interferenceComp,
       cosineSimilarity: cosSim,
-      l2Error: l2Err,
+      cosineError: cosErr,
+      rawL2Error: rawL2,
       signalMagnitude: signalMag,
       crosstalkMagnitude: crosstalkMag,
       interferenceToSignalRatio: isr,
+      timeDecayFactor: targetTimeDecay,
     };
   }
 

@@ -6,6 +6,14 @@ export interface KeyValuePair {
   valueVector: number[];
 }
 
+export interface KeySetStats {
+  meanCosine: number;
+  stdCosine: number;
+  minCosine: number;
+  maxCosine: number;
+  isOrthogonal: boolean;
+}
+
 export interface RetrievalBreakdown {
   queryIdx: number;
   queryLabel: string;
@@ -15,34 +23,31 @@ export interface RetrievalBreakdown {
   signalComponent: number[];
   interferenceComponent: number[];
   cosineSimilarity: number;
-  l2Error: number;
+  cosineError: number;
+  rawL2Error: number;
   signalMagnitude: number;
   crosstalkMagnitude: number;
   interferenceToSignalRatio: number;
+  timeDecayFactor: number;
 }
 
-export interface MemoryPreset {
+export interface ProtocolPreset {
   id: string;
   title: string;
   subtitle: string;
-  description: string;
+  question: string;
   scientificLesson: string;
   d: number;
   N: number;
   correlation: number;
   decay: number;
-  sparsity?: number;
-  useBDH?: boolean;
+  useBDH: boolean;
+  stats?: {
+    mean_pairwise_cosine: number;
+    std_pairwise_cosine: number;
+    min_pairwise_cosine: number;
+    max_pairwise_cosine: number;
+  };
 }
 
-export interface SweepPoint {
-  correlation?: number;
-  N?: number;
-  d?: number;
-  mean_cosine_similarity: number;
-  mean_l2_error: number;
-  mean_interference_to_signal_ratio: number;
-  load_ratio_N_over_d?: number;
-}
-
-export type ActiveTab = "guide" | "interactive-lab" | "bdh-architecture" | "benchmarks" | "blog";
+export type ActiveMode = "lab" | "guided" | "stress-test" | "bdh-abstraction" | "research-notebook";

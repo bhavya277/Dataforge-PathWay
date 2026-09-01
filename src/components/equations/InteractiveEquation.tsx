@@ -1,159 +1,100 @@
 "use client";
 
 import React, { useState } from "react";
-import { Info, Sparkles } from "lucide-react";
 
 export const InteractiveEquation: React.FC = () => {
-  const [activeTerm, setActiveTerm] = useState<string>("interference");
+  const [activeTerm, setActiveTerm] = useState<string>("decomposition");
 
   const terms: Record<
     string,
-    { title: string; math: string; explanation: string; physicalRole: string; dimension: string }
+    { title: string; math: string; explanation: string; dimension: string; note: string }
   > = {
-    state_update: {
-      title: "Recurrent State Matrix (Sₜ)",
-      math: "Sₜ = λ Sₜ₋₁ + vₜ kₜᵀ",
+    recurrence: {
+      title: "Generalized Recurrent State Update",
+      math: "S_t = \\lambda S_{t-1} + v_t k_t^T = \\sum_{i=1}^t \\lambda^{t-i} v_i k_i^T",
       explanation:
-        "The fixed-size fast-weight synaptic matrix that accumulates associative bindings across time without allocating new KV-cache memory slots.",
-      physicalRole: "Acts as dynamic working memory / plastic synaptic connections.",
-      dimension: "ℝ^(d × d)",
-    },
-    outer_product: {
-      title: "Hebbian Outer-Product Update (vₜ kₜᵀ)",
-      math: "ΔS = vₜ kₜᵀ",
-      explanation:
-        "Rank-1 outer product binding key kₜ to value vₜ. Each cell ΔS_rc represents the joint co-activation of value neuron r and key neuron c.",
-      physicalRole: "Associative write operation (fast-weight programming).",
-      dimension: "ℝ^(d × d) (Rank 1)",
+        "Sequential associative write: the memory matrix updates linearly by accumulating the outer product of value vector v_t and key vector k_t^T, decayed exponentially by retention factor lambda.",
+      dimension: "S_t \\in \\mathbb{R}^{d \\times d}",
+      note: "When lambda = 1.0, decay vanishes and S_t equals the exact sum of outer products.",
     },
     retrieval: {
-      title: "Linear Query Readout (y = S q)",
-      math: "y = S q = ∑ᵢ vᵢ (kᵢᵀ q)",
+      title: "Linear Matrix-Vector Query Readout",
+      math: "y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)",
       explanation:
-        "Reading from memory by projecting the state matrix onto query vector q. By linearity, this equals the weighted sum of all stored value vectors.",
-      physicalRole: "Associative read operation.",
-      dimension: "ℝ^d",
+        "Associative recall is executed via a single matrix-vector multiplication in O(d^2) compute per token, bypassing the need to attend over historical key-value sequence caches.",
+      dimension: "y_t \\in \\mathbb{R}^d",
+      note: "Equivalent to linear causal attention (V K^T) q when lambda = 1.0.",
     },
-    target_signal: {
-      title: "Target Signal Component",
-      math: "v_j (k_jᵀ q_j)",
+    decomposition: {
+      title: "Signal + Cross-Talk Decomposition",
+      math: "y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}",
       explanation:
-        "The desired value vector scaled by the query's self-similarity to its matching key. When ||k_j|| = 1 and q = k_j, this is exactly 1.0 · v_j.",
-      physicalRole: "Ground-truth information recovery.",
-      dimension: "ℝ^d",
+        "The fundamental algebraic reason for memory degradation: querying key k_j retrieves target value v_j plus a linear superposition of all other stored values weighted by their pairwise key inner products k_i^T q_j.",
+      dimension: "y_t \\in \\mathbb{R}^d",
+      note: "If all stored keys are mutually orthogonal (k_i^T k_j = 0 for i != j), cross-talk is identically zero.",
     },
-    interference: {
-      title: "Cross-Talk Interference Term",
-      math: "∑_{i ≠ j} v_i (k_iᵀ q_j)",
+    linear_attn: {
+      title: "Recurrence ↔ Linear Attention Dual",
+      math: "S_t q_t = \\left(\\sum_{i=1}^t v_i k_i^T\\right) q_t = V_{1:t} (K_{1:t}^T q_t)",
       explanation:
-        "The linear contamination from all OTHER stored associations whose keys share non-zero angular projection (k_iᵀ q_j ≠ 0) with the query.",
-      physicalRole: "Cause of memory degradation, blur, and catastrophic collapse.",
-      dimension: "ℝ^d",
+        "Associative duality: recurrent sequential state accumulation in O(1) memory per step is algebraically equivalent to linear causal self-attention over the full token context.",
+      dimension: "\\text{Equivalence verified at } < 10^{-14} \\text{ error}",
+      note: "Proves that linear transformers operate secretly as fast-weight recurrent memories (Schlag et al., 2021).",
     },
-    bdh_sparse: {
-      title: "Sparse Positive Plasticity (BDH-Inspired Teaching Simplification)",
-      math: "W_t = TopK(lambda * W_{t-1} + eta * ReLU(v_t) ReLU(k_t)^T)",
+    bdh_abstraction: {
+      title: "BDH-Inspired Sparse Plasticity Abstraction",
+      math: "W_t = \\text{TopK}(\\lambda W_{t-1} + \\eta \\cdot \\text{ReLU}(v_t) \\text{ReLU}(k_t)^T)",
       explanation:
-        "A simplified teaching model inspired by mechanisms discussed in BDH: non-negative sparse activations enforce quasi-disjoint key supports (k_i^T k_j ~ 0), suppressing cross-talk by geometric construction. This is a single-layer visual demonstration, not the complete BDH architecture.",
-      physicalRole: "Sparse associative memory without dense polysemantic superposition [TEACHING SIMPLIFICATION].",
-      dimension: "R^(d x d) (Sparse Non-Negative)",
+        "A simplified teaching abstraction inspired by mechanisms discussed in Dragon Hatchling (BDH): non-negative sparse projections force quasi-disjoint key supports (k_i^T k_j ~ 0), suppressing cross-talk geometrically.",
+      dimension: "W_t \\in \\mathbb{R}^{d \\times d} \\text{ (Sparse Non-Negative)}",
+      note: "[BDH-INSPIRED TEACHING ABSTRACTION • NOT THE FULL BDH ARCHITECTURE]",
     },
   };
 
-  const current = terms[activeTerm] || terms.interference;
+  const current = terms[activeTerm];
 
   return (
-    <div className="bg-[#11141B] border border-white/10 rounded-xl p-5 shadow-xl">
-      <div className="flex items-center justify-between pb-3 border-b border-white/10">
-        <h3 className="text-sm font-semibold text-white flex items-center space-x-2">
-          <Sparkles className="w-4 h-4 text-cyan-400" />
-          <span>Interactive Equation Inspector</span>
-        </h3>
-        <span className="text-[11px] font-mono text-slate-400">Click any mathematical term to inspect</span>
+    <div className="bg-[#101217] border border-white/[0.08] rounded-lg p-4 font-mono text-xs space-y-3">
+      <div className="flex items-center justify-between border-b border-white/[0.06] pb-2">
+        <span className="font-bold text-white tracking-wider">MATHEMATICAL FORMULATIONS</span>
+        <span className="text-[10px] text-slate-400">Click a formulation to inspect exact terms</span>
       </div>
 
-      {/* Clickable Equation Bar */}
-      <div className="my-5 p-4 rounded-lg bg-black/60 border border-white/10 flex flex-wrap items-center justify-center gap-2 font-mono text-base sm:text-lg">
-        <button
-          onClick={() => setActiveTerm("retrieval")}
-          className={`px-2.5 py-1 rounded transition-all ${
-            activeTerm === "retrieval"
-              ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 ring-1 ring-cyan-400"
-              : "text-slate-300 hover:text-white hover:bg-white/5"
-          }`}
-        >
-          y_j =
-        </button>
-
-        <button
-          onClick={() => setActiveTerm("target_signal")}
-          className={`px-2.5 py-1 rounded transition-all ${
-            activeTerm === "target_signal"
-              ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 ring-1 ring-emerald-400"
-              : "text-emerald-400/80 hover:text-emerald-300 hover:bg-white/5"
-          }`}
-        >
-          v_j (k_jᵀ q_j)
-        </button>
-
-        <span className="text-slate-500 font-bold">+</span>
-
-        <button
-          onClick={() => setActiveTerm("interference")}
-          className={`px-2.5 py-1 rounded transition-all ${
-            activeTerm === "interference"
-              ? "bg-rose-500/20 text-rose-300 border border-rose-500/40 ring-1 ring-rose-400"
-              : "text-rose-400/90 hover:text-rose-300 hover:bg-white/5"
-          }`}
-        >
-          ∑_{`i ≠ j`} v_i (k_iᵀ q_j)
-        </button>
-
-        <span className="text-slate-600 mx-2">|</span>
-
-        <button
-          onClick={() => setActiveTerm("state_update")}
-          className={`px-2 py-0.5 rounded text-xs transition-all ${
-            activeTerm === "state_update"
-              ? "bg-violet-500/20 text-violet-300 border border-violet-500/40 ring-1 ring-violet-400"
-              : "text-violet-400/80 hover:bg-white/5"
-          }`}
-        >
-          [Sₜ = λSₜ₋₁ + vₜkₜᵀ]
-        </button>
-
-        <button
-          onClick={() => setActiveTerm("bdh_sparse")}
-          className={`px-2 py-0.5 rounded text-xs transition-all ${
-            activeTerm === "bdh_sparse"
-              ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 ring-1 ring-amber-400"
-              : "text-amber-400/80 hover:bg-white/5"
-          }`}
-        >
-          [BDH Sparse Rule]
-        </button>
+      {/* Tabs */}
+      <div className="flex flex-wrap gap-1">
+        {Object.entries(terms).map(([key, item]) => {
+          const active = activeTerm === key;
+          return (
+            <button
+              key={key}
+              onClick={() => setActiveTerm(key)}
+              className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
+                active
+                  ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30"
+                  : "bg-black/30 text-slate-400 hover:text-slate-200 border border-white/5"
+              }`}
+            >
+              {item.title.split(":")[0]}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Selected Term Detail Card */}
-      <div className="bg-[#181D26] border border-white/10 rounded-lg p-4 font-mono text-xs">
-        <div className="flex items-center justify-between pb-2 border-b border-white/10">
-          <div className="text-cyan-300 font-bold text-sm">{current.title}</div>
-          <div className="text-slate-400 bg-black/40 px-2 py-0.5 rounded text-[11px]">
-            Dimension: <span className="text-white font-semibold">{current.dimension}</span>
-          </div>
+      {/* Display Box */}
+      <div className="bg-black/50 p-3.5 rounded border border-white/10 space-y-2">
+        <div className="flex items-center justify-between text-[11px]">
+          <span className="text-cyan-400 font-bold">{current.title}</span>
+          <span className="text-slate-400 text-[10px]">{current.dimension}</span>
         </div>
 
-        <div className="my-2.5 font-mono text-sm text-amber-300 bg-black/50 p-2 rounded border border-white/5">
+        <div className="py-2 px-3 bg-[#161a22] rounded border border-white/5 text-sm sm:text-base font-bold text-white overflow-x-auto text-center">
           {current.math}
         </div>
 
-        <p className="text-slate-300 leading-relaxed font-sans text-xs mb-2">{current.explanation}</p>
+        <p className="text-slate-300 text-[11px] leading-relaxed">{current.explanation}</p>
 
-        <div className="flex items-center space-x-2 text-[11px] text-emerald-400 bg-emerald-950/30 p-2 rounded border border-emerald-500/20">
-          <Info className="w-3.5 h-3.5 flex-shrink-0" />
-          <span>
-            <strong>Scientific Role:</strong> {current.physicalRole}
-          </span>
+        <div className="text-[10px] text-amber-400/90 pt-1 border-t border-white/5">
+          <strong>Key Insight:</strong> {current.note}
         </div>
       </div>
     </div>

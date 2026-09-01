@@ -1,88 +1,90 @@
 "use client";
 
 import React from "react";
-import { ActiveTab } from "@/lib/types";
-import { Cpu, Compass, Sliders, BookOpen, BarChart3, FileText, CheckCircle2 } from "lucide-react";
+import { ActiveMode } from "@/lib/types";
+import { Sliders, Compass, BarChart3, Cpu, BookOpen } from "lucide-react";
 
 interface HeaderProps {
-  activeTab: ActiveTab;
-  setActiveTab: (tab: ActiveTab) => void;
+  activeMode: ActiveMode;
+  setActiveMode: (mode: ActiveMode) => void;
   isLive: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, isLive }) => {
-  const tabs: { id: ActiveTab; label: string; icon: React.ReactNode }[] = [
-    { id: "guide", label: "Guided Journey", icon: <Compass className="w-4 h-4" /> },
-    { id: "interactive-lab", label: "Research Lab (Sandbox)", icon: <Sliders className="w-4 h-4" /> },
-    { id: "bdh-architecture", label: "BDH & BDH-CQ Architecture", icon: <Cpu className="w-4 h-4" /> },
-    { id: "benchmarks", label: "Empirical Sweeps", icon: <BarChart3 className="w-4 h-4" /> },
-    { id: "blog", label: "Research Blog", icon: <FileText className="w-4 h-4" /> },
+export const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode, isLive }) => {
+  const modes: { id: ActiveMode; label: string; icon: React.ReactNode }[] = [
+    { id: "lab", label: "LAB", icon: <Sliders className="w-3.5 h-3.5" /> },
+    { id: "guided", label: "GUIDED", icon: <Compass className="w-3.5 h-3.5" /> },
+    { id: "stress-test", label: "STRESS TEST", icon: <BarChart3 className="w-3.5 h-3.5" /> },
+    { id: "bdh-abstraction", label: "BDH ABSTRACTION", icon: <Cpu className="w-3.5 h-3.5" /> },
+    { id: "research-notebook", label: "RESEARCH NOTEBOOK", icon: <BookOpen className="w-3.5 h-3.5" /> },
   ];
 
   return (
-    <header className="border-b border-white/10 bg-[#0c0e14]/90 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Brand & Track Info */}
+    <header className="border-b border-white/[0.08] bg-[#090A0D]/95 backdrop-blur-md sticky top-0 z-50">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-14">
+          {/* Brand Eyebrow */}
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center font-mono font-bold text-white shadow-lg shadow-cyan-500/20">
+            <div className="font-mono text-xs font-bold px-2 py-1 rounded bg-white/5 border border-white/10 text-cyan-400">
               Sₜ
             </div>
-            <div>
+            <div className="leading-tight">
               <div className="flex items-center space-x-2">
-                <span className="font-semibold text-sm tracking-wide text-white">DataForge × Pathway</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono">
-                  2026 Track
+                <span className="font-mono text-xs font-semibold text-white tracking-wide">
+                  DATAFORGE × PATHWAY
+                </span>
+                <span className="text-[10px] font-mono text-slate-400 bg-white/5 px-1.5 py-0.2 rounded border border-white/5">
+                  2026
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-mono">Associative Memory & Linear Recurrent Fast Weights</p>
+              <p className="text-[10px] font-mono text-slate-400">Associative Memory Research Instrument</p>
             </div>
           </div>
 
-          {/* Navigation Tabs */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {tabs.map((tab) => {
-              const active = activeTab === tab.id;
+          {/* Mode Switcher */}
+          <nav className="hidden md:flex items-center space-x-1 bg-black/40 p-1 rounded-md border border-white/[0.08]">
+            {modes.map((m) => {
+              const active = activeMode === m.id;
               return (
                 <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  key={m.id}
+                  onClick={() => setActiveMode(m.id)}
+                  className={`flex items-center space-x-1.5 px-3 py-1 rounded text-xs font-mono font-medium transition-all ${
                     active
-                      ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 shadow-sm"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                      ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30"
+                      : "text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
                   }`}
                 >
-                  {tab.icon}
-                  <span>{tab.label}</span>
+                  {m.icon}
+                  <span>{m.label}</span>
                 </button>
               );
             })}
           </nav>
 
-          {/* Computation Status Indicator */}
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>{isLive ? "LIVE COMPUTATION" : "PRECOMPUTED SWEEP"}</span>
+          {/* Precision Status */}
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>{isLive ? "LIVE IN-BROWSER MATH" : "BENCHMARK DATA"}</span>
             </div>
           </div>
         </div>
 
-        {/* Mobile Tab Bar */}
-        <div className="flex md:hidden overflow-x-auto py-2 space-x-1 border-t border-white/5">
-          {tabs.map((tab) => {
-            const active = activeTab === tab.id;
+        {/* Mobile Navigation */}
+        <div className="flex md:hidden overflow-x-auto py-1.5 space-x-1 border-t border-white/5">
+          {modes.map((m) => {
+            const active = activeMode === m.id;
             return (
               <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap ${
+                key={m.id}
+                onClick={() => setActiveMode(m.id)}
+                className={`flex items-center space-x-1 px-2.5 py-1 rounded text-[11px] font-mono whitespace-nowrap ${
                   active ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30" : "text-slate-400"
                 }`}
               >
-                {tab.icon}
-                <span>{tab.label}</span>
+                {m.icon}
+                <span>{m.label}</span>
               </button>
             );
           })}

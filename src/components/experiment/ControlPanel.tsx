@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { PRESETS } from "@/lib/presets";
-import { Sliders, RotateCcw, Sparkles, ShieldCheck } from "lucide-react";
+import { PROTOCOL_PRESETS } from "@/lib/presets";
+import { RotateCcw, ShieldCheck } from "lucide-react";
 
 interface ControlPanelProps {
   d: number;
@@ -15,8 +15,8 @@ interface ControlPanelProps {
   setDecay: (decay: number) => void;
   useBDH: boolean;
   setUseBDH: (bdh: boolean) => void;
-  selectedPresetId: string | null;
-  onSelectPreset: (presetId: string) => void;
+  selectedProtocolId: string | null;
+  onSelectProtocol: (protocolId: string) => void;
   onReset: () => void;
 }
 
@@ -31,64 +31,58 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   setDecay,
   useBDH,
   setUseBDH,
-  selectedPresetId,
-  onSelectPreset,
+  selectedProtocolId,
+  onSelectProtocol,
   onReset,
 }) => {
   return (
-    <div className="bg-[#11141B] border border-white/10 rounded-xl p-5 shadow-xl space-y-6">
-      {/* Header & Reset */}
-      <div className="flex items-center justify-between pb-3 border-b border-white/10">
-        <div className="flex items-center space-x-2">
-          <Sliders className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-sm font-semibold text-white">Learner Control Variables</h3>
-        </div>
+    <div className="bg-[#101217] border border-white/[0.08] rounded-lg p-4 space-y-4 font-mono text-xs">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5">
+        <span className="font-bold text-white tracking-wider">INSTRUMENT CONTROLS</span>
         <button
           onClick={onReset}
-          className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white text-xs font-mono transition-colors"
+          className="flex items-center space-x-1 px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/5 transition-colors text-[10px]"
         >
-          <RotateCcw className="w-3.5 h-3.5" />
-          <span>Reset</span>
+          <RotateCcw className="w-3 h-3" />
+          <span>RESET</span>
         </button>
       </div>
 
-      {/* 4 Scientific Presets */}
+      {/* Protocol Presets */}
       <div>
-        <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-2">
-          1-Click Empirical Presets
-        </span>
-        <div className="grid grid-cols-2 gap-2">
-          {PRESETS.map((preset) => {
-            const isSelected = selectedPresetId === preset.id;
+        <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-2">Scientific Protocols:</div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+          {PROTOCOL_PRESETS.map((p) => {
+            const active = selectedProtocolId === p.id;
             return (
               <button
-                key={preset.id}
-                onClick={() => onSelectPreset(preset.id)}
-                className={`text-left p-2.5 rounded-lg border text-xs font-mono transition-all ${
-                  isSelected
-                    ? "bg-cyan-500/15 border-cyan-500/50 text-cyan-300 ring-1 ring-cyan-500/30"
-                    : "bg-black/30 border-white/5 text-slate-300 hover:bg-white/5 hover:border-white/20"
+                key={p.id}
+                onClick={() => onSelectProtocol(p.id)}
+                className={`text-left p-2 rounded border transition-all ${
+                  active
+                    ? "bg-cyan-500/15 border-cyan-500/40 text-cyan-300"
+                    : "bg-black/30 border-white/5 text-slate-300 hover:bg-white/5"
                 }`}
               >
-                <div className="font-semibold text-slate-100">{preset.title.split("—")[1] || preset.title}</div>
-                <div className="text-[10px] text-slate-400 mt-0.5 truncate">{preset.subtitle}</div>
+                <div className="font-bold text-[11px] text-white">{p.title}</div>
+                <div className="text-[9px] text-slate-400 truncate mt-0.5">{p.subtitle}</div>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Sliders & Variables */}
-      <div className="space-y-4 font-mono text-xs">
-        {/* Variable 1: Key Correlation rho */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center">
-            <span className="text-slate-300 flex items-center space-x-1">
-              <span className="font-bold text-amber-400">ρ (Key Correlation)</span>
-              <span className="text-slate-500">[{correlation.toFixed(2)}]</span>
+      {/* Parameter Sliders */}
+      <div className="space-y-3.5 pt-1">
+        {/* Param 1: rho */}
+        <div className="space-y-1">
+          <div className="flex justify-between items-center text-[11px]">
+            <span className="text-slate-300 font-bold">
+              ρ (Controlled Correlation Parameter): <span className="text-amber-400">{correlation.toFixed(2)}</span>
             </span>
             <span className="text-[10px] text-slate-400">
-              {correlation === 0 ? "Orthogonal (No Bleed)" : correlation < 0.5 ? "Partial Bleed" : "High Cross-Talk"}
+              {correlation === 0 ? "Orthonormal Base" : correlation < 0.5 ? "Moderate Overlap" : "High Overlap"}
             </span>
           </div>
           <input
@@ -98,19 +92,20 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             step="0.05"
             value={correlation}
             onChange={(e) => setCorrelation(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
+            className="w-full"
+            aria-label="Controlled correlation parameter rho"
           />
+          <div className="text-[9px] text-slate-400">Controls the shared component magnitude across key vectors.</div>
         </div>
 
-        {/* Variable 2: Memory Load N */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center">
-            <span className="text-slate-300 flex items-center space-x-1">
-              <span className="font-bold text-cyan-400">N (Stored Pairs)</span>
-              <span className="text-slate-500">[{N}]</span>
+        {/* Param 2: N (Stored associations) */}
+        <div className="space-y-1">
+          <div className="flex justify-between items-center text-[11px]">
+            <span className="text-slate-300 font-bold">
+              N (Stored Associations): <span className="text-cyan-400">{N}</span>
             </span>
             <span className="text-[10px] text-slate-400">
-              Load Ratio N/d = {(N / d).toFixed(2)} {N > d ? "(Rank Over-Capacity)" : "(Within Rank)"}
+              Load Ratio N/d = {(N / d).toFixed(2)} {N > d ? "(Exceeds Rank)" : "(Within Rank)"}
             </span>
           </div>
           <input
@@ -120,18 +115,19 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             step="1"
             value={N}
             onChange={(e) => setN(parseInt(e.target.value))}
-            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+            className="w-full"
+            aria-label="Number of stored associations N"
           />
+          <div className="text-[9px] text-slate-400">Total number of key-value pairs written into state matrix S.</div>
         </div>
 
-        {/* Variable 3: State Dimension d */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center">
-            <span className="text-slate-300 flex items-center space-x-1">
-              <span className="font-bold text-violet-400">d (State Dimension)</span>
-              <span className="text-slate-500">[{d} × {d}]</span>
+        {/* Param 3: d (Dimension) */}
+        <div className="space-y-1">
+          <div className="flex justify-between items-center text-[11px]">
+            <span className="text-slate-300 font-bold">
+              d (State Dimension): <span className="text-violet-400">{d}</span>
             </span>
-            <span className="text-[10px] text-slate-400">{d * d} Synaptic Weights</span>
+            <span className="text-[10px] text-slate-400">Matrix Size: {d} × {d} ({d * d} weights)</span>
           </div>
           <input
             type="range"
@@ -140,18 +136,19 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             step="2"
             value={d}
             onChange={(e) => setD(parseInt(e.target.value))}
-            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-violet-400"
+            className="w-full"
+            aria-label="State dimension d"
           />
+          <div className="text-[9px] text-slate-400">Dimensionality of key and value embedding vectors.</div>
         </div>
 
-        {/* Variable 4: Retention Decay lambda */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center">
-            <span className="text-slate-300 flex items-center space-x-1">
-              <span className="font-bold text-slate-300">λ (Retention Factor)</span>
-              <span className="text-slate-500">[{decay.toFixed(2)}]</span>
+        {/* Param 4: lambda (Decay) */}
+        <div className="space-y-1">
+          <div className="flex justify-between items-center text-[11px]">
+            <span className="text-slate-300 font-bold">
+              λ (Retention / Decay Factor): <span className="text-slate-200">{decay.toFixed(2)}</span>
             </span>
-            <span className="text-[10px] text-slate-400">{decay === 1.0 ? "Exact Summation" : "Exponential Forgetting"}</span>
+            <span className="text-[10px] text-slate-400">{decay === 1.0 ? "Exact Summation" : "Temporal Forgetting"}</span>
           </div>
           <input
             type="range"
@@ -160,22 +157,24 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             step="0.05"
             value={decay}
             onChange={(e) => setDecay(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-slate-400"
+            className="w-full"
+            aria-label="Retention factor lambda"
           />
+          <div className="text-[9px] text-slate-400">Recurrent multiplier S_t = lambda * S_(t-1) + v_t k_t^T.</div>
         </div>
       </div>
 
-      {/* BDH Sparse Plasticity Toggle */}
-      <div className="pt-3 border-t border-white/10">
-        <label className="flex items-center justify-between p-3 rounded-lg bg-emerald-950/20 border border-emerald-500/30 cursor-pointer hover:bg-emerald-950/30 transition-colors">
-          <div className="flex items-center space-x-2.5">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+      {/* BDH Abstraction Toggle */}
+      <div className="pt-2 border-t border-white/[0.06]">
+        <label className="flex items-center justify-between p-2.5 rounded bg-emerald-950/20 border border-emerald-500/20 cursor-pointer hover:bg-emerald-950/30 transition-colors">
+          <div className="flex items-center space-x-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
             <div>
-              <div className="text-xs font-mono font-bold text-emerald-300">
-                Sparse Positive Plasticity <span className="text-[10px] text-emerald-400 font-normal">[TEACHING SIMPLIFICATION]</span>
+              <div className="text-[11px] font-bold text-emerald-300">
+                Sparse Positive Plasticity
               </div>
-              <div className="text-[10px] text-emerald-400/80">
-                Non-negative ReLU + Top-K synaptic gating (inspired by BDH mechanisms)
+              <div className="text-[9px] text-emerald-400/80">
+                [BDH-INSPIRED TEACHING ABSTRACTION • NOT FULL BDH]
               </div>
             </div>
           </div>
@@ -183,7 +182,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             type="checkbox"
             checked={useBDH}
             onChange={(e) => setUseBDH(e.target.checked)}
-            className="w-4 h-4 rounded text-emerald-500 focus:ring-emerald-400 bg-slate-900 border-white/20 cursor-pointer"
+            className="w-4 h-4 rounded text-emerald-500 bg-slate-900 border-white/20 cursor-pointer"
           />
         </label>
       </div>
