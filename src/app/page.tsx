@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import { Header } from "@/components/ui/Header";
 import { MemoryMatrixHeatmap } from "@/components/visualization/MemoryMatrixHeatmap";
 import { GramMatrixHeatmap } from "@/components/visualization/GramMatrixHeatmap";
+import { KeyGeometryPlot } from "@/components/visualization/KeyGeometryPlot";
 import { DualReadout } from "@/components/experiment/DualReadout";
 import { ControlPanel } from "@/components/experiment/ControlPanel";
 import { InteractiveEquation } from "@/components/equations/InteractiveEquation";
@@ -14,7 +15,7 @@ import { ResearchNotebook } from "@/components/education/ResearchNotebook";
 import { PROTOCOL_PRESETS } from "@/lib/presets";
 import { generateSyntheticPairs, LiveAssociativeEngine } from "@/lib/math-engine";
 import { ActiveMode } from "@/lib/types";
-import { Sparkles, Terminal } from "lucide-react";
+import { Play, RotateCcw } from "lucide-react";
 
 export default function HomePage() {
   const [activeMode, setActiveMode] = useState<ActiveMode>("lab");
@@ -27,6 +28,11 @@ export default function HomePage() {
   const [useBDH, setUseBDH] = useState<boolean>(false);
   const [selectedQueryIdx, setSelectedQueryIdx] = useState<number>(0);
   const [selectedProtocolId, setSelectedProtocolId] = useState<string | null>("protocol_01_baseline");
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Generate synthetic keys & values using statistically valid isotropic modeling
   const { pairs, stats } = useMemo(() => {
@@ -87,24 +93,45 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090A0D] text-slate-100 flex flex-col font-mono selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#08090C] text-slate-100 flex flex-col font-mono selection:bg-cyan-500/30">
       <Header activeMode={activeMode} setActiveMode={setActiveMode} isLive={true} />
 
       {/* Main Research Instrument Canvas */}
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 py-4 space-y-4">
-        {/* Compact Hero Banner (Immediate Science Presentation) */}
-        <div className="bg-[#101217] border border-white/[0.08] rounded-lg p-3.5 space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-cyan-400 text-[11px] font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Associative Memory Under Interference • Research Substrate</span>
-            </div>
-            <div className="text-[10px] text-slate-400">
-              State: <strong className="text-white">S ∈ ℝ^({d}×{d})</strong> • Associations: <strong className="text-white">N = {N}</strong>
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+        {/* Editorial Hero Header (First Viewport) */}
+        <section className="border-b border-white/[0.08] pb-6 space-y-3">
+          <div className="text-[11px] font-mono tracking-widest text-cyan-400 uppercase font-bold">
+            DATAFORGE × PATHWAY 2026 • RESEARCH EXPERIMENT
+          </div>
+
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white uppercase">
+            ASSOCIATIVE MEMORY UNDER INTERFERENCE
+          </h1>
+
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+            <p className="text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
+              How much information can a fixed-size recurrent state preserve before stored associations begin to interfere?
+            </p>
+
+            <div className="flex items-center space-x-2 flex-shrink-0">
+              <button
+                onClick={() => handleSelectProtocol("protocol_01_baseline")}
+                className="flex items-center space-x-1.5 px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-colors"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>RUN BASELINE (ρ = 0.0)</span>
+              </button>
+              <button
+                onClick={() => handleSelectProtocol("protocol_02_interference")}
+                className="flex items-center space-x-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 text-xs transition-colors"
+              >
+                <span>INJECT OVERLAP (ρ = 0.45)</span>
+              </button>
             </div>
           </div>
 
-          <div className="p-2.5 bg-black/40 border border-cyan-500/20 rounded text-xs text-slate-300 flex items-start space-x-2">
+          {/* Central Claim Box */}
+          <div className="p-3 bg-black/40 border-l-2 border-cyan-400 text-xs text-slate-300 flex items-start space-x-2">
             <span className="text-cyan-400 font-bold uppercase tracking-wider flex-shrink-0 text-[11px]">
               Central Claim:
             </span>
@@ -112,17 +139,18 @@ export default function HomePage() {
               &ldquo;In a linear fast-weight associative memory, retrieving one stored value also receives contributions from other stored key-value pairs; increasing key similarity or memory load therefore increases interference under the stated retrieval setup.&rdquo;
             </span>
           </div>
-        </div>
+        </section>
 
-        {/* MODE 1: LAB (Scientific Instrument Layout) */}
+        {/* ============================================================ */}
+        {/* MODE 1: LAB (The Live Research Instrument) */}
+        {/* ============================================================ */}
         {activeMode === "lab" && (
-          <div className="space-y-4">
-            {/* Query Selector Bar */}
-            <div className="bg-[#101217] border border-white/[0.08] rounded-lg p-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
-              <div className="flex items-center space-x-2">
-                <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-                <span className="text-slate-300 font-bold">Select Active Query Probe:</span>
-              </div>
+          <div className="space-y-8">
+            {/* Probe Selector Strip */}
+            <div className="border border-white/[0.08] bg-[#0B0D12] p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <span className="text-slate-300 font-bold">
+                01. SELECT ACTIVE QUERY PROBE (q = k_j):
+              </span>
               <div className="flex flex-wrap items-center gap-1.5">
                 {pairs.map((p, idx) => {
                   const active = selectedQueryIdx === idx;
@@ -130,10 +158,10 @@ export default function HomePage() {
                     <button
                       key={p.id}
                       onClick={() => setSelectedQueryIdx(idx)}
-                      className={`px-2.5 py-1 rounded text-xs font-mono transition-all ${
+                      className={`px-3 py-1 text-xs font-mono transition-all ${
                         active
-                          ? "bg-cyan-500 text-slate-950 font-bold shadow-sm"
-                          : "bg-black/40 text-slate-300 hover:bg-white/10 border border-white/5"
+                          ? "bg-cyan-500 text-slate-950 font-bold"
+                          : "bg-black/50 text-slate-300 hover:bg-white/10 border border-white/10"
                       }`}
                     >
                       Probe Item {idx + 1} (k_{idx + 1})
@@ -143,10 +171,10 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Instrument Grid: Left Controls | Center Heatmaps | Right Readout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-              {/* Left Column (4 cols): Control Panel */}
-              <div className="lg:col-span-4 space-y-4">
+            {/* Asymmetric Instrument Grid: Left Parameters | Center Memory Centerpiece */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Column (4 cols): Control Instrument */}
+              <div className="lg:col-span-4 space-y-6">
                 <ControlPanel
                   d={d}
                   setD={setD}
@@ -164,42 +192,53 @@ export default function HomePage() {
                 />
               </div>
 
-              {/* Middle/Right Column (8 cols): Visualizers */}
-              <div className="lg:col-span-8 space-y-4">
-                {/* Dual Readout Component */}
-                <DualReadout retrieval={retrieval} dim={d} />
-
-                {/* Heatmap Matrices (Side-by-Side) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <MemoryMatrixHeatmap
-                    matrix={engine.stateMatrix}
-                    d={d}
-                    t={N}
-                    decay={decay}
-                    isBDH={useBDH}
-                  />
-
-                  <GramMatrixHeatmap
-                    gramMatrix={gramMatrix}
-                    pairLabels={pairs.map((p) => p.label)}
-                    stats={stats}
-                    correlationParam={correlation}
-                  />
-                </div>
+              {/* Right Column (8 cols): Memory Matrix Heatmap (HERO) */}
+              <div className="lg:col-span-8 space-y-6">
+                <MemoryMatrixHeatmap
+                  matrix={engine.stateMatrix}
+                  d={d}
+                  t={N}
+                  decay={decay}
+                  isBDH={useBDH}
+                />
               </div>
             </div>
 
-            {/* Bottom: Mathematical Formulations Inspector */}
-            <InteractiveEquation />
+            {/* Section 03: Retrieval Readout & Energy Ratio */}
+            <div>
+              <DualReadout retrieval={retrieval} dim={d} />
+            </div>
+
+            {/* Section 04: Key Overlap (Gram Matrix) & 2D Geometry */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <GramMatrixHeatmap
+                gramMatrix={gramMatrix}
+                pairLabels={pairs.map((p) => p.label)}
+                stats={stats}
+                correlationParam={correlation}
+              />
+
+              <KeyGeometryPlot
+                pairs={pairs}
+                correlationParam={correlation}
+              />
+            </div>
+
+            {/* Section 05: Mathematical Formulations */}
+            <div>
+              <InteractiveEquation />
+            </div>
           </div>
         )}
 
+        {/* ============================================================ */}
         {/* MODE 2: GUIDED DISCOVERY TUTORIAL */}
+        {/* ============================================================ */}
         {activeMode === "guided" && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <GuidedChapterFlow onApplyConfig={handleGuidedConfig} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               <div className="lg:col-span-7">
                 <DualReadout retrieval={retrieval} dim={d} />
               </div>
@@ -218,19 +257,25 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* MODE 3: STRESS TEST & CAPACITY SWEEP */}
+        {/* ============================================================ */}
+        {/* MODE 3: STRESS TEST MODE */}
+        {/* ============================================================ */}
         {activeMode === "stress-test" && <StressTestExplorer />}
 
-        {/* MODE 4: BDH ABSTRACTION EXPLORER */}
+        {/* ============================================================ */}
+        {/* MODE 4: BDH CONNECTION */}
+        {/* ============================================================ */}
         {activeMode === "bdh-abstraction" && <BDHComparisonExplorer />}
 
+        {/* ============================================================ */}
         {/* MODE 5: RESEARCH NOTEBOOK */}
+        {/* ============================================================ */}
         {activeMode === "research-notebook" && <ResearchNotebook />}
       </main>
 
       {/* Scientific Lab Footer */}
-      <footer className="border-t border-white/[0.08] bg-[#090A0D] py-3 text-center text-[10px] text-slate-400">
-        <div className="max-w-[1400px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <footer className="border-t border-white/[0.08] bg-[#08090C] py-4 text-center text-xs text-slate-400 font-mono mt-12">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>DataForge × Pathway 2026 • Verified Float64 Associative Memory Substrate</span>
           <span className="text-slate-400">Exact Algebraic Decomposition • In-Browser Live Computation</span>
         </div>

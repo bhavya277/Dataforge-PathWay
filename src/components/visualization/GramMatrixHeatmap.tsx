@@ -22,39 +22,51 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
   const N = gramMatrix.length;
 
   return (
-    <div className="bg-[#101217] border border-white/[0.08] rounded-lg p-4 flex flex-col justify-between">
+    <div className="border border-white/[0.08] bg-[#0B0D12] p-5 flex flex-col justify-between">
       <div>
-        <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5">
-          <div>
-            <span className="font-mono text-xs font-bold text-white tracking-wider">KEY OVERLAP (GRAM MATRIX G)</span>
-          </div>
-          <div className="text-[10px] font-mono text-slate-400">
-            <span>G = K Kᵀ ∈ ℝ^({N}×{N})</span>
-          </div>
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-white/[0.08] pb-3 mb-3 gap-1">
+          <span className="text-xs font-mono font-bold tracking-widest text-white uppercase">
+            KEY OVERLAP (GRAM MATRIX G)
+          </span>
+          <span className="text-[11px] font-mono text-slate-400">
+            G = K Kᵀ ∈ ℝ^({N}×{N})
+          </span>
         </div>
 
-        {/* Observed Pairwise Stats */}
-        <div className="grid grid-cols-2 gap-2 my-2.5 bg-black/40 p-2 rounded border border-white/5 text-[10px] font-mono">
+        <p className="text-[11px] text-slate-400 font-mono mb-3">
+          Off-diagonal values G_ij = k_iᵀ k_j measure geometric key alignment that induces retrieval cross-talk.
+        </p>
+
+        {/* Observed Pairwise Cosine Statistics */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-black/60 p-2.5 border border-white/10 mb-4 font-mono text-xs">
           <div>
-            <span className="text-slate-400 block">Controlled Parameter ρ:</span>
+            <span className="text-[10px] text-slate-400 block uppercase">Param ρ</span>
             <span className="font-bold text-amber-400">{correlationParam.toFixed(2)}</span>
           </div>
           <div>
-            <span className="text-slate-400 block">Observed Pairwise Cosine:</span>
-            <span className="font-bold text-white">
-              {stats.meanCosine.toFixed(2)} ± {stats.stdCosine.toFixed(2)}
+            <span className="text-[10px] text-slate-400 block uppercase">Observed Mean</span>
+            <span className="font-bold text-white">{stats.meanCosine.toFixed(3)}</span>
+          </div>
+          <div>
+            <span className="text-[10px] text-slate-400 block uppercase">Std Dev (σ)</span>
+            <span className="font-bold text-slate-300">±{stats.stdCosine.toFixed(3)}</span>
+          </div>
+          <div>
+            <span className="text-[10px] text-slate-400 block uppercase">Min / Max</span>
+            <span className="font-bold text-slate-300">
+              {stats.minCosine.toFixed(2)} / {stats.maxCosine.toFixed(2)}
             </span>
           </div>
         </div>
 
-        {/* Grid Canvas */}
+        {/* Heatmap Grid */}
         <div className="flex items-center justify-center my-2">
           <div
-            className="grid gap-[1px] bg-black/60 p-1.5 rounded border border-white/5"
+            className="grid gap-[2px] bg-black/80 p-2 border border-white/10"
             style={{
               gridTemplateColumns: `repeat(${N}, minmax(0, 1fr))`,
-              width: N <= 6 ? "200px" : N <= 10 ? "240px" : "280px",
-              height: N <= 6 ? "200px" : N <= 10 ? "240px" : "280px",
+              width: N <= 6 ? "220px" : N <= 10 ? "260px" : "300px",
+              height: N <= 6 ? "220px" : N <= 10 ? "260px" : "300px",
             }}
           >
             {gramMatrix.map((row, i) =>
@@ -62,12 +74,14 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
                 const isDiag = i === j;
                 const isHovered = hovered?.i === i && hovered?.j === j;
                 const absVal = Math.abs(val);
+                const displayVal = Math.abs(val) < 0.01 ? 0 : val;
 
-                let bg = "rgba(22, 26, 34, 0.8)";
+                let bg = "#0D1017";
                 if (isDiag) {
-                  bg = "rgba(0, 229, 255, 0.9)";
+                  bg = "#00E5FF";
                 } else if (absVal > 0.01) {
-                  bg = `rgba(245, 158, 11, ${0.15 + absVal * 0.85})`;
+                  const alpha = (0.2 + absVal * 0.8).toFixed(3);
+                  bg = `rgba(245, 158, 11, ${alpha})`;
                 }
 
                 return (
@@ -75,18 +89,18 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
                     key={`${i}-${j}`}
                     onMouseEnter={() => setHovered({ i, j, val })}
                     onMouseLeave={() => setHovered(null)}
-                    className={`rounded-[1px] flex items-center justify-center transition-all cursor-pointer ${
-                      isHovered ? "ring-1 ring-white scale-105 z-10" : ""
+                    className={`flex items-center justify-center transition-all cursor-pointer relative ${
+                      isHovered ? "ring-2 ring-white scale-105 z-20" : ""
                     }`}
                     style={{ backgroundColor: bg }}
                   >
                     {N <= 8 && (
                       <span
-                        className={`text-[8px] font-mono font-bold select-none ${
-                          isDiag ? "text-slate-950" : "text-white/90"
+                        className={`text-[9px] font-mono font-bold select-none ${
+                          isDiag ? "text-slate-950" : "text-white drop-shadow"
                         }`}
                       >
-                        {val.toFixed(1)}
+                        {displayVal === 0 ? "0.0" : displayVal.toFixed(1)}
                       </span>
                     )}
                   </div>
@@ -98,7 +112,7 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
       </div>
 
       {/* Dynamic Inspector Tooltip */}
-      <div className="mt-3 pt-2 border-t border-white/[0.06] text-[11px] font-mono min-h-[32px] flex items-center justify-between">
+      <div className="mt-3 pt-2.5 border-t border-white/[0.08] text-xs font-mono min-h-[30px] flex items-center justify-between">
         {hovered ? (
           hovered.i === hovered.j ? (
             <span className="text-cyan-300">
@@ -106,7 +120,7 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
             </span>
           ) : (
             <span className="text-amber-300">
-              k_{hovered.i + 1} · k_{hovered.j + 1} = {hovered.val.toFixed(3)} — Keys overlap, contributing cross-talk.
+              k_{hovered.i + 1} · k_{hovered.j + 1} = {hovered.val.toFixed(3)} — Keys overlap, so memory {hovered.j + 1} bleeds into retrieval of memory {hovered.i + 1}.
             </span>
           )
         ) : (

@@ -2,23 +2,25 @@
 
 import React, { useState, useMemo } from "react";
 import { generateSyntheticPairs, LiveAssociativeEngine } from "@/lib/math-engine";
-import { BarChart3, AlertCircle } from "lucide-react";
+import { BarChart3, Info } from "lucide-react";
+
+type MetricType = "cosineError" | "l2Error" | "isr" | "observedCosine";
 
 export const StressTestExplorer: React.FC = () => {
   const [d, setD] = useState<number>(8);
   const [rho, setRho] = useState<number>(0.35);
   const [lambdaDecay, setLambdaDecay] = useState<number>(1.0);
   const [useBDH, setUseBDH] = useState<boolean>(false);
+  const [selectedMetric, setSelectedMetric] = useState<MetricType>("cosineError");
 
-  // Live sweep over N from 2 to 20
+  // Live sweep over sequence length N from 2 to 24
   const sweepResults = useMemo(() => {
     const results = [];
-    for (let n = 2; n <= 20; n += 2) {
-      const { pairs, stats } = generateSyntheticPairs(n, d, rho, 42 + n);
+    for (let n = 2; n <= 24; n += 2) {
+      const { pairs, stats } = generateSyntheticPairs(n, d, rho, 42 + n * 7);
       const engine = new LiveAssociativeEngine(d, lambdaDecay, 1.0, useBDH);
       pairs.forEach((p) => engine.storePair(p));
 
-      // Retrieve all and average metrics
       let totalCosErr = 0;
       let totalL2 = 0;
       let totalISR = 0;
@@ -33,43 +35,69 @@ export const StressTestExplorer: React.FC = () => {
       results.push({
         N: n,
         loadRatio: n / d,
-        meanCosineError: totalCosErr / n,
-        meanL2Error: totalL2 / n,
-        meanISR: totalISR / n,
-        observedMeanCos: stats.meanCosine,
-        observedStdCos: stats.stdCosine,
+        cosineError: totalCosErr / n,
+        l2Error: totalL2 / n,
+        isr: totalISR / n,
+        observedCosine: stats.meanCosine,
+        observedStd: stats.stdCosine,
       });
     }
     return results;
   }, [d, rho, lambdaDecay, useBDH]);
 
+  // Compute SVG coordinates for real empirical chart
+  const chartWidth = 600;
+  const chartHeight = 200;
+  const padding = 40;
+
+  const maxVal = useMemo(() => {
+    const vals = sweepResults.map((r) => r[selectedMetric]);
+    return Math.max(0.01, Math.max(...vals) * 1.15);
+  }, [sweepResults, selectedMetric]);
+
+  const minLoad = sweepResults[0]?.loadRatio || 0.25;
+  const maxLoad = sweepResults[sweepResults.length - 1]?.loadRatio || 3.0;
+
+  const points = sweepResults.map((r) => {
+    const x = Number((padding + ((r.loadRatio - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)).toFixed(2));
+    const y = Number((chartHeight - padding - (r[selectedMetric] / maxVal) * (chartHeight - 2 * padding)).toFixed(2));
+    return { x, y, load: r.loadRatio, val: r[selectedMetric], N: r.N };
+  });
+
+  const pathD = points.reduce((acc, pt, idx) => {
+    return idx === 0 ? `M ${pt.x} ${pt.y}` : `${acc} L ${pt.x} ${pt.y}`;
+  }, "");
+
   return (
-    <div className="bg-[#101217] border border-white/[0.08] rounded-lg p-5 font-mono space-y-5">
+    <div className="border border-white/[0.08] bg-[#0B0D12] p-6 font-mono text-xs space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/[0.06] pb-3 gap-2">
+      <div className="border-b border-white/[0.08] pb-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
         <div>
-          <div className="flex items-center space-x-2">
-            <BarChart3 className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-sm font-bold text-white tracking-wider">STRESS TEST: HOW FAR CAN THE MEMORY GO?</h2>
+          <div className="flex items-center space-x-2 text-cyan-400 font-bold uppercase tracking-wider text-xs">
+            <BarChart3 className="w-4 h-4" />
+            <span>03 — EMPIRICAL STRESS TEST &amp; CAPACITY CONSOLE</span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Empirical investigation of memory load N/d under controlled isotropic key correlation.
+          <h1 className="text-base font-bold text-white mt-1">
+            Retrieval Degradation Under Memory Load &amp; Key Overlap
+          </h1>
+          <p className="text-[11px] text-slate-400 mt-0.5">
+            Systematic measurement across dimensionless load ratio γ = N / d.
           </p>
         </div>
 
-        <div className="text-[10px] text-slate-400 bg-black/40 px-2.5 py-1 rounded border border-white/5">
-          Dimensionless Load Ratio: <strong className="text-white">γ = N / d</strong>
+        <div className="text-[11px] bg-black/60 px-3 py-1.5 border border-white/10 text-slate-300">
+          Rank Bound: <strong className="text-white">Rank(S) ≤ {d}</strong>
         </div>
       </div>
 
-      {/* Interactive Parameter Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-black/30 p-3 rounded border border-white/5 text-xs">
+      {/* Experiment Controls */}
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 bg-black/40 p-4 border border-white/10">
         <div>
           <label className="text-[10px] text-slate-400 block mb-1">State Dimension d:</label>
           <select
             value={d}
             onChange={(e) => setD(parseInt(e.target.value))}
-            className="w-full bg-[#161a22] border border-white/10 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none"
+            className="w-full bg-[#14171F] border border-white/15 px-2 py-1.5 text-white font-mono text-xs focus:outline-none"
           >
             <option value={4}>d = 4 (Rank limit 4)</option>
             <option value={8}>d = 8 (Rank limit 8)</option>
@@ -79,7 +107,9 @@ export const StressTestExplorer: React.FC = () => {
         </div>
 
         <div>
-          <label className="text-[10px] text-slate-400 block mb-1">Controlled Correlation ρ: {rho.toFixed(2)}</label>
+          <label className="text-[10px] text-slate-400 block mb-1">
+            Controlled Parameter ρ: <strong className="text-amber-400">{rho.toFixed(2)}</strong>
+          </label>
           <input
             type="range"
             min="0"
@@ -92,7 +122,9 @@ export const StressTestExplorer: React.FC = () => {
         </div>
 
         <div>
-          <label className="text-[10px] text-slate-400 block mb-1">Decay Factor λ: {lambdaDecay.toFixed(2)}</label>
+          <label className="text-[10px] text-slate-400 block mb-1">
+            Retention Factor λ: <strong className="text-slate-200">{lambdaDecay.toFixed(2)}</strong>
+          </label>
           <input
             type="range"
             min="0.6"
@@ -105,35 +137,127 @@ export const StressTestExplorer: React.FC = () => {
         </div>
 
         <div className="flex items-end">
-          <label className="flex items-center space-x-2 p-1.5 rounded bg-white/5 border border-white/5 cursor-pointer w-full">
+          <label className="flex items-center space-x-2 p-2 bg-white/5 border border-white/10 cursor-pointer w-full">
             <input
               type="checkbox"
               checked={useBDH}
               onChange={(e) => setUseBDH(e.target.checked)}
               className="w-3.5 h-3.5 rounded text-emerald-500 bg-slate-900 border-white/20"
             />
-            <span className="text-[10px] text-emerald-400 font-bold">Sparse Projection</span>
+            <span className="text-[11px] text-emerald-400 font-bold">Sparse Projection [ABSTRACTION]</span>
           </label>
         </div>
       </div>
 
-      {/* Real-time Data Table & Visualizer */}
-      <div className="space-y-3">
-        <div className="text-xs text-white font-bold">Empirical Load Sweep (N = 2 .. 20 at d = {d}):</div>
-        <div className="overflow-x-auto">
+      {/* Metric Selector & Real Empirical SVG Chart */}
+      <div className="border border-white/10 bg-black/60 p-4 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
+          <span className="text-xs font-bold text-white uppercase">Empirical Curve (Live In-Browser Computation):</span>
+          <div className="flex space-x-1">
+            {[
+              { id: "cosineError", label: "COSINE ERROR (1-cos)" },
+              { id: "l2Error", label: "RAW L2 ERROR" },
+              { id: "isr", label: "ISR (CROSSTALK/SIGNAL)" },
+              { id: "observedCosine", label: "PAIRWISE KEY COSINE" },
+            ].map((m) => (
+              <button
+                key={m.id}
+                onClick={() => setSelectedMetric(m.id as MetricType)}
+                className={`px-2 py-1 text-[10px] font-mono transition-all ${
+                  selectedMetric === m.id
+                    ? "bg-cyan-500 text-slate-950 font-bold"
+                    : "bg-white/5 text-slate-400 hover:text-white"
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Real Empirical SVG Plot */}
+        <div className="overflow-x-auto py-2 flex justify-center">
+          <svg width={chartWidth} height={chartHeight} className="border border-white/5 bg-[#090B10]">
+            {/* Grid & Axis Lines */}
+            <line
+              x1={padding}
+              y1={chartHeight - padding}
+              x2={chartWidth - padding}
+              y2={chartHeight - padding}
+              stroke="rgba(255, 255, 255, 0.2)"
+            />
+            <line
+              x1={padding}
+              y1={padding}
+              x2={padding}
+              y2={chartHeight - padding}
+              stroke="rgba(255, 255, 255, 0.2)"
+            />
+
+            {/* Capacity Threshold Vertical Indicator (N/d = 1.0) */}
+            {1.0 >= minLoad && 1.0 <= maxLoad && (
+              <line
+                x1={padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)}
+                y1={padding}
+                x2={padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)}
+                y2={chartHeight - padding}
+                stroke="rgba(245, 158, 11, 0.4)"
+                strokeDasharray="4 4"
+              />
+            )}
+
+            {/* Empirical Line */}
+            <path d={pathD} fill="none" stroke="#00E5FF" strokeWidth="2" />
+
+            {/* Data Points */}
+            {points.map((pt, i) => (
+              <g key={i}>
+                <circle cx={pt.x} cy={pt.y} r="3.5" fill="#00E5FF" stroke="#08090C" strokeWidth="1" />
+              </g>
+            ))}
+
+            {/* Axis Labels */}
+            <text
+              x={chartWidth / 2}
+              y={chartHeight - 10}
+              fill="#94A3B8"
+              fontSize="10"
+              textAnchor="middle"
+              fontFamily="monospace"
+            >
+              Dimensionless Memory Load Ratio γ = N / d
+            </text>
+            <text
+              x={15}
+              y={chartHeight / 2}
+              fill="#94A3B8"
+              fontSize="10"
+              textAnchor="middle"
+              transform={`rotate(-90 15 ${chartHeight / 2})`}
+              fontFamily="monospace"
+            >
+              {selectedMetric}
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      {/* Structured Results Table */}
+      <div className="space-y-2">
+        <div className="text-xs font-bold text-white uppercase">Empirical Sweep Measurements:</div>
+        <div className="overflow-x-auto border border-white/10">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-white/10 text-[10px] text-slate-400 uppercase">
-                <th className="py-2 px-3">Memories (N)</th>
-                <th className="py-2 px-3">Load Ratio (N/d)</th>
-                <th className="py-2 px-3">Observed Pairwise Cosine</th>
-                <th className="py-2 px-3">Cosine Error (1-cos)</th>
-                <th className="py-2 px-3">Raw L2 Error</th>
-                <th className="py-2 px-3">Interference/Signal</th>
-                <th className="py-2 px-3">Fidelity Bar</th>
+              <tr className="border-b border-white/10 bg-black/60 text-[10px] text-slate-400 uppercase">
+                <th className="py-2.5 px-3">Associations (N)</th>
+                <th className="py-2.5 px-3">Load Ratio (N/d)</th>
+                <th className="py-2.5 px-3">Observed Key Cosine</th>
+                <th className="py-2.5 px-3">Cosine Error</th>
+                <th className="py-2.5 px-3">Raw L2 Error</th>
+                <th className="py-2.5 px-3">Interference/Signal</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-white/5 bg-black/30">
               {sweepResults.map((r) => {
                 const isOverCapacity = r.loadRatio > 1.0;
                 return (
@@ -146,45 +270,33 @@ export const StressTestExplorer: React.FC = () => {
                     <td className="py-2 px-3 font-bold text-white">N = {r.N}</td>
                     <td className="py-2 px-3">
                       <span
-                        className={`px-1.5 py-0.5 rounded text-[10px] ${
+                        className={`px-1.5 py-0.5 border text-[10px] ${
                           isOverCapacity
-                            ? "bg-amber-950/60 text-amber-300 border border-amber-500/30"
-                            : "bg-cyan-950/60 text-cyan-300 border border-cyan-500/30"
+                            ? "bg-amber-950/40 text-amber-300 border-amber-500/30"
+                            : "bg-cyan-950/40 text-cyan-300 border-cyan-500/30"
                         }`}
                       >
-                        {r.loadRatio.toFixed(2)} {isOverCapacity ? "Over Rank" : "Within Rank"}
+                        {r.loadRatio.toFixed(2)} {isOverCapacity ? "(Over Rank)" : "(Within Rank)"}
                       </span>
                     </td>
                     <td className="py-2 px-3 text-slate-300">
-                      {r.observedMeanCos.toFixed(2)} ± {r.observedStdCos.toFixed(2)}
+                      {r.observedCosine.toFixed(3)} ± {r.observedStd.toFixed(3)}
                     </td>
                     <td className="py-2 px-3">
                       <span
                         className={`font-bold ${
-                          r.meanCosineError < 0.05
+                          r.cosineError < 0.05
                             ? "text-emerald-400"
-                            : r.meanCosineError < 0.25
+                            : r.cosineError < 0.25
                             ? "text-amber-400"
                             : "text-rose-400"
                         }`}
                       >
-                        {r.meanCosineError.toFixed(4)}
+                        {r.cosineError.toFixed(4)}
                       </span>
                     </td>
-                    <td className="py-2 px-3 text-slate-300">{r.meanL2Error.toFixed(3)}</td>
-                    <td className="py-2 px-3 text-slate-300">{r.meanISR.toFixed(2)}</td>
-                    <td className="py-2 px-3 w-32">
-                      <div className="w-full bg-[#161a22] h-3 rounded-[1px] overflow-hidden flex">
-                        <div
-                          className="bg-cyan-400 h-full"
-                          style={{ width: `${Math.max(0, 1 - r.meanCosineError) * 100}%` }}
-                        ></div>
-                        <div
-                          className="bg-rose-500 h-full"
-                          style={{ width: `${Math.min(1, r.meanCosineError) * 100}%` }}
-                        ></div>
-                      </div>
-                    </td>
+                    <td className="py-2 px-3 text-slate-300">{r.l2Error.toFixed(3)}</td>
+                    <td className="py-2 px-3 text-slate-300">{r.isr.toFixed(2)}</td>
                   </tr>
                 );
               })}
@@ -193,11 +305,12 @@ export const StressTestExplorer: React.FC = () => {
         </div>
       </div>
 
-      {/* Scientific Qualification Notice */}
-      <div className="p-3 bg-black/40 rounded border border-white/5 flex items-start space-x-2.5 text-[11px] text-slate-400">
-        <AlertCircle className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
+      {/* Scientific Methodology Qualification */}
+      <div className="p-3.5 bg-black/60 border border-white/10 flex items-start space-x-3 text-[11px] text-slate-300 leading-relaxed">
+        <Info className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
         <div>
-          <strong className="text-slate-200">Scientific Note:</strong> N/d is used strictly as a dimensionless memory-load ratio. Retrieval degradation under high load is documented as an empirical observation of the specified isotropic key distribution, not a universal theorem.
+          <strong className="text-white block mb-0.5">Methodology &amp; Scientific Interpretation:</strong>
+          Dimensionless memory load N/d reflects state capacity constraints. In our synthetic experiments, retrieval degradation increases systematically with load ratio; these curves represent empirical observations of the specified isotropic Gaussian distribution, not a universal theorem.
         </div>
       </div>
     </div>

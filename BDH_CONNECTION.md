@@ -1,58 +1,33 @@
-# BDH Connection: Dragon Hatchling & BDH-CQ Architectural Integration
-
-## 1. Executive Grounding
-Dragon Hatchling (**BDH**) is Pathway's brain-inspired Post-Transformer architecture. Unlike standard Transformers that require an expanding $O(N^2)$ Key-Value cache, or standard Linear Attention that suffers from catastrophic superposition interference, BDH synthesizes **sparse positive activations**, **monosemantic synaptic weights**, and **local Hebbian test-time plasticity**.
+# Architectural Connection: Fast-Weight Associative Memory to Dragon Hatchling (BDH) & BDH-CQ
 
 ---
 
-## 2. The Core BDH Mechanism: Addressing the Linear Attention Bottleneck
+## 1. Executive Summary
 
-### The Classical Dilemma
-In standard linear recurrence:
-$$S_t = S_{t-1} + v_t k_t^T$$
-Because dense key vectors $k_t \in \mathbb{R}^d$ populate dense continuous vector spaces with positive and negative components, they suffer from **polysemantic superposition** (Anthropic, 2023; Schlag et al., 2021). As multiple facts are written into the same state matrix $S$, query lookups retrieve linear combinations of unrelated values:
-$$\hat{v} = S_t q = v_{\text{target}} (k_{\text{target}}^T q) + \sum_{i \ne \text{target}} v_i (k_i^T q)$$
+This document formalizes the theoretical bridge connecting our interactive linear associative memory substrate with Pathway's frontier **Dragon Hatchling (BDH)** and **BDH-CQ** architectures.
 
-### The BDH Solution
-1. **Sparse Positive Activations ($\text{ReLU} / \text{Top-K}$):**
-   Keys and values are constrained to non-negative sparse representations ($\ge 0$). Because sparse positive vectors in high dimensions are quasi-orthogonal by default ($\text{supp}(k_i) \cap \text{supp}(k_j) \approx \emptyset$), cross-talk inner products vanish:
-   $$k_i^T k_j \approx 0 \quad \text{for } i \ne j$$
-2. **Monosemantic Synaptic Connectivity:**
-   Synapses connect isolated semantic concepts directly rather than superimposing uninterpretable dense linear mixtures.
-3. **Local Hebbian Plasticity:**
-   Synaptic weights update dynamically during context consumption according to local co-activation rules:
-   $$\Delta W_{ij} \propto a_i^+ \cdot a_j^+$$
+* **Standard Linear Fast Weights:** Accumulates continuous real-valued outer products into a dense state matrix $S_t = \lambda S_{t-1} + v_t k_t^T$. Under non-orthogonal keys ($\rho > 0$) or high memory load ($N > d$), off-diagonal dot products $k_i^T q$ contaminate retrieval with additive linear cross-talk noise.
+* **BDH-Inspired Sparse Plasticity [TEACHING ABSTRACTION]:** Introduces non-negative sparse positive activations ($\text{ReLU}/\text{Top-K}$). In high dimensions, non-negative sparse vectors exhibit quasi-disjoint supports, driving cross-talk inner products $k_i^T k_j \to 0$ by geometric construction.
+* **Actual Dragon Hatchling (BDH) Research:** Scale-free biologically-grounded neural substrate featuring locally interacting neuron particles, synaptic plasticity, and monosemantic circuits (Kosowski et al., 2025, arXiv:2509.26507).
+* **BDH-CQ (Continuous Query):** In-context learning with recurrent latent reasoning directly from demonstration trajectories without explicit written Chain-of-Thought (CoT) (Engdahl et al., 2026, arXiv:2608.09888).
 
 ---
 
-## 3. The Four Pillars: Activity, State, Memory, and Parameter Change in BDH
+## 2. Mathematical Formulation Comparison
 
-| Level | Physical Entity in BDH | Computational Counterpart in Our Experiment | Biological Analog |
-|---|---|---|---|
-| **Activity** | Sparse positive neuron activations ($a_t \ge 0$) | Non-negative Key/Value vectors ($k_t, v_t \ge 0$) | Action potentials / neuronal firing rates |
-| **State** | Dynamic Fast-Weight Synaptic Matrix ($W_t$) | Recurrent State Matrix ($S_t \in \mathbb{R}^{d \times d}$) | Short-term synaptic facilitation |
-| **Memory** | Non-interfering sparse associative bindings | Isolated non-overlapping outer product cells | Long-term potentiation (LTP) associative traces |
-| **Parameter Change** | Test-time Hebbian weight modulation | Dynamic local rank updates $\Delta S = \eta v_t k_t^T$ | Synaptic plasticity |
+### Model A: Standard Linear Fast Weights (Continuous Superposition)
+$$S_0 = 0 \in \mathbb{R}^{d \times d}$$
+$$S_t = \lambda S_{t-1} + v_t k_t^T = \sum_{i=1}^t \lambda^{t-i} v_i k_i^T$$
+$$y_t = S_t q_t = \underbrace{\lambda^{t-j} v_j (k_j^T q_j)}_{\text{Target Signal}} + \underbrace{\sum_{i \ne j} \lambda^{t-i} v_i (k_i^T q_j)}_{\text{Cross-Talk Interference}}$$
 
----
+### Model B: BDH Sparse Plasticity [TEACHING ABSTRACTION]
+$$W_t = \text{TopK}\left(\lambda W_{t-1} + \eta \cdot \text{ReLU}(v_t) \text{ReLU}(k_t)^T\right)$$
 
-## 4. Extension to BDH-CQ (Continuous Query / Demonstration Reasoning)
-* **BDH-CQ** expands the base architecture to multi-step reasoning from in-context demonstrations without needing an explicit autoregressive written chain of thought (CoT).
-* **Mechanism:** In-context demonstration pairs $(X_1 \to Y_1, X_2 \to Y_2)$ write direct transformation operators into the recurrent fast weights $W$. When a query $X_{\text{test}}$ is presented, the model applies the plastic associative transformation in a single latent forward pass, bypassing the token-by-token generation overhead.
+*(Note: Model B is a single-layer visual teaching abstraction used in this research lab to make sparse support separation visible. It is NOT the complete multi-layer BDH architecture).*
 
 ---
 
-## 5. Explicit Scientific Boundary: Supported Facts vs Teaching Simplifications
-
-### Directly Supported by Primary Literature & Pathway Specs:
-* BDH uses non-negative sparse activations to prevent polysemantic superposition.
-* BDH uses dynamic synaptic updates during context processing rather than a static frozen weight matrix with full KV caching.
-* BDH-CQ executes in-context task transfer via latent demonstration assimilation.
-
-### Our Project's Teaching Simplifications:
-* We simulate an isolated single-layer $d \times d$ associative matrix rather than a multi-layer deep BDH transformer stack.
-* We parameterize key orthogonality synthetically ($\rho$) to allow learners to smoothly tune interference from 0% to 100%.
-
-### What We Must NOT Claim:
-* We do NOT claim that our toy simulation represents the entire billion-parameter BDH model.
-* We do NOT claim that linear attention can completely replace full softmax attention on arbitrary natural language without loss of long-range linguistic nuance.
+## 3. Literature Citations
+1. **Kosowski, A., Uznański, P., Chorowski, J., Stamirowska, Z., & Bartoszkiewicz, M. (2025).** *The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain.* arXiv:2509.26507.
+2. **Engdahl, B., Kosowski, A., Chorowski, J., Stamirowska, Z., Uznański, P., et al. (2026).** *BDH-CQ: In-Context Learning with Recurrent Latent Reasoning.* arXiv:2608.09888.
+3. **Schlag, I., Irie, K., & Schmidhuber, J. (2021).** *Linear Transformers Are Secretly Fast Weight Programmers.* ICML 2021. arXiv:2102.11174.

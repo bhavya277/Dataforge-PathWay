@@ -5,80 +5,104 @@ import { BookOpen, ExternalLink, ShieldAlert } from "lucide-react";
 
 export const ResearchNotebook: React.FC = () => {
   return (
-    <div className="bg-[#101217] border border-white/[0.08] rounded-lg p-6 font-mono space-y-6 text-xs text-slate-300">
-      {/* Notebook Header */}
-      <div className="border-b border-white/[0.06] pb-4">
-        <div className="flex items-center space-x-2 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">
+    <div className="border border-white/[0.08] bg-[#0B0D12] p-8 font-mono text-xs text-slate-300 space-y-8">
+      {/* Title Header */}
+      <div className="border-b border-white/[0.08] pb-6 space-y-2">
+        <div className="flex items-center space-x-2 text-cyan-400 text-xs font-bold uppercase tracking-widest">
           <BookOpen className="w-4 h-4" />
-          <span>Research Technical Notebook</span>
+          <span>RESEARCH TECHNICAL NOTEBOOK • INTERACTIVE SPECIFICATION</span>
         </div>
-        <h1 className="text-base sm:text-lg font-bold text-white">
-          Linear Recurrent Associative Memory &amp; Cross-Talk Degradation
+        <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+          Associative Memory &amp; Linear Recurrent State Updates in Fast-Weight Architectures
         </h1>
-        <p className="text-[11px] text-slate-400 mt-1">
-          DataForge × Pathway 2026 Submission Document • Primary Reference Substrate
+        <p className="text-slate-400 text-xs">
+          DataForge × Pathway 2026 Hackathon • Primary Mathematical and Experimental Substrate
         </p>
       </div>
 
-      {/* 1. Scientific Question */}
-      <div className="space-y-2">
-        <h2 className="text-xs font-bold text-cyan-300 uppercase tracking-wider">
-          1. The Central Scientific Question &amp; Claim
+      {/* 01. Research Question */}
+      <section className="space-y-3">
+        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
+          01. THE CENTRAL SCIENTIFIC QUESTION &amp; CLAIM
         </h2>
-        <div className="p-3.5 bg-black/40 border border-cyan-500/20 rounded text-slate-200 leading-relaxed">
-          <strong className="text-white block mb-1">Falsifiable Claim:</strong>
+        <div className="p-4 bg-black/50 border-l-2 border-cyan-400 text-slate-200 text-xs sm:text-sm leading-relaxed">
+          <strong className="text-white block mb-1 uppercase font-bold text-xs">Falsifiable Claim:</strong>
           &ldquo;In a linear fast-weight associative memory, retrieving one stored value also receives contributions from other stored key-value pairs; increasing key similarity or memory load therefore increases interference under the stated retrieval setup.&rdquo;
         </div>
-      </div>
+      </section>
 
-      {/* 2. Core Mathematical Formulations */}
-      <div className="space-y-2">
-        <h2 className="text-xs font-bold text-cyan-300 uppercase tracking-wider">
-          2. Mathematical Derivations &amp; Exact Decay Formulation
+      {/* 02. Method & Substrate */}
+      <section className="space-y-3">
+        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
+          02. METHODOLOGY &amp; COMPUTATIONAL SUBSTRATE
         </h2>
-        <div className="space-y-2">
-          <div className="p-3 bg-black/50 border border-white/5 rounded">
-            <div className="text-[11px] text-slate-400 mb-1">Generalized Recurrence State:</div>
-            <div className="text-sm font-bold text-white text-center py-1">
+        <p className="leading-relaxed">
+          The memory is modeled as a recurrent matrix Sₜ ∈ ℝ^(d×d) storing N key-value associations (k_i, v_i) ∈ ℝ^d.
+          Keys are generated via isotropic Gaussian distributions with a controlled shared-component parameter ρ:
+        </p>
+        <div className="p-3 bg-black/60 border border-white/10 text-center font-bold text-white text-xs sm:text-sm">
+          {"k_i = \\text{normalize}\\left(\\sqrt{1 - \\rho} \\cdot u_i + \\sqrt{\\rho} \\cdot u_0\\right), \\quad u_0, u_i \\sim \\mathcal{N}(0, I_d)"}
+        </div>
+      </section>
+
+      {/* 03. Mathematical Model & Exact Decay */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
+          03. MATHEMATICAL MODEL &amp; EXACT RECURRENCE DECOMPOSITION
+        </h2>
+        
+        <div className="space-y-3">
+          <div>
+            <span className="text-slate-400 text-[11px] block mb-1">Recurrent State Accumulation:</span>
+            <div className="p-3 bg-black/60 border border-white/10 text-center font-bold text-sm text-white">
               {"S_t = \\lambda S_{t-1} + v_t k_t^T = \\sum_{i=1}^t \\lambda^{t-i} v_i k_i^T"}
             </div>
           </div>
 
-          <div className="p-3 bg-black/50 border border-white/5 rounded">
-            <div className="text-[11px] text-slate-400 mb-1">Causal Output Decomposition for Query q_j = k_j:</div>
-            <div className="text-sm font-bold text-white text-center py-1">
-              {"y_t = Target Signal (\\lambda^{t-j} v_j (k_j^T q_j)) + Cross-Talk (\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j))"}
+          <div>
+            <span className="text-slate-400 text-[11px] block mb-1">Query Readout for probe q_j = k_j:</span>
+            <div className="p-3 bg-black/60 border border-white/10 text-center font-bold text-sm text-white">
+              {"y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)"}
             </div>
-            <div className="text-[10px] text-slate-400 mt-1">
-              When &lambda; = 1.0, temporal decay disappears and recurrence reduces to cumulative outer-product memory.
+          </div>
+
+          <div>
+            <span className="text-slate-400 text-[11px] block mb-1">Exact Causal Algebraic Decomposition:</span>
+            <div className="p-4 bg-black/80 border border-cyan-500/30 text-center font-bold text-sm text-white space-y-2">
+              <div>
+                {"y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal Component}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}"}
+              </div>
+              <div className="text-[10px] text-slate-400 font-normal">
+                When &lambda; = 1.0, temporal decay disappears and recurrence reduces to cumulative outer-product memory.
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* 3. Linear Attention Equivalence Dual */}
-      <div className="space-y-2">
-        <h2 className="text-xs font-bold text-cyan-300 uppercase tracking-wider">
-          3. Linear Recurrence &harr; Linear Attention Equivalence
+      {/* 04. Linear Attention Equivalence Dual */}
+      <section className="space-y-3">
+        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
+          04. LINEAR RECURRENCE ↔ LINEAR ATTENTION EQUIVALENCE DUAL
         </h2>
-        <p className="leading-relaxed text-[11px]">
-          Schlag et al. (2021) demonstrated that causal linear transformers with feature map &phi;(x) compute:
+        <p className="leading-relaxed">
+          Schlag, Irie, &amp; Schmidhuber (2021) demonstrated that causal linear transformers with feature map &phi;(x) compute:
         </p>
-        <div className="p-3 bg-black/50 border border-white/5 rounded text-center text-sm font-bold text-white">
-          {"y_t = (V_{1:t} K_{1:t}^T) q_t = (\\sum_{i=1}^t v_i k_i^T) q_t = S_t q_t"}
+        <div className="p-3 bg-black/60 border border-white/10 text-center font-bold text-sm text-white">
+          {"y_t = (V_{1:t} K_{1:t}^T) q_t = \\left( \\sum_{i=1}^t v_i k_i^T \\right) q_t = S_t q_t"}
         </div>
         <p className="text-[11px] text-slate-400">
           This proves that linear transformers operate via fast-weight associative recurrence, executing sequential token inference in O(1) memory per step. Our test suite numerically verifies this identity across 125 randomized parameter configurations at float64 error &lt; 10^-14.
         </p>
-      </div>
+      </section>
 
-      {/* 4. Limitations & Scope Bounds */}
-      <div className="space-y-2">
-        <h2 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-1.5">
+      {/* 05. Limitations & Scope Bounds */}
+      <section className="space-y-3">
+        <h2 className="text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-white/5 pb-1 flex items-center space-x-1.5">
           <ShieldAlert className="w-3.5 h-3.5" />
-          <span>4. Scientific Limitations &amp; Scope Bounds</span>
+          <span>05. SCIENTIFIC LIMITATIONS &amp; SCOPE BOUNDS</span>
         </h2>
-        <div className="p-3.5 bg-amber-950/20 border border-amber-500/30 rounded space-y-2 text-[11px] text-slate-300">
+        <div className="p-4 bg-amber-950/20 border border-amber-500/30 space-y-2 text-[11px] text-slate-300">
           <div>
             <strong className="text-amber-300">• Dimensionless Load Ratio N/d:</strong> Error scaling with N/d is an empirical observation on the specified isotropic Gaussian key distribution, not a universal theorem for arbitrary manifolds.
           </div>
@@ -89,15 +113,29 @@ export const ResearchNotebook: React.FC = () => {
             <strong className="text-amber-300">• Finite Numerical Verification:</strong> Floating-point test suites numerically verify the implemented algebraic formulation, which serves as computational validation rather than a deductive mathematical proof.
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* 5. Verified Primary Citations */}
-      <div className="space-y-2">
-        <h2 className="text-xs font-bold text-cyan-300 uppercase tracking-wider">
-          5. Verified Primary Literature References
+      {/* 06. Primary Verified Literature */}
+      <section className="space-y-3">
+        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
+          06. PRIMARY RESEARCH LITERATURE REFERENCES
         </h2>
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           {[
+            {
+              authors: "Kosowski, A., Uznański, P., Chorowski, J., Stamirowska, Z., & Bartoszkiewicz, M. (2025)",
+              title: "The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain",
+              venue: "arXiv:2509.26507",
+              link: "https://arxiv.org/abs/2509.26507",
+              id: "arXiv:2509.26507",
+            },
+            {
+              authors: "Engdahl, B., Kosowski, A., Chorowski, J., Stamirowska, Z., Uznański, P., et al. (2026)",
+              title: "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning",
+              venue: "arXiv:2608.09888",
+              link: "https://arxiv.org/abs/2608.09888",
+              id: "arXiv:2608.09888",
+            },
             {
               authors: "Schlag, I., Irie, K., & Schmidhuber, J. (2021)",
               title: "Linear Transformers Are Secretly Fast Weight Programmers",
@@ -115,28 +153,21 @@ export const ResearchNotebook: React.FC = () => {
             {
               authors: "Gu, A., & Dao, T. (2023)",
               title: "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
-              venue: "arXiv preprint",
+              venue: "arXiv:2312.00752",
               link: "https://arxiv.org/abs/2312.00752",
               id: "arXiv:2312.00752",
             },
             {
               authors: "Sun, Y., et al. (2024)",
               title: "Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT)",
-              venue: "arXiv preprint",
+              venue: "arXiv:2407.04620",
               link: "https://arxiv.org/abs/2407.04620",
               id: "arXiv:2407.04620",
-            },
-            {
-              authors: "Pathway Research Team (2024–2025)",
-              title: "Dragon Hatchling (BDH) & BDH-CQ Architectural Reports",
-              venue: "Pathway Technical Reports",
-              link: "https://pathway.com",
-              id: "Pathway Technical Docs",
             },
           ].map((ref, i) => (
             <div
               key={i}
-              className="p-2.5 bg-black/30 border border-white/5 rounded flex items-center justify-between hover:bg-white/5 transition-colors"
+              className="p-3 bg-black/40 border border-white/10 flex items-center justify-between hover:bg-white/5 transition-colors"
             >
               <div>
                 <span className="text-white font-bold">{ref.authors}. </span>
@@ -155,7 +186,7 @@ export const ResearchNotebook: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 };

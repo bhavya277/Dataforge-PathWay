@@ -2,7 +2,6 @@
 
 import React from "react";
 import { ActiveMode } from "@/lib/types";
-import { Sliders, Compass, BarChart3, Cpu, BookOpen } from "lucide-react";
 
 interface HeaderProps {
   activeMode: ActiveMode;
@@ -11,83 +10,86 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ activeMode, setActiveMode, isLive }) => {
-  const modes: { id: ActiveMode; label: string; icon: React.ReactNode }[] = [
-    { id: "lab", label: "LAB", icon: <Sliders className="w-3.5 h-3.5" /> },
-    { id: "guided", label: "GUIDED", icon: <Compass className="w-3.5 h-3.5" /> },
-    { id: "stress-test", label: "STRESS TEST", icon: <BarChart3 className="w-3.5 h-3.5" /> },
-    { id: "bdh-abstraction", label: "BDH ABSTRACTION", icon: <Cpu className="w-3.5 h-3.5" /> },
-    { id: "research-notebook", label: "RESEARCH NOTEBOOK", icon: <BookOpen className="w-3.5 h-3.5" /> },
+  const modes: { id: ActiveMode; label: string; num: string }[] = [
+    { id: "lab", label: "LAB INSTRUMENT", num: "01" },
+    { id: "guided", label: "GUIDED DISCOVERY", num: "02" },
+    { id: "stress-test", label: "STRESS TEST", num: "03" },
+    { id: "bdh-abstraction", label: "BDH CONNECTION", num: "04" },
+    { id: "research-notebook", label: "RESEARCH NOTEBOOK", num: "05" },
   ];
 
   return (
-    <header className="border-b border-white/[0.08] bg-[#090A0D]/95 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+    <header className="border-b border-white/[0.08] bg-[#08090C]/95 backdrop-blur sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
-          {/* Brand Eyebrow */}
+          {/* Logo & Technical Eyebrow */}
           <div className="flex items-center space-x-3">
-            <div className="font-mono text-xs font-bold px-2 py-1 rounded bg-white/5 border border-white/10 text-cyan-400">
+            <div className="flex items-center justify-center w-7 h-7 bg-white/5 border border-white/10 text-cyan-400 font-mono text-xs font-bold">
               Sₜ
             </div>
-            <div className="leading-tight">
+            <div>
               <div className="flex items-center space-x-2">
-                <span className="font-mono text-xs font-semibold text-white tracking-wide">
+                <span className="text-xs font-bold tracking-wider text-white uppercase">
                   DATAFORGE × PATHWAY
                 </span>
-                <span className="text-[10px] font-mono text-slate-400 bg-white/5 px-1.5 py-0.2 rounded border border-white/5">
-                  2026
+                <span className="text-[10px] font-mono text-slate-400 border-l border-white/10 pl-2">
+                  2026 HACKATHON
                 </span>
               </div>
-              <p className="text-[10px] font-mono text-slate-400">Associative Memory Research Instrument</p>
+              <div className="text-[10px] font-mono text-slate-400">
+                Linear Fast-Weight Recurrence Lab
+              </div>
             </div>
           </div>
 
-          {/* Mode Switcher */}
-          <nav className="hidden md:flex items-center space-x-1 bg-black/40 p-1 rounded-md border border-white/[0.08]">
+          {/* Editorial Navigation */}
+          <nav className="hidden md:flex items-center space-x-6">
             {modes.map((m) => {
               const active = activeMode === m.id;
               return (
                 <button
                   key={m.id}
                   onClick={() => setActiveMode(m.id)}
-                  className={`flex items-center space-x-1.5 px-3 py-1 rounded text-xs font-mono font-medium transition-all ${
+                  className={`text-xs font-mono transition-colors relative py-1 flex items-center space-x-1.5 ${
                     active
-                      ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                      ? "text-cyan-300 font-bold"
+                      : "text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  {m.icon}
+                  <span className="text-[10px] text-slate-400">{m.num}</span>
                   <span>{m.label}</span>
+                  {active && (
+                    <span className="absolute bottom-[-14px] left-0 right-0 h-[2px] bg-cyan-400" />
+                  )}
                 </button>
               );
             })}
           </nav>
 
-          {/* Precision Status */}
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>{isLive ? "LIVE IN-BROWSER MATH" : "BENCHMARK DATA"}</span>
-            </div>
+          {/* Engine Status */}
+          <div className="flex items-center space-x-2 text-[10px] font-mono">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-slate-300">
+              {isLive ? "LIVE CLIENT MATH (<5ms)" : "READY"}
+            </span>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        <div className="flex md:hidden overflow-x-auto py-1.5 space-x-1 border-t border-white/5">
-          {modes.map((m) => {
-            const active = activeMode === m.id;
-            return (
-              <button
-                key={m.id}
-                onClick={() => setActiveMode(m.id)}
-                className={`flex items-center space-x-1 px-2.5 py-1 rounded text-[11px] font-mono whitespace-nowrap ${
-                  active ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30" : "text-slate-400"
-                }`}
-              >
-                {m.icon}
-                <span>{m.label}</span>
-              </button>
-            );
-          })}
+        {/* Mobile Navigation Row */}
+        <div className="flex md:hidden overflow-x-auto space-x-4 py-2 border-t border-white/5 text-[11px] font-mono">
+          {modes.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => setActiveMode(m.id)}
+              className={`whitespace-nowrap pb-1 ${
+                activeMode === m.id
+                  ? "text-cyan-300 font-bold border-b-2 border-cyan-400"
+                  : "text-slate-400"
+              }`}
+            >
+              {m.num} {m.label}
+            </button>
+          ))}
         </div>
       </div>
     </header>

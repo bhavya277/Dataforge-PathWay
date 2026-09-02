@@ -1,4 +1,4 @@
-# Primary Sources & Research Bibliography (2022–2026)
+# Primary Sources & Research Bibliography (2021–2026)
 
 This document catalogs the primary literature supporting the technical design, mathematical formulations, and comparative analysis of our associative memory research substrate.
 
@@ -41,17 +41,19 @@ This document catalogs the primary literature supporting the technical design, m
 ---
 
 ## 3. Sparse Associative Plasticity & BDH Primary Research
-6. **Pathway Research Team.**
-   * *Title:* "Dragon Hatchling (BDH): Brain-Inspired Post-Transformer Architecture with Monosemantic Synaptic Plasticity."
-   * *Venue:* Pathway Technical Report & Architecture Specification, 2024–2025.
-   * *Core Concepts:* Non-negative sparse positive neuron activations ($\text{ReLU}/\text{Top-K}$), local Hebbian parameter updates during context processing, monosemantic synaptic routing.
+6. **Kosowski, Adrian, Przemysław Uznański, Jan Chorowski, Zuzanna Stamirowska, and Michał Bartoszkiewicz.**
+   * *Title:* "The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain."
+   * *Venue:* arXiv preprint, 2025.
+   * *arXiv:* [2509.26507](https://arxiv.org/abs/2509.26507)
+   * *Core Concepts:* Non-negative sparse positive neuron activations ($a \ge 0$), locally interacting neuron particles, synaptic plasticity during context processing, monosemantic circuits.
 
-7. **Pathway Research Team.**
-   * *Title:* "BDH-CQ: In-Context Continuous Latent Reasoning from Demonstrations."
-   * *Venue:* Pathway Technical Whitepaper, 2025.
-   * *Core Concepts:* Latent demonstration assimilation bypassing token-level autoregressive chain-of-thought decoding.
+7. **Engdahl, Björn, Adrian Kosowski, Jan Chorowski, Zuzanna Stamirowska, Przemysław Uznański, Junlin Jiang, Rohan Phadke, Remigiusz Kinas, and Richard Zhong.**
+   * *Title:* "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning."
+   * *Venue:* arXiv preprint, 2026.
+   * *arXiv:* [2608.09888](https://arxiv.org/abs/2608.09888)
+   * *Core Concepts:* In-context demonstration assimilation and multi-step reasoning over recurrent latent state trajectories bypassing explicit written token Chain-of-Thought (CoT).
 
 8. **Elhage, Nelson, et al. (Anthropic).**
    * *Title:* "Toy Models of Superposition."
    * *Venue:* Transformer Circuits Thread, 2022.
-   * *Contribution:* Analyzes how high-dimensional vectors pack more features than dimensions via polysemantic superposition, directly motivating BDH's sparse positive rectification.
+   * *Contribution:* Analyzes how high-dimensional vectors pack more features than dimensions via polysemantic superposition, motivating sparse positive support separation.
