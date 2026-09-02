@@ -42,7 +42,7 @@ This document rigorously evaluates the approved main topics from Page 2 of the D
 | 8. Falsifiable Claim Strength | 5 | 4 | 4 | 4 |
 | 9. Ground Truth vs Output Contrast | 5 | 4 | 4 | 4 |
 | 10. Exposing Meaningful Internal State | 5 ($S_t$ matrix) | 4 (hidden vector) | 5 (activation map) | 3 (latent trace) |
-| 11. Failure-Case Potential | 5 (Interference cliff) | 4 (Decay collapse) | 4 (Dead units) | 4 (Drift) |
+| 11. Failure-Case Potential | 5 (High-load stress) | 4 (Decay collapse) | 4 (Dead units) | 4 (Drift) |
 | 12. Natural BDH Connection | 5 (Direct Hebbian) | 4 (Comparison) | 5 (Sparse BDH core) | 4 (BDH CQ) |
 | 13. Natural BDH-CQ Connection | 5 (Demonstration memory) | 3 | 4 | 5 |
 | 14. 6-Day Implementation Feasibility | 5 | 4 | 4 | 3 |
