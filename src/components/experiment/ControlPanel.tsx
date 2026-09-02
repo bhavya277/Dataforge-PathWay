@@ -36,12 +36,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   onReset,
 }) => {
   return (
-    <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-5 shadow-sm">
+    <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-5 shadow-sm space-y-4">
       {/* Top Bar: Title & Preset Buttons */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[#E2E4E8]">
         <div className="flex items-center space-x-3">
           <span className="text-xs font-bold tracking-widest text-[#111318] uppercase">
-            EXPERIMENT CONTROLS
+            SANDBOX EXPERIMENT CONTROLS
           </span>
           <span className="text-[11px] font-mono text-[#626873]">
             Sₜ = λSₜ₋₁ + vₜkₜᵀ
@@ -78,12 +78,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
       </div>
 
-      {/* 4 Horizontal Laboratory Parameter Sliders */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 pt-4">
+      {/* 4 Laboratory Parameter Sliders */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 pt-1">
         {/* Param 1: Dimension d */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-baseline">
-            <span className="text-xs font-medium text-[#626873]">Dimension (d)</span>
+            <span className="text-xs font-medium text-[#626873]">d — State Dimension</span>
             <span className="text-xs font-mono font-bold text-[#111318]">d = {d}</span>
           </div>
           <input
@@ -96,16 +96,14 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             className="w-full"
             aria-label="State dimension d"
           />
-          <div className="text-[10px] text-[#8A909A] font-mono">State S ∈ ℝ^({d}×{d})</div>
+          <div className="text-[10px] text-[#8A909A] font-mono">State S ∈ ℝ^({d}×{d}) • Rank ≤ {d}</div>
         </div>
 
-        {/* Param 2: Stored Associations N */}
+        {/* Param 2: Associations N */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-baseline">
-            <span className="text-xs font-medium text-[#626873]">Associations (N)</span>
-            <span className="text-xs font-mono font-bold text-[#111318]">
-              N = {N} <span className="text-[#626873] font-normal">({(N / d).toFixed(2)}d)</span>
-            </span>
+            <span className="text-xs font-medium text-[#626873]">N — Stored Associations</span>
+            <span className="text-xs font-mono font-bold text-[#111318]">N = {N}</span>
           </div>
           <input
             type="range"
@@ -115,34 +113,38 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             value={N}
             onChange={(e) => setN(parseInt(e.target.value))}
             className="w-full"
-            aria-label="Number of stored associations N"
+            aria-label="Stored associations N"
           />
-          <div className="text-[10px] text-[#8A909A] font-mono">Load Ratio N/d = {(N / d).toFixed(2)}</div>
+          <div className="text-[10px] text-[#8A909A] font-mono">
+            Load Ratio N/d = {(N / d).toFixed(2)}
+          </div>
         </div>
 
-        {/* Param 3: Key Overlap rho */}
+        {/* Param 3: Key Correlation rho */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-baseline">
-            <span className="text-xs font-medium text-[#626873]">Correlation (ρ)</span>
+            <span className="text-xs font-medium text-[#626873]">ρ — Key Correlation</span>
             <span className="text-xs font-mono font-bold text-[#D97706]">ρ = {correlation.toFixed(2)}</span>
           </div>
           <input
             type="range"
-            min="0"
-            max="0.9"
+            min="0.0"
+            max="0.8"
             step="0.05"
             value={correlation}
             onChange={(e) => setCorrelation(parseFloat(e.target.value))}
             className="w-full"
             aria-label="Key correlation parameter rho"
           />
-          <div className="text-[10px] text-[#8A909A] font-mono">Shared directional component</div>
+          <div className="text-[10px] text-[#8A909A] font-mono">
+            {correlation === 0 ? "Orthogonal keys" : "Non-zero pairwise overlap"}
+          </div>
         </div>
 
-        {/* Param 4: Retention lambda */}
+        {/* Param 4: Retention Decay lambda */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-baseline">
-            <span className="text-xs font-medium text-[#626873]">Retention (λ)</span>
+            <span className="text-xs font-medium text-[#626873]">λ — Retention Factor</span>
             <span className="text-xs font-mono font-bold text-[#111318]">λ = {decay.toFixed(2)}</span>
           </div>
           <input
@@ -155,27 +157,28 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             className="w-full"
             aria-label="Retention factor lambda"
           />
-          <div className="text-[10px] text-[#8A909A] font-mono">Temporal discount factor</div>
+          <div className="text-[10px] text-[#8A909A] font-mono">
+            {decay === 1.0 ? "No forgetting (λ=1.0)" : "Exponential temporal decay"}
+          </div>
         </div>
       </div>
 
-      {/* Sparse Plasticity Abstraction Toggle */}
-      <div className="mt-4 pt-3 border-t border-[#E2E4E8] flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <span className="text-xs font-medium text-[#111318]">BDH Sparse Plasticity Model:</span>
-          <span className="text-[10px] font-mono text-[#626873]">[TEACHING ABSTRACTION]</span>
-        </div>
+      {/* Model Option: BDH Sparse Plasticity */}
+      <div className="pt-2 border-t border-[#E2E4E8] flex items-center justify-between">
         <label className="flex items-center space-x-2 cursor-pointer">
           <input
             type="checkbox"
             checked={useBDH}
             onChange={(e) => setUseBDH(e.target.checked)}
-            className="w-3.5 h-3.5 text-[#111318] rounded accent-[#111318] cursor-pointer"
+            className="w-3.5 h-3.5 rounded text-[#111318] accent-[#111318]"
           />
           <span className="text-xs font-medium text-[#111318]">
-            {useBDH ? "Activated (ReLU / Top-K)" : "Standard Linear Memory"}
+            Enable BDH-Inspired Sparse Positive Plasticity [TEACHING ABSTRACTION]
           </span>
         </label>
+        <span className="text-[11px] font-mono text-[#8A909A]">
+          {useBDH ? "W_t = TopK(λW + η ReLU(v)ReLU(k)ᵀ)" : "Standard Linear Fast Weights"}
+        </span>
       </div>
     </div>
   );
