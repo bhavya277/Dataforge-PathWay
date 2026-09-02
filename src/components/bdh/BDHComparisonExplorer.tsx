@@ -71,7 +71,7 @@ export const BDHComparisonExplorer: React.FC = () => {
           </p>
 
           <div className="p-3 bg-[#F0F1ED] border border-[#E2E4E8] text-xs font-mono text-[#111318]">
-            <strong>Support Separation:</strong> In high dimensions, sparse positive representations yield quasi-disjoint supports.
+            <strong>Support Separation:</strong> Under suitable sparse-support regimes, restricting active interactions reduces overlapping connections.
           </div>
         </div>
       </div>

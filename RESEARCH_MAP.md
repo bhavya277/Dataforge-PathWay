@@ -8,25 +8,25 @@ This document establishes the scientific grounding for the project, categorizing
 
 | Claim / Mechanism | Primary Source | Venue / Year | Evidence Level | Exact Mathematical Formulation | Role in Project |
 |---|---|---|---|---|---|
-| **1. Linear Attention $\equiv$ Fast Weight Memory** | Schlag, Irie, Schmidhuber | ICML 2021 / 2022 | Formal Result & Empirical Proof | $S_t = S_{t-1} + \phi(k_t) v_t^T$, $\text{Read} = S_t \phi(q_t)$ | Foundational duality derivation in Phase 1 & 6 |
-| **2. Recurrent State Capacity & Rank Bound** | Beck et al. (*xLSTM*) | NeurIPS 2024 | Formal & Empirical Benchmark | $\text{Rank}(S) \le \min(d_{key}, d_{val})$; Capacity $\propto d$ | Phase 4 & Phase 7 Capacity Cliff |
-| **3. Test-Time Parameter Update as Memory** | Sun et al. (*TTT / Test-Time Training*) | arXiv 2024 | Published Experiment | $\theta_t = \theta_{t-1} - \eta \nabla \ell(\theta_{t-1}; x_t)$ | Fast Weight vs Test-Time Weight Adaptation |
-| **4. Selective State-Space Gating vs Recurrence** | Gu & Dao (*Mamba*) | arXiv 2023 / 2024 | Published Experiment | $h_t = (I - \Delta_t A) h_{t-1} + \Delta_t B_t x_t$ | Comparison baseline in Sandbox |
-| **5. Sparse Monosemantic Plasticity** | Pathway Research (*Dragon Hatchling / BDH*) | Pathway Technical Report (2024/2025) | Formal Architecture & Published System | $W_t = \text{TopK}(\lambda W_{t-1} + \eta \text{ReLU}(v_t) \text{ReLU}(k_t)^T)$ | BDH Module & Sparse Anti-Interference Engine |
-| **6. Latent Demonstration Reasoning** | Pathway Research (*BDH-CQ*) | Technical Report (2025) | Published System | Continuous latent state conditioning without explicit CoT tokens | BDH-CQ In-Context Demonstration Sandbox |
+| **1. Linear Attention $\equiv$ Fast Weight Memory** | Schlag, Irie, Schmidhuber | ICML 2021 | Formal Result & Empirical Proof | $S_t = \lambda S_{t-1} + v_t k_t^T$, $\text{Read} = S_t q_t$ | Foundational duality derivation |
+| **2. Recurrent State Algebraic Rank Bound** | Standard Linear Algebra | Linear Algebra Property | Exact Matrix Bound | $\text{Rank}(S_t) \le d$ for $S_t \in \mathbb{R}^{d \times d}$ | Geometric bound on state subspace |
+| **3. Test-Time Parameter Update as Memory** | Sun et al. (*TTT / Test-Time Training*) | arXiv:2407.04620 (2024) | Published Experiment | $\theta_t = \theta_{t-1} - \eta \nabla \ell(\theta_{t-1}; x_t)$ | Fast Weight vs Test-Time Weight Adaptation |
+| **4. Selective State-Space Gating vs Recurrence** | Gu & Dao (*Mamba*) | arXiv:2312.00752 (2023) | Published Experiment | $h_t = (I - \Delta_t A) h_{t-1} + \Delta_t B_t x_t$ | Comparison baseline in Sandbox |
+| **5. Sparse Monosemantic Plasticity** | Kosowski et al. (*Dragon Hatchling / BDH*) | arXiv:2509.26507 (2025) | Published Pre-print | $a_t \ge 0$, local synaptic updates | BDH Research Connection & Toy Abstraction |
+| **6. Latent Demonstration Reasoning** | Engdahl et al. (*BDH-CQ*) | arXiv:2608.09888 (2026) | Published Pre-print | In-context learning via recurrent latent reasoning | BDH-CQ Contextual Extension |
 
 ---
 
 ## 2. Evidence Categorization Legend
 
-* `[FORMAL THEOREM]`: Mathematically proven in peer-reviewed literature (e.g., matrix rank bounds, associative retrieval equivalence).
-* `[PUBLISHED EXPERIMENT]`: Empirically validated on large-scale benchmarks (e.g., Mamba, xLSTM, TTT).
+* `[FORMAL THEOREM]`: Mathematically proven algebraic identities (e.g., matrix rank bounds, exact causal recurrence decomposition).
+* `[PUBLISHED EXPERIMENT]`: Empirically validated on benchmarks in primary literature (e.g., Mamba, xLSTM, TTT, BDH).
 * `[OUR LIVE SUBSTRATE]`: Real-time mathematical simulation running inside the user's browser via deterministic vectorized linear algebra.
-* `[TEACHING SIMPLIFICATION]`: Explicitly labeled low-dimensional projection ($d=8$ to $d=32$) designed to make internal state tensors visually inspectable without information loss.
+* `[BDH-INSPIRED TEACHING ABSTRACTION]`: A single-layer ReLU/Top-K toy model used for visual geometric intuition; not the complete multi-layer BDH architecture.
 
 ---
 
 ## 3. Disclosed Limitations & Boundary Conditions
-1. **Dimensionality Scaling:** In production models, $d_{model} \in [2048, 8192]$. In our interactive substrate, $d \in [4, 64]$. We prove that the interference dynamics normalized by $N/d$ follow the exact same scale-invariant mathematical laws.
-2. **Softmax vs Linear Attention:** Standard Softmax Attention ($O(N^2)$) does not compress state into a fixed-size matrix, hence avoiding interference at the cost of infinite memory growth. Our tool explicitly compares standard KV-caching vs Recurrent state storage.
-3. **Synthetic Diagnostic Task:** We utilize the Multi-Query Associative Recall (MQAR) and Synthetic Needle-in-a-Haystack Token Retrieval tasks to cleanly isolate memory degradation from language modeling perplexity.
+1. **Dimensionless Memory Load Diagnostic ($N/d$):** We use $N/d$ as a dimensionless memory-load diagnostic and empirically measure retrieval behavior under the specified synthetic key distribution. These experiments do not establish a universal $N/d$ scaling law across arbitrary structured data manifolds.
+2. **Softmax vs Linear Attention:** Standard Softmax Attention ($O(N^2)$) does not compress state into a fixed-size matrix, storing all history at the cost of quadratic compute and growing KV memory.
+3. **Synthetic Diagnostic Task:** We utilize synthetic key-value associative pairs to isolate associative memory interference cleanly from language modeling perplexity.

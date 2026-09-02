@@ -96,7 +96,7 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       question: "How do sparse positive activations suppress cross-talk without an expanding cache?",
       formula: "W_t = \\text{TopK}(\\lambda W_{t-1} + \\eta \\cdot \\text{ReLU}(v_t) \\text{ReLU}(k_t)^T)",
       explanation:
-        "Dragon Hatchling (BDH) utilizes non-negative sparse activations (ReLU/Top-K). In high dimensions, sparse positive vectors exhibit quasi-disjoint supports, driving cross-talk inner products toward zero. (Note: this is a single-layer visual teaching abstraction; not the complete multi-layer BDH architecture).",
+        "Dragon Hatchling (BDH) utilizes non-negative sparse activations (ReLU/Top-K). Under suitable sparse-support regimes, restricting active interactions can reduce overlap and suppress cross-talk. (Note: this is a single-layer visual teaching abstraction; not the complete multi-layer BDH architecture).",
       actionText: "Activate Sparse Positive Plasticity [TEACHING ABSTRACTION]",
       config: { d: 8, N: 12, correlation: 0.35, decay: 1.0, useBDH: true },
       takeaway: "Notice how sparse non-negative projection suppresses off-diagonal cross-talk in this toy model.",

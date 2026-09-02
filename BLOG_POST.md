@@ -72,4 +72,5 @@ Furthermore, **BDH-CQ** builds upon this foundation by assimilating in-context d
 2. **Beck, M., et al. (2024).** *xLSTM: Extended Long Short-Term Memory.* NeurIPS 2024. [arXiv:2405.04517](https://arxiv.org/abs/2405.04517).
 3. **Gu, A., & Dao, T. (2023).** *Mamba: Linear-Time Sequence Modeling with Selective State Spaces.* [arXiv:2312.00752](https://arxiv.org/abs/2312.00752).
 4. **Sun, Y., et al. (2024).** *Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT).* [arXiv:2407.04620](https://arxiv.org/abs/2407.04620).
-5. **Pathway Research Team (2024–2025).** *Dragon Hatchling (BDH) & BDH-CQ Architectural Reports.* Pathway Technical Reports.
+5. **Kosowski, A., Uznański, P., Chorowski, J., Stamirowska, Z., & Bartoszkiewicz, M. (2025).** *The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain.* [arXiv:2509.26507](https://arxiv.org/abs/2509.26507).
+6. **Engdahl, B., Kosowski, A., Chorowski, J., Stamirowska, Z., Uznański, P., et al. (2026).** *BDH-CQ: In-Context Learning with Recurrent Latent Reasoning.* [arXiv:2608.09888](https://arxiv.org/abs/2608.09888).

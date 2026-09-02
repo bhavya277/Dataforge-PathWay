@@ -33,7 +33,7 @@ This document classifies every claim and technical mechanism in our project acco
 
 4. **"Dragon Hatchling (BDH) utilizes sparse positive activations and local Hebbian synaptic updates during context processing."**
    * **Classification:** `[PUBLISHED RESULT]`
-   * **Citation:** Pathway Technical Report (2024–2025).
+   * **Citation:** Kosowski et al. (2025), arXiv:2509.26507.
 
 5. **"Our 8-dimensional single-layer visualizer represents the core associative mechanism of recurrent fast weights."**
    * **Classification:** `[TEACHING SIMPLIFICATION]`

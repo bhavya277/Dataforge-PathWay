@@ -83,7 +83,7 @@ export const PROTOCOL_PRESETS: ProtocolPreset[] = [
     subtitle: "BDH-inspired non-negative sparse projection [TEACHING ABSTRACTION]",
     question: "Can non-negative sparse activations suppress cross-talk in a toy recurrent matrix?",
     scientificLesson:
-      "Non-negative sparse activations enforce quasi-disjoint supports in high dimensions, suppressing pairwise dot products k_i^T k_j. (Note: this is a single-layer teaching abstraction, not the complete BDH architecture).",
+      "Non-negative sparse activations can reduce active overlapping connections under suitable sparse-support regimes, suppressing pairwise dot products in this simplified toy model. (Note: this is a single-layer teaching abstraction, not the complete BDH architecture).",
     d: 8,
     N: 12,
     correlation: 0.35,

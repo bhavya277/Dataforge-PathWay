@@ -7,9 +7,9 @@
 This document formalizes the theoretical bridge connecting our interactive linear associative memory substrate with Pathway's frontier **Dragon Hatchling (BDH)** and **BDH-CQ** architectures.
 
 * **Standard Linear Fast Weights:** Accumulates continuous real-valued outer products into a dense state matrix $S_t = \lambda S_{t-1} + v_t k_t^T$. Under non-orthogonal keys ($\rho > 0$) or high memory load ($N > d$), off-diagonal dot products $k_i^T q$ contaminate retrieval with additive linear cross-talk noise.
-* **BDH-Inspired Sparse Plasticity [TEACHING ABSTRACTION]:** Introduces non-negative sparse positive activations ($\text{ReLU}/\text{Top-K}$). In high dimensions, non-negative sparse vectors exhibit quasi-disjoint supports, driving cross-talk inner products $k_i^T k_j \to 0$ by geometric construction.
-* **Actual Dragon Hatchling (BDH) Research:** Scale-free biologically-grounded neural substrate featuring locally interacting neuron particles, synaptic plasticity, and monosemantic circuits (Kosowski et al., 2025, arXiv:2509.26507).
-* **BDH-CQ (Continuous Query):** In-context learning with recurrent latent reasoning directly from demonstration trajectories without explicit written Chain-of-Thought (CoT) (Engdahl et al., 2026, arXiv:2608.09888).
+* **BDH-Inspired Sparse Plasticity [TEACHING ABSTRACTION]:** The project uses a simplified BDH-inspired abstraction to explore how sparse positive activations ($\text{ReLU}/\text{Top-K}$) and restricted interactions can provide a useful contrast to dense linear associative storage under suitable sparse-support regimes.
+* **Actual Dragon Hatchling (BDH) Research:** Scale-free biologically-grounded neural architecture featuring non-negative sparse neuron activations, local synaptic plasticity, and monosemantic circuits (Kosowski et al., 2025, arXiv:2509.26507).
+* **BDH-CQ (In-Context Learning with Recurrent Latent Reasoning):** In-context demonstrations update recurrent memory, allowing queries to be solved through iterative latent computation without requiring explicit verbal token Chain-of-Thought (Engdahl et al., 2026, arXiv:2608.09888).
 
 ---
 

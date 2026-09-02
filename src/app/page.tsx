@@ -265,6 +265,9 @@ export default function HomePage() {
           <span>DataForge × Pathway 2026 • Verified Float64 Associative Memory Substrate</span>
           <span>Exact Algebraic Decomposition • In-Browser Live Computation</span>
         </div>
+        <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-center gap-2">
+          <span>Designed and Developed by Bhavya Modi</span>
+        </div>
       </footer>
     </div>
   );

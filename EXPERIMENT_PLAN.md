@@ -39,12 +39,12 @@ $$\text{Input Tokens } \{x_1, \dots, x_N\} \xrightarrow{\text{Projection}} \{(k_
 
 ## 3. The 4 Benchmark Presets
 
-| Preset | Parameters | Expected Behavior | Scientific Lesson |
+| Preset | Parameters | Observed Behavior | Scientific Lesson |
 |---|---|---|---|
-| **01. Orthogonal Baseline** | $N=4, d=8, \rho=0.0, \lambda=1.0$ | $\text{Error} = 0.000$, $100\%$ sharp retrieval | With orthogonal keys, memory capacity is lossless up to $N = d$. |
-| **02. Subtle Cross-Talk** | $N=4, d=8, \rho=0.25, \lambda=1.0$ | $\text{Error} \approx 0.12$, noisy output vector | Non-orthogonal keys bleed value components across memory slots. |
-| **03. Catastrophic Cliff** | $N=12, d=8, \rho=0.6, \lambda=1.0$ | $\text{Error} > 0.85$, retrieval collapses | When $N > d$ and keys interfere, the signal is drowned by cross-talk. |
-| **04. BDH Sparse Recovery** | $N=12, d=8, \rho=0.6, \text{Sparsity}=0.25$ | $\text{Error} \approx 0.04$, clean recovery | Non-negative sparse activations restore near-orthogonal separation. |
+| **01. Orthogonal Baseline** | $N=4, d=8, \rho=0.0, \lambda=1.0$ | $\text{Error} = 0.000$, clean retrieval | With orthogonal keys, memory retrieval has zero cross-talk for $N \le d$. |
+| **02. Key Interference** | $N=4, d=8, \rho=0.45, \lambda=1.0$ | Observed $\text{Error} > 0.0$, noisy output vector | Non-orthogonal keys bleed value components across memory slots. |
+| **03. High-Load Stress Case** | $N=12, d=8, \rho=0.45, \lambda=1.0$ | Observed higher $\text{Error}$ | When $N > d$ and keys correlate, additive cross-talk degrades output. |
+| **04. BDH Sparse Plasticity** | $N=12, d=8, \rho=0.45, \text{BDH}=\text{True}$ | Reduced cross-talk in toy model | Non-negative sparse activations suppress off-diagonal interference in this teaching abstraction. |
 
 ---
 
