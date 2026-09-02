@@ -46,8 +46,8 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
             <span className="text-xs font-bold text-[#111318] uppercase tracking-wider">
               GRAM MATRIX G = K Kᵀ ∈ ℝ^({N}×{N})
             </span>
-            <span className="text-xs font-mono text-[#626873]">
-              ρ = {correlationParam.toFixed(2)}
+            <span className="text-xs font-mono text-[#D97706] font-bold">
+              CONTROLLED KEY CORRELATION ρ = {correlationParam.toFixed(2)}
             </span>
           </div>
 
@@ -110,7 +110,7 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
                 </span>
               ) : (
                 <span className="text-[#D97706] font-bold">
-                  k_{hovered.i + 1} · k_{hovered.j + 1} = {hovered.val.toFixed(3)} — Memory {hovered.j + 1} bleeds into query {hovered.i + 1}.
+                  G[{hovered.i + 1},{hovered.j + 1}] = {hovered.val.toFixed(3)} — Memory {hovered.j + 1} bleeds into query {hovered.i + 1}.
                 </span>
               )
             ) : (
@@ -123,12 +123,12 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
         <div className="lg:col-span-4 space-y-4">
           <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-5 shadow-sm space-y-4">
             <span className="text-xs font-mono font-bold text-[#111318] uppercase tracking-wider block border-b border-[#E2E4E8] pb-2">
-              OBSERVED KEY COSINE
+              OBSERVED PAIRWISE COSINE
             </span>
 
             <div className="space-y-3">
               <div className="flex justify-between items-baseline">
-                <span className="text-xs text-[#626873]">Mean Overlap (μ)</span>
+                <span className="text-xs text-[#626873]">Observed Mean (μ)</span>
                 <span className="text-lg font-mono font-bold text-[#111318]">{stats.meanCosine.toFixed(3)}</span>
               </div>
               <div className="flex justify-between items-baseline border-t border-[#F0F1ED] pt-2">
@@ -146,7 +146,7 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
             </div>
           </div>
 
-          {/* Secondary 2D Subspace Projection Mini Visualizer */}
+          {/* Secondary 2D Subspace Projection Visualizer */}
           {pairs.length > 0 && (
             <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 shadow-sm space-y-2">
               <span className="text-[10px] font-mono font-bold text-[#8A909A] uppercase tracking-wider block">

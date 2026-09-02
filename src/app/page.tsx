@@ -114,41 +114,30 @@ export default function HomePage() {
               </h1>
 
               <p className="text-base sm:text-xl text-[#626873] max-w-3xl leading-relaxed font-normal">
-                A fixed-size recurrent state stores key-value associations. Change the geometry. Change the load. Watch retrieval change.
+                How much information can a fixed-size recurrent state preserve before stored associations interfere?
               </p>
 
               {/* Action Row & Live Metadata */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                <div className="flex items-center space-x-3">
-                  <button
-                    onClick={() => handleSelectProtocol("protocol_01_baseline")}
-                    className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#111318] hover:bg-black text-white text-xs font-bold transition-colors shadow-sm"
-                  >
-                    <span>RUN THE EXPERIMENT</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    onClick={() => handleSelectProtocol("protocol_02_interference")}
-                    className="inline-flex items-center space-x-1.5 px-4 py-2.5 bg-[#FFFFFF] hover:bg-[#F0F1ED] text-[#111318] border border-[#D9DCE1] text-xs font-semibold transition-colors shadow-sm"
-                  >
-                    <span>INJECT OVERLAP (ρ = 0.45)</span>
-                  </button>
-                </div>
+                <button
+                  onClick={() => handleSelectProtocol("protocol_01_baseline")}
+                  className="inline-flex items-center space-x-2 px-6 py-3 bg-[#111318] hover:bg-black text-white text-xs font-bold transition-colors shadow-sm"
+                >
+                  <span>RUN THE EXPERIMENT</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
 
                 {/* Compact Live Metadata */}
-                <div className="flex items-center space-x-3 text-xs font-mono text-[#626873] bg-[#FFFFFF] px-3.5 py-2 border border-[#D9DCE1] shadow-sm">
+                <div className="flex items-center space-x-4 text-xs font-mono text-[#626873] bg-[#FFFFFF] px-4 py-2 border border-[#D9DCE1] shadow-sm">
                   <span>d = {d}</span>
-                  <span>•</span>
                   <span>N = {N}</span>
-                  <span>•</span>
                   <span>ρ = {correlation.toFixed(2)}</span>
-                  <span>•</span>
                   <span>λ = {decay.toFixed(2)}</span>
                 </div>
               </div>
 
               {/* Editorial Pull Quote */}
-              <div className="pt-4">
+              <div className="pt-2">
                 <blockquote className="text-sm sm:text-base italic text-[#111318] border-l-2 border-[#111318] pl-4 py-1 leading-relaxed">
                   &ldquo;In a linear fast-weight memory, retrieving one association also receives contributions from other stored associations.&rdquo;
                 </blockquote>

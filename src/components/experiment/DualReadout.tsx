@@ -2,6 +2,7 @@
 
 import React from "react";
 import { RetrievalBreakdown } from "@/lib/types";
+import { ArrowDown, ArrowRight } from "lucide-react";
 
 interface DualReadoutProps {
   retrieval: RetrievalBreakdown;
@@ -63,15 +64,15 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
               QUERY &amp; ASSOCIATIVE RETRIEVAL
             </h2>
             <p className="text-sm text-[#626873] mt-1">
-              Multiply recurrent matrix state by query vector q = k_j to extract the associated memory in O(1) time.
+              Matrix-vector multiplication y_t = S_t q evaluates associative recall in O(1) time.
             </p>
           </div>
 
-          {/* Query Selector Buttons */}
+          {/* Query Key Selector */}
           {onSelectQueryIdx && (
             <div className="flex flex-wrap items-center gap-1.5 bg-[#FFFFFF] p-1.5 border border-[#D9DCE1] shadow-sm">
               <span className="text-[11px] font-mono font-bold text-[#626873] px-2 uppercase">
-                Probe q:
+                Query Key:
               </span>
               {Array.from({ length: availableKeys }).map((_, idx) => {
                 const active = selectedQueryIdx === idx;
@@ -93,13 +94,51 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
           )}
         </div>
 
-        {/* Side-by-Side Target Vector vs Retrieved Output */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-          {/* Target Value Vector */}
+        {/* Visual Pipeline Chain: QUERY -> RECURRENT STATE -> RETRIEVED */}
+        <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] shadow-sm">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono font-bold text-[#626873] uppercase tracking-wider block">
+                1. QUERY PROBE
+              </span>
+              <div className="text-base font-mono font-bold text-[#0284C7]">
+                q = k_{selectedQueryIdx + 1}
+              </div>
+            </div>
+
+            <ArrowRight className="hidden sm:block w-4 h-4 text-[#8A909A]" />
+            <ArrowDown className="sm:hidden w-4 h-4 text-[#8A909A]" />
+
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono font-bold text-[#626873] uppercase tracking-wider block">
+                2. RECURRENT STATE
+              </span>
+              <div className="text-base font-mono font-bold text-[#111318]">
+                Sₜ ∈ ℝ^({dim}×{dim})
+              </div>
+            </div>
+
+            <ArrowRight className="hidden sm:block w-4 h-4 text-[#8A909A]" />
+            <ArrowDown className="sm:hidden w-4 h-4 text-[#8A909A]" />
+
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono font-bold text-[#626873] uppercase tracking-wider block">
+                3. RETRIEVED OUTPUT
+              </span>
+              <div className="text-base font-mono font-bold text-[#111318]">
+                yₜ = Sₜ q
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Side-by-Side: GROUND TRUTH vs RETRIEVED FROM S_t */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-1">
+          {/* Ground Truth Vector */}
           <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-5 shadow-sm space-y-3">
             <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-2">
               <span className="text-xs font-bold text-[#0284C7] uppercase tracking-wider">
-                TARGET VECTOR v_{selectedQueryIdx + 1} (GROUND TRUTH)
+                GROUND TRUTH (v_{selectedQueryIdx + 1})
               </span>
               <span className="text-[11px] font-mono text-[#8A909A]">||v|| = 1.00</span>
             </div>
@@ -128,11 +167,11 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
             </div>
           </div>
 
-          {/* Retrieved Output Vector */}
+          {/* Retrieved Vector */}
           <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-5 shadow-sm space-y-3">
             <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-2">
               <span className="text-xs font-bold text-[#111318] uppercase tracking-wider">
-                RETRIEVED OUTPUT ŷ = S q
+                RETRIEVED FROM Sₜ (yₜ = Sₜ q)
               </span>
               <span className="text-[11px] font-mono text-[#8A909A]">Signal + Cross-Talk</span>
             </div>
@@ -162,44 +201,48 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
           </div>
         </div>
 
-        {/* Big Numbers Readout (Whitespace Driven, Not Cards) */}
+        {/* Big Numbers Readout (Typography Driven) */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-[#D9DCE1]">
           <div>
-            <span className="text-xs font-mono text-[#626873] block uppercase tracking-wider">
-              COSINE ERROR (1 - cos)
+            <span className="text-xs font-mono font-bold text-[#626873] block uppercase tracking-wider">
+              COSINE SIMILARITY
             </span>
             <div
               className={`text-3xl sm:text-4xl font-mono font-bold mt-1 ${
-                cosineError < 0.05
-                  ? "text-[#111318]"
-                  : cosineError < 0.25
+                cosineSimilarity > 0.95
+                  ? "text-[#0284C7]"
+                  : cosineSimilarity > 0.75
                   ? "text-[#D97706]"
                   : "text-[#DC2626]"
               }`}
             >
-              {cosineError.toFixed(4)}
+              {cosineSimilarity.toFixed(4)}
             </div>
-            <p className="text-xs text-[#626873] mt-1">Pure directional distortion</p>
+            <p className="text-xs text-[#626873] mt-1">
+              Cosine error: {cosineError.toFixed(4)}
+            </p>
           </div>
 
           <div>
-            <span className="text-xs font-mono text-[#626873] block uppercase tracking-wider">
-              RAW L2 ERROR (||ŷ - v||)
+            <span className="text-xs font-mono font-bold text-[#626873] block uppercase tracking-wider">
+              RAW L2 ERROR (||yₜ - v||)
             </span>
             <div className="text-3xl sm:text-4xl font-mono font-bold text-[#111318] mt-1">
               {rawL2Error.toFixed(4)}
             </div>
-            <p className="text-xs text-[#626873] mt-1">Euclidean distance in state</p>
+            <p className="text-xs text-[#626873] mt-1">
+              Euclidean state distance
+            </p>
           </div>
 
           <div>
-            <span className="text-xs font-mono text-[#626873] block uppercase tracking-wider">
+            <span className="text-xs font-mono font-bold text-[#626873] block uppercase tracking-wider">
               INTERFERENCE RATIO (ISR)
             </span>
             <div
               className={`text-3xl sm:text-4xl font-mono font-bold mt-1 ${
                 interferenceToSignalRatio < 0.1
-                  ? "text-[#111318]"
+                  ? "text-[#0284C7]"
                   : interferenceToSignalRatio < 0.8
                   ? "text-[#D97706]"
                   : "text-[#DC2626]"
@@ -207,7 +250,9 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
             >
               {interferenceToSignalRatio.toFixed(3)}
             </div>
-            <p className="text-xs text-[#626873] mt-1">Cross-talk energy / Target signal energy</p>
+            <p className="text-xs text-[#626873] mt-1">
+              Cross-talk energy / Target signal
+            </p>
           </div>
         </div>
       </section>
@@ -258,7 +303,7 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
                 {"\\lambda^{t-j} v_j (k_j^T q_j)"}
               </div>
               <p className="text-[#626873] text-[11px] mt-1">
-                The true stored memory discounted by temporal decay factor λ^(t-j).
+                The ground-truth memory contribution scaled by temporal decay λ^(t-j).
               </p>
             </div>
 
@@ -268,7 +313,7 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
                 {"\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)"}
               </div>
               <p className="text-[#626873] text-[11px] mt-1">
-                Additive contamination from all other stored associations with non-zero key projections.
+                Additive interference from other stored associations with non-zero key projections.
               </p>
             </div>
           </div>

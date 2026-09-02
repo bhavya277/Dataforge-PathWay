@@ -24,7 +24,7 @@ export const ResearchNotebook: React.FC = () => {
         <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
           <span className="text-lg font-mono font-bold text-[#626873]">01</span>
           <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
-            THE CENTRAL SCIENTIFIC QUESTION &amp; CLAIM
+            QUESTION &amp; CENTRAL CLAIM
           </h2>
         </div>
         <div className="p-5 bg-[#FFFFFF] border-l-4 border-[#111318] shadow-sm text-sm sm:text-base text-[#111318] leading-relaxed italic">
@@ -32,12 +32,12 @@ export const ResearchNotebook: React.FC = () => {
         </div>
       </section>
 
-      {/* 02. Method & Computational Substrate */}
+      {/* 02. Method */}
       <section className="space-y-4">
         <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
           <span className="text-lg font-mono font-bold text-[#626873]">02</span>
           <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
-            METHODOLOGY &amp; COMPUTATIONAL SUBSTRATE
+            METHODOLOGY &amp; SYNTHETIC DATASET
           </h2>
         </div>
         <p className="text-sm text-[#626873] leading-relaxed">
@@ -49,7 +49,7 @@ export const ResearchNotebook: React.FC = () => {
         </div>
       </section>
 
-      {/* 03. Mathematical Model & Exact Recurrence Decomposition */}
+      {/* 03. Mathematical Model */}
       <section className="space-y-4">
         <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
           <span className="text-lg font-mono font-bold text-[#626873]">03</span>
@@ -87,26 +87,26 @@ export const ResearchNotebook: React.FC = () => {
         </div>
       </section>
 
-      {/* 04. Linear Attention Recurrence Dual */}
+      {/* 04. Experiment & Attention Equivalence */}
       <section className="space-y-4">
         <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
           <span className="text-lg font-mono font-bold text-[#626873]">04</span>
           <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
-            LINEAR RECURRENCE ↔ LINEAR ATTENTION EQUIVALENCE DUAL
+            EXPERIMENT: LINEAR RECURRENCE ↔ LINEAR ATTENTION DUAL
           </h2>
         </div>
         <p className="text-sm text-[#626873] leading-relaxed">
-          Schlag, Irie, &amp; Schmidhuber (2021) demonstrated that causal linear transformers with feature map &phi;(x) compute:
+          Schlag, Irie, &amp; Schmidhuber (2021) demonstrated that causal linear transformers compute:
         </p>
         <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
           {"y_t = (V_{1:t} K_{1:t}^T) q_t = \\left( \\sum_{i=1}^t v_i k_i^T \\right) q_t = S_t q_t"}
         </div>
         <p className="text-xs text-[#626873]">
-          This proves that linear transformers operate via fast-weight associative recurrence, executing sequential token inference in O(1) memory per step. Our test suite numerically verifies this identity across 125 randomized parameter configurations at float64 error &lt; 10^-14.
+          Our Python and TypeScript test suites numerically verify this identity across 125 randomized parameter sweeps with float64 discrepancy &lt; 10^-14.
         </p>
       </section>
 
-      {/* 05. Scientific Limitations */}
+      {/* 05. Limitations */}
       <section className="space-y-4">
         <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
           <span className="text-lg font-mono font-bold text-[#626873]">05</span>
@@ -116,86 +116,81 @@ export const ResearchNotebook: React.FC = () => {
         </div>
         <div className="p-5 bg-[#FFFFFF] border border-[#D9DCE1] shadow-sm space-y-2 text-xs text-[#626873] leading-relaxed">
           <div>
-            <strong className="text-[#111318]">• Dimensionless Load Ratio N/d:</strong> Error scaling with N/d is an empirical observation on the specified isotropic Gaussian key distribution, not a universal theorem for arbitrary manifolds.
+            <strong className="text-[#111318]">• Dimensionless Load Ratio N/d:</strong> Error scaling with N/d is an empirical observation on the specified isotropic Gaussian distribution, not a universal theorem for arbitrary manifolds.
           </div>
           <div>
-            <strong className="text-[#111318]">• BDH-Inspired Abstraction:</strong> Our interactive ReLU/Top-K matrix is a simplified single-layer teaching model. It is NOT the complete multi-layer Dragon Hatchling architecture.
+            <strong className="text-[#111318]">• BDH-Inspired Abstraction:</strong> Our interactive ReLU/Top-K matrix is a single-layer visual teaching model; it is NOT the complete multi-layer Dragon Hatchling architecture.
           </div>
           <div>
-            <strong className="text-[#111318]">• Finite Numerical Verification:</strong> Floating-point test suites numerically verify the implemented algebraic formulation, which serves as computational validation rather than a deductive mathematical proof.
+            <strong className="text-[#111318]">• Computational Validation:</strong> Numerical equivalence verification serves as computational validation of our implementation rather than an axiomatic deductive proof.
           </div>
         </div>
       </section>
 
-      {/* 06. Primary Verified Literature */}
+      {/* 06. BDH Connection */}
       <section className="space-y-4">
         <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
           <span className="text-lg font-mono font-bold text-[#626873]">06</span>
           <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
-            PRIMARY RESEARCH LITERATURE REFERENCES
+            BDH &amp; BDH-CQ ARCHITECTURAL CONNECTION
+          </h2>
+        </div>
+        <p className="text-sm text-[#626873] leading-relaxed">
+          Dragon Hatchling (BDH) combines sparse positive activations (ReLU/TopK), local synaptic plasticity, and recurrent memory state updates. BDH-CQ extends this to in-context learning with recurrent latent reasoning over demonstration trajectories without verbal token generation.
+        </p>
+      </section>
+
+      {/* 07. Primary Literature Sources */}
+      <section className="space-y-4">
+        <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
+          <span className="text-lg font-mono font-bold text-[#626873]">07</span>
+          <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
+            PRIMARY RESEARCH SOURCES &amp; REFERENCES
           </h2>
         </div>
         <div className="space-y-3">
           {[
             {
-              authors: "Kosowski, A., Uznański, P., Chorowski, J., Stamirowska, Z., & Bartoszkiewicz, M. (2025)",
+              author: "Kosowski, Uznański, Chorowski, Stamirowska, & Bartoszkiewicz (2025)",
               title: "The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain",
-              venue: "arXiv:2509.26507",
-              link: "https://arxiv.org/abs/2509.26507",
-              id: "arXiv:2509.26507",
+              arxiv: "arXiv:2509.26507",
+              url: "https://arxiv.org/abs/2509.26507",
             },
             {
-              authors: "Engdahl, B., Kosowski, A., Chorowski, J., Stamirowska, Z., Uznański, P., et al. (2026)",
+              author: "Engdahl, Kosowski, Chorowski, Stamirowska, Uznański, et al. (2026)",
               title: "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning",
-              venue: "arXiv:2608.09888",
-              link: "https://arxiv.org/abs/2608.09888",
-              id: "arXiv:2608.09888",
+              arxiv: "arXiv:2608.09888",
+              url: "https://arxiv.org/abs/2608.09888",
             },
             {
-              authors: "Schlag, I., Irie, K., & Schmidhuber, J. (2021)",
+              author: "Schlag, Irie, & Schmidhuber (2021)",
               title: "Linear Transformers Are Secretly Fast Weight Programmers",
-              venue: "ICML 2021",
-              link: "https://arxiv.org/abs/2102.11174",
-              id: "arXiv:2102.11174",
+              arxiv: "arXiv:2102.11174",
+              url: "https://arxiv.org/abs/2102.11174",
             },
             {
-              authors: "Beck, M., et al. (2024)",
-              title: "xLSTM: Extended Long Short-Term Memory",
-              venue: "NeurIPS 2024",
-              link: "https://arxiv.org/abs/2405.04517",
-              id: "arXiv:2405.04517",
+              author: "Katharopoulos, Vyas, Pappas, & Fleuret (2020)",
+              title: "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+              arxiv: "arXiv:2006.16236",
+              url: "https://arxiv.org/abs/2006.16236",
             },
-            {
-              authors: "Gu, A., & Dao, T. (2023)",
-              title: "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
-              venue: "arXiv:2312.00752",
-              link: "https://arxiv.org/abs/2312.00752",
-              id: "arXiv:2312.00752",
-            },
-            {
-              authors: "Sun, Y., et al. (2024)",
-              title: "Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT)",
-              venue: "arXiv:2407.04620",
-              link: "https://arxiv.org/abs/2407.04620",
-              id: "arXiv:2407.04620",
-            },
-          ].map((ref, i) => (
+          ].map((ref, idx) => (
             <div
-              key={i}
-              className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] shadow-sm flex items-center justify-between"
+              key={idx}
+              className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm"
             >
               <div className="text-xs">
-                <strong className="text-[#111318]">{ref.authors}. </strong>
+                <strong className="text-[#111318]">{ref.author}. </strong>
                 <span className="italic text-[#626873]">&ldquo;{ref.title}&rdquo;. </span>
-                <span className="font-mono text-[#8A909A]">{ref.venue}.</span>
+                <span className="font-mono text-[#8A909A]">{ref.arxiv}.</span>
               </div>
               <a
-                href={ref.link}
+                href={ref.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-1 text-[#0284C7] hover:underline text-xs font-mono ml-4 flex-shrink-0"
+                className="flex items-center space-x-1 text-[#0284C7] hover:underline text-xs font-mono flex-shrink-0"
               >
-                <span>{ref.id}</span>
+                <span>{ref.arxiv}</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
