@@ -29,6 +29,8 @@ export interface RetrievalBreakdown {
   crosstalkMagnitude: number;
   interferenceToSignalRatio: number;
   timeDecayFactor: number;
+  decompositionResidual: number;
+  isExactLinear: boolean;
 }
 
 export interface ProtocolPreset {

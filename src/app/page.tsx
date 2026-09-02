@@ -9,6 +9,7 @@ import { ControlPanel } from "@/components/experiment/ControlPanel";
 import { GuidedChapterFlow } from "@/components/education/GuidedChapterFlow";
 import { StressTestExplorer } from "@/components/experiment/StressTestExplorer";
 import { BDHComparisonExplorer } from "@/components/bdh/BDHComparisonExplorer";
+import { RetrievalDecomposition } from "@/components/experiment/RetrievalDecomposition";
 import { ResearchNotebook } from "@/components/education/ResearchNotebook";
 import { PROTOCOL_PRESETS } from "@/lib/presets";
 import { generateSyntheticPairs, LiveAssociativeEngine } from "@/lib/math-engine";
@@ -296,6 +297,16 @@ export default function HomePage() {
             </section>
 
             {/* ============================================================ */}
+            {/* STEP 04: SEE CROSS-TALK */}
+            {/* ============================================================ */}
+            <RetrievalDecomposition
+              retrieval={retrieval}
+              dim={d}
+              correlation={correlation}
+              useBDH={useBDH}
+            />
+
+            {/* ============================================================ */}
             {/* STEP 05: PUSH MEMORY LOAD (N/d) */}
             {/* ============================================================ */}
             <section className="space-y-6 pt-4 border-t border-[#D9DCE1]">
@@ -318,8 +329,44 @@ export default function HomePage() {
             {/* STEP 06: CONNECT TO BDH */}
             {/* ============================================================ */}
             <section className="space-y-6 pt-4 border-t border-[#D9DCE1]">
-              <div className="p-4 bg-[#FFFFFF] border-l-4 border-[#0284C7] shadow-sm text-xs sm:text-sm text-[#111318] leading-relaxed">
-                <strong>From Linear Fast Weights to Synaptic Plasticity:</strong> Fast-weight associative memory stores relationships in a recurrent state. BDH explores a broader brain-inspired view in which memory and computation are tied to sparse positive synaptic activity.
+              <div className="border-b border-[#D9DCE1] pb-4">
+                <span className="text-xs font-mono font-bold tracking-widest text-[#626873] uppercase">
+                  06 / CONNECT TO BDH
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111318] mt-1">
+                  SPARSE POSITIVE PLASTICITY
+                </h2>
+                <p className="text-sm text-[#626873] mt-1 max-w-3xl leading-relaxed">
+                  Understand how the associative-memory failure mode connects conceptually to the sparse-positive plasticity idea explored in BDH.
+                </p>
+              </div>
+
+              {/* Conceptual Bridge Comparison */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] space-y-2">
+                  <span className="font-bold text-[#111318] block uppercase">
+                    LINEAR ASSOCIATIVE MEMORY
+                  </span>
+                  <div className="text-[11px] text-[#626873] space-y-1">
+                    <div>• Dense continuous interactions</div>
+                    <div>• Non-target projections: k_iᵀ q ≠ 0</div>
+                    <div>• Additive linear cross-talk interference</div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-[#FFFFFF] border-l-4 border-[#0284C7] border border-[#D9DCE1] space-y-2">
+                  <span className="font-bold text-[#0284C7] block uppercase">
+                    BDH-INSPIRED TEACHING ABSTRACTION
+                  </span>
+                  <div className="text-[11px] text-[#626873] space-y-1">
+                    <div>• Sparse positive interactions (ReLU / TopK)</div>
+                    <div>• Fewer active interactions in toy representation</div>
+                    <div>• Distinct interference dynamics under load</div>
+                  </div>
+                  <span className="text-[10px] text-[#8A909A] block mt-1">
+                    [Teaching abstraction • Not a reproduction of full BDH architecture]
+                  </span>
+                </div>
               </div>
 
               <BDHComparisonExplorer />

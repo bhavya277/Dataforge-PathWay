@@ -256,69 +256,6 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
           </div>
         </div>
       </section>
-
-      {/* ============================================================ */}
-      {/* SECTION 03: WHERE THE ERROR COMES FROM */}
-      {/* ============================================================ */}
-      <section className="space-y-6 pt-6 border-t border-[#D9DCE1]">
-        <div>
-          <span className="text-xs font-mono font-bold tracking-widest text-[#626873] uppercase">
-            03 / WHERE THE ERROR COMES FROM
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111318] mt-1">
-            TARGET SIGNAL VS. CROSS-TALK DECOMPOSITION
-          </h2>
-          <div className="text-sm sm:text-base font-mono font-bold text-[#111318] mt-2">
-            y_t = TARGET SIGNAL + CROSS-TALK
-          </div>
-        </div>
-
-        {/* Visual Energy Ratio Bar */}
-        <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-6 shadow-sm space-y-4">
-          <div className="flex justify-between items-baseline text-sm font-mono">
-            <span className="text-[#0284C7] font-bold">
-              TARGET SIGNAL: {signalMagnitude.toFixed(3)} ({signalPercent}%)
-            </span>
-            <span className="text-[#D97706] font-bold">
-              CROSS-TALK: {crosstalkMagnitude.toFixed(3)} ({crosstalkPercent}%)
-            </span>
-          </div>
-
-          <div className="w-full bg-[#F0F1ED] h-6 flex overflow-hidden border border-[#D9DCE1]">
-            <div
-              className="bg-[#0284C7] h-full transition-all duration-300"
-              style={{ width: `${signalPercent}%` }}
-            />
-            <div
-              className="bg-[#D97706] h-full transition-all duration-300"
-              style={{ width: `${crosstalkPercent}%` }}
-            />
-          </div>
-
-          {/* Mathematical Formulations Breakdown */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-3 border-t border-[#E2E4E8] text-xs font-mono">
-            <div className="space-y-1">
-              <span className="font-bold text-[#0284C7] block">TARGET CONTRIBUTION:</span>
-              <div className="p-2.5 bg-[#F7F7F4] border border-[#E2E4E8] text-[#111318] font-bold">
-                {"\\lambda^{t-j} v_j (k_j^T q_j)"}
-              </div>
-              <p className="text-[#626873] text-[11px] mt-1">
-                The ground-truth memory contribution scaled by temporal decay λ^(t-j).
-              </p>
-            </div>
-
-            <div className="space-y-1">
-              <span className="font-bold text-[#D97706] block">CROSS-TALK INTERFERENCE:</span>
-              <div className="p-2.5 bg-[#F7F7F4] border border-[#E2E4E8] text-[#111318] font-bold">
-                {"\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)"}
-              </div>
-              <p className="text-[#626873] text-[11px] mt-1">
-                Additive interference from other stored associations with non-zero key projections.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

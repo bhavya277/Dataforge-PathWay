@@ -15,11 +15,9 @@ export const Header: React.FC<HeaderProps> = ({
   isLive = true,
 }) => {
   const navItems: { id: ActiveMode; label: string }[] = [
-    { id: "lab", label: "LAB" },
-    { id: "guided", label: "GUIDED" },
-    { id: "stress-test", label: "STRESS TEST" },
-    { id: "bdh-abstraction", label: "BDH" },
-    { id: "research-notebook", label: "RESEARCH" },
+    { id: "lab", label: "LEARNING JOURNEY" },
+    { id: "guided", label: "GUIDED REPLAY" },
+    { id: "research-notebook", label: "RESEARCH NOTES" },
   ];
 
   return (

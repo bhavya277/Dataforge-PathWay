@@ -197,17 +197,29 @@ export const StressTestExplorer: React.FC = () => {
               strokeWidth="1.5"
             />
 
-            {/* Capacity Threshold Vertical Line (N/d = 1.0) */}
+            {/* γ = 1 Reference Vertical Line */}
             {1.0 >= minLoad && 1.0 <= maxLoad && (
-              <line
-                x1={Number((padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)).toFixed(2))}
-                y1={padding}
-                x2={Number((padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)).toFixed(2))}
-                y2={chartHeight - padding}
-                stroke="#D97706"
-                strokeWidth="1.5"
-                strokeDasharray="4 4"
-              />
+              <g>
+                <line
+                  x1={Number((padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)).toFixed(2))}
+                  y1={padding}
+                  x2={Number((padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)).toFixed(2))}
+                  y2={chartHeight - padding}
+                  stroke="#D97706"
+                  strokeWidth="1.5"
+                  strokeDasharray="4 4"
+                />
+                <text
+                  x={Number((padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)).toFixed(2)) + 4}
+                  y={padding + 12}
+                  fill="#D97706"
+                  fontSize="9"
+                  fontFamily="monospace"
+                  fontWeight="600"
+                >
+                  γ = 1 Reference
+                </text>
+              </g>
             )}
 
             {/* Empirical Curve Line */}
@@ -256,10 +268,10 @@ export const StressTestExplorer: React.FC = () => {
         {/* Observation Block */}
         <div className="p-4 bg-[#F7F7F4] border border-[#D9DCE1] space-y-1 text-xs text-[#111318]">
           <strong className="text-xs font-bold uppercase tracking-wider block">
-            SCIENTIFIC OBSERVATION:
+            EMPIRICAL OBSERVATION:
           </strong>
           <p className="text-xs text-[#626873] leading-relaxed">
-            In our synthetic experiments, retrieval degradation increases monotonically with memory load ratio γ = N / d and key overlap ρ. These curves reflect empirical observations under isotropic Gaussian distributions, illustrating finite-dimensional subspace saturation rather than an arbitrary threshold.
+            In this synthetic sweep, increasing memory load and controlled key overlap is associated with higher observed retrieval error under the specified experimental setup. These curves reflect empirical measurements under isotropic Gaussian key distributions, serving as a memory-load diagnostic rather than an assertion of guaranteed failure.
           </p>
         </div>
       </div>

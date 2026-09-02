@@ -5,12 +5,10 @@ In compliance with the DataForge 2026 Pathway Track regulations, this document t
 ---
 
 ## 1. AI Tooling & Models Used
-* **AI Model:** Antigravity AI Coding Assistant (Gemini 3.7 Architecture).
+* **AI Assistant:** Antigravity AI coding assistant.
 * **Role & Tasks:**
-  * Architecture scaffolding & TypeScript boilerplate.
-  * Vectorized linear algebra implementation and Python unit test generation.
-  * Interactive UI layout and Tailwind CSS styling.
-  * Technical documentation structuring and formatting.
+  * AI assistance was used for code, UI layout, and documentation development.
+  * Human Direction & Ownership: The project direction, mathematical methodology, experimental design, validation suite, and final decisions were human-directed and reviewed.
 
 ---
 

@@ -278,7 +278,10 @@ export class LiveAssociativeEngine {
     const retrieved = matrixVectorMultiply(this.stateMatrix, q);
     const T = this.pairs.length;
     const targetPair = this.pairs[targetIdx];
-    const v_target = targetPair ? targetPair.valueVector : new Array(this.d).fill(0);
+    // In BDH-inspired teaching abstraction, ground truth uses the same non-negative sparse representation stored by the model
+    const v_target = targetPair
+      ? (this.useBDH ? targetPair.valueVector.map((x) => Math.max(0, x)) : targetPair.valueVector)
+      : new Array(this.d).fill(0);
 
     let signalComp = new Array(this.d).fill(0);
     let interferenceComp = new Array(this.d).fill(0);
@@ -290,7 +293,11 @@ export class LiveAssociativeEngine {
 
       const dotTarget = dotProduct(k_target, q);
       targetTimeDecay = Math.pow(this.decay, T - 1 - targetIdx);
-      signalComp = targetPair.valueVector.map(
+      const v_target_eff = this.useBDH
+        ? targetPair.valueVector.map((x) => Math.max(0, x))
+        : targetPair.valueVector;
+
+      signalComp = v_target_eff.map(
         (val) => targetTimeDecay * this.learningRate * val * dotTarget
       );
 
@@ -298,12 +305,16 @@ export class LiveAssociativeEngine {
       for (let i = 0; i < this.pairs.length; i++) {
         if (i !== targetIdx) {
           let k_i = this.pairs[i].keyVector;
-          if (this.useBDH) k_i = k_i.map((x) => Math.max(0, x));
+          let v_i = this.pairs[i].valueVector;
+          if (this.useBDH) {
+            k_i = k_i.map((x) => Math.max(0, x));
+            v_i = v_i.map((x) => Math.max(0, x));
+          }
           const dot_i = dotProduct(k_i, q);
           const iTimeDecay = Math.pow(this.decay, T - 1 - i);
           for (let dim = 0; dim < this.d; dim++) {
             interferenceComp[dim] +=
-              iTimeDecay * this.learningRate * this.pairs[i].valueVector[dim] * dot_i;
+              iTimeDecay * this.learningRate * v_i[dim] * dot_i;
           }
         }
       }
@@ -315,6 +326,10 @@ export class LiveAssociativeEngine {
     const signalMag = vectorNorm(signalComp);
     const crosstalkMag = vectorNorm(interferenceComp);
     const isr = crosstalkMag / (signalMag + 1e-12);
+
+    // Exact linear decomposition invariant: retrieved ≈ signalComp + interferenceComp
+    const reconstructed = signalComp.map((s, idx) => s + interferenceComp[idx]);
+    const decompositionResidual = l2Distance(retrieved, reconstructed);
 
     return {
       queryIdx: targetIdx,
@@ -331,6 +346,8 @@ export class LiveAssociativeEngine {
       crosstalkMagnitude: crosstalkMag,
       interferenceToSignalRatio: isr,
       timeDecayFactor: targetTimeDecay,
+      decompositionResidual,
+      isExactLinear: !this.useBDH,
     };
   }
 

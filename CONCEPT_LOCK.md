@@ -68,18 +68,18 @@
 ## 6. Ground Truth, Expected Result & Controlled Failure Modes
 * **Ground Truth:** The exact target vector $v_{target}$ or target token class injected at step $t_{target}$.
 * **Model Output:** $\hat{v} = S_N q_{target}$, normalized and projected onto the token dictionary.
-* **Failure Mode (Preset 03 - The Interference Cliff):** When $N > d$ or $\rho \ge 0.5$, cross-talk terms overpower the target signal:
-  $$\|\text{Interference}\| > \|\text{Signal}\| \implies \text{ArgMax}(\hat{v}) \ne \text{ArgMax}(v_{target})$$
-  The learner witnesses the exact matrix cell saturation and output error spike in real time.
+* **Failure Mode (Preset 03 - High-Load Stress Case):** When $N > d$ and $\rho \ge 0.45$, cross-talk terms accumulate relative to the target signal under this synthetic distribution:
+  $$\|\text{Interference}\| \approx \|\text{Signal}\| \implies \text{ArgMax}(\hat{v}) \ne \text{ArgMax}(v_{target})$$
+  The learner witnesses exact matrix cell accumulation and output error in real time.
 
 ---
 
 ## 7. Direct BDH & BDH-CQ Grounding
-* **BDH (Dragon Hatchling):** Directly addresses the fundamental limitation of dense fast weights. BDH uses:
-  1. *Sparse Positive Activations:* Eliminates negative superposition cancellation.
-  2. *Monosemantic Synaptic Connections:* Ensures one synapse represents one concept, preventing semantic entanglement.
-  3. *Local Hebbian Plasticity:* Parameter updates occur test-time in recurrent layers without global backprop.
-* **BDH-CQ:** Uses continuous demonstration-conditioned recurrent state updates to reason across multiple demonstration pairs without writing explicit CoT tokens.
+* **BDH (Dragon Hatchling):** Explores a biologically-grounded alternative where memory and computation are tied to local synaptic activity:
+  1. *Sparse Positive Activations:* Non-negative activations reduce active overlapping connections in high dimensions.
+  2. *Monosemantic Synaptic Connections:* Encourages localized, disentangled feature representations.
+  3. *Local Synaptic Plasticity:* Dynamic connection updates occur during context consumption without full backpropagation.
+* **BDH-CQ (Research Context):** Uses demonstration-conditioned recurrent state updates to reason across demonstration pairs without writing explicit verbal tokens. (Our interactive model is a single-layer teaching abstraction).
 
 ---
 

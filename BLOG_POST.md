@@ -37,27 +37,27 @@ To quantify this, our empirical benchmark sweeps (evaluated across 50 Monte Carl
 2. **Moderate Correlation ($\rho = 0.45, N = 4$):** Mean Cosine Similarity drops to $0.8412$, Mean L2 Error rises to $0.4821$.
 3. **Memory Pressure ($N = 12 > d = 8, \rho = 0.20$):** Mean Cosine Similarity degrades to $0.6934$, with Interference-to-Signal Ratio (ISR) exceeding $0.62$.
 
-*Our Interpretation:* The capacity of an un-gated linear fast-weight memory is bounded by the rank of $S_t$ ($\text{rank}(S) \le \min(d, N)$). Once $N > d$, the pigeonhole principle forces non-zero projection across keys, transforming associative retrieval into noisy linear superposition.
+*Our Interpretation:* The linear state matrix $S_t$ has algebraic rank bounded by $d$ ($\text{rank}(S) \le \min(d, N)$). When $N > d$, keys in $\mathbb{R}^d$ cannot be mutually orthogonal, and non-zero pairwise projections contribute additive cross-talk during retrieval under our synthetic setup.
 
 ---
 
-### Where It Fails: The Interference Cliff
+### Stress Testing: The High-Load Regime
 
-To stress-test this limitation, we constructed an adversarial scenario ($d=6, N=10, \rho=0.75$). When key correlation is high and memory load exceeds state rank, the cumulative magnitude of off-diagonal interference terms ($\|\sum_{i \ne j} v_i (k_i^T k_j)\|$) strictly exceeds the target signal magnitude ($\|v_j\|$). 
+To stress-test this limitation, we constructed an adversarial scenario ($d=6, N=10, \rho=0.75$). When key correlation is high and memory load exceeds state rank, the cumulative magnitude of off-diagonal interference terms ($\|\sum_{i \ne j} v_i (k_i^T k_j)\|$) can exceed the target signal magnitude ($\|v_j\|$). 
 
-Under these conditions, retrieval does not merely degrade with Gaussian noise—the retrieved vector points in the direction of the dominant cluster of interfering keys, causing a total inversion of semantic recall (Cosine Similarity $< 0.15$).
+Under these conditions, retrieval does not merely degrade with small noise—the retrieved vector aligns strongly with the dominant cluster of interfering keys, substantially distorting semantic recall.
 
 ---
 
-### How Dragon Hatchling (BDH) Approaches the Bottleneck
+### Conceptual Connection to Dragon Hatchling (BDH)
 
-Dragon Hatchling (**BDH**; Pathway, 2024–2025) directly addresses this fundamental superposition vulnerability. Rather than storing unconstrained dense continuous vectors in an un-gated outer-product matrix, BDH introduces:
+Dragon Hatchling (**BDH**; Kosowski et al., 2025) explores a brain-inspired alternative where memory and computation are tied to local synaptic activity:
 
-1. **Sparse Positive Activations ($\text{ReLU} / \text{Top-K}$):** Activations are strictly non-negative and sparse. In high dimensions, non-negative sparse representations exhibit near-disjoint supports ($\text{supp}(k_i) \cap \text{supp}(k_j) \approx \emptyset$), forcing off-diagonal inner products $k_i^T k_j \to 0$ by geometric construction.
-2. **Monosemantic Synaptic Connectivity:** Eliminates dense polysemantic superposition by isolating semantic circuits into distinct synaptic pathways.
-3. **Local Hebbian Plasticity:** Updates synaptic connection weights dynamically during context consumption according to local co-activation rules without requiring full backpropagation.
+1. **Sparse Positive Activations ($\text{ReLU} / \text{Top-K}$):** Activations are strictly non-negative and sparse. Under suitable sparse-support regimes, restricting active connections reduces overlapping interactions compared to dense linear superposition.
+2. **Monosemantic Synaptic Connectivity:** Isolates semantic circuits into localized synaptic pathways.
+3. **Local Synaptic Plasticity:** Updates synaptic connection weights dynamically during context consumption according to local co-activation rules.
 
-Furthermore, **BDH-CQ** builds upon this foundation by assimilating in-context demonstration pairs $(X \to Y)$ into recurrent synaptic states, performing multi-step reasoning in a continuous latent forward pass rather than generating autoregressive text tokens.
+Furthermore, **BDH-CQ** (Engdahl et al., 2026) provides broader research context by exploring how in-context demonstration pairs $(X \to Y)$ update recurrent synaptic states, allowing queries to be solved through iterative latent computation without requiring explicit verbal tokens. (Note: our interactive module is a single-layer teaching abstraction to illustrate sparse representation dynamics, not the full multi-layer BDH architecture).
 
 ---
 
