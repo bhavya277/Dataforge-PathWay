@@ -1,52 +1,66 @@
-# Comprehensive Judge Defense & Technical Review Q&A
+# Live Technical Defense: 20 Oral Examination Questions & Answers
+## DataForge × Pathway 2026 Submission
 
-This document prepares the engineering and research team for live technical defense before expert judges.
-
----
-
-## Section 1: Scientific Foundations & Central Claim
-
-### Q1: Why did you choose Associative Memory over the other approved topics?
-**Defense:** Associative memory in fast-weight recurrence represents the fundamental bottleneck of all linear-time Post-Transformer architectures (Linear Attention, RWKV, RetNet, Mamba, xLSTM, and BDH). While standard Softmax Attention evades this via unbounded $O(N^2)$ KV-caching, any fixed-size state system MUST perform outer-product compression ($S_t = S_{t-1} + v_t k_t^T$). This concept allows us to build an exact, uncompromised, zero-black-box computational substrate that can be calculated live in the browser, providing a verifiable 60-second "OH!" moment when key interference is manipulated.
-
-### Q2: What is your exact one-sentence claim, and why is it falsifiable?
-**Defense:** *"In a linear fast-weight associative memory, retrieving one stored value also receives contributions from other stored key-value pairs; increasing key similarity or memory load therefore increases interference under the stated retrieval setup."*
-It is falsifiable because a learner can directly manipulate key correlation $\rho$ and memory load $N$. If setting $\rho > 0$ did not increase off-diagonal Gram matrix terms and output L2 error, the claim would be mathematically and empirically refuted.
-
-### Q3: Why didn't you claim that "recall universally requires orthogonal keys" or that "error universally scales as $N/d$"?
-**Defense:** Because claiming universal theorems beyond the exact experimental setup is bad science. Orthogonality is a sufficient condition for zero linear cross-talk under exact dot-product reading, but non-linear readouts (such as Hopfield networks or sparse thresholding) can achieve retrieval with non-orthogonal keys. Furthermore, $N/d$ scaling is an empirical observation under isotropic Gaussian keys, not an analytical upper bound across arbitrary structured data distributions. We strictly state what our experiment measures.
+This document prepares the team for rapid, technically rigorous oral defense during judge evaluation. Every answer is designed to be spoken aloud in under 45 seconds while maintaining strict scientific precision.
 
 ---
 
-## Section 2: Mathematical Correctness & Substrate
+### 1. Why is this actually associative memory?
+**Answer:** An associative memory binds key vectors $k_i$ to value vectors $v_i$ into a state such that presenting key $q = k_j$ retrieves $y \approx v_j$. In our model, each association is bound via outer product $v_i k_i^T$ and stored into state matrix $S$. Presenting query $q$ computes matrix-vector product $S q = \sum v_i (k_i^T q)$, which directly implements associative recall.
 
-### Q4: What is live computation versus precomputed in your platform?
-**Defense:** 
-* **Live Computation:** The interactive 7-step learning journey, the custom sandbox, the $d \times d$ matrix updates, the Gram matrix evaluation, the query retrieval, and the signal/cross-talk vector decomposition are all executed LIVE in JavaScript/TypeScript on every slider move in under 5 milliseconds.
-* **Precomputed Benchmarks:** The large statistical sweeps (50 trials per step over 25 parameter configurations) are precomputed using our Python verification engine (`/experiments/generate_experiment_data.py`) and labeled clearly as `PRECOMPUTED BENCHMARK` to provide reference statistical distributions.
+### 2. Why does the recurrence resemble linear attention?
+**Answer:** In causal linear attention without softmax, attention is $\sum_{i=1}^t v_i (k_i^T q_t)$. By associativity of matrix multiplication, this equals $(\sum_{i=1}^t v_i k_i^T) q_t = S_t q_t$. Thus, evaluating linear attention token-by-token is algebraically identical to updating a recurrent fast-weight state $S_t = S_{t-1} + v_t k_t^T$, as proven by Schlag et al. (ICML 2021).
 
-### Q5: How do you prove that your recurrence matches linear attention?
-**Defense:** In `/experiments/verify_recurrence.py`, we assert the algebraic identity between sequential recurrence $S_t = S_{t-1} + v_t k_t^T$ and batch linear attention $Y = (V K^T) Q$. Across 125 randomized test configurations (varying $d \in [4, 64], N \in [2, 32], \rho \in [0, 0.9]$), the maximum floating-point discrepancy was $1.33 \times 10^{-15}$, well within standard float64 machine epsilon ($2.22 \times 10^{-16}$).
+### 3. Why does key overlap create cross-talk?
+**Answer:** Because matrix multiplication is linear. When we multiply $S_t q = \sum_{i=1}^t v_i (k_i^T q)$, the target term is $v_j (k_j^T q)$. Any other stored key $k_i$ ($i \ne j$) with non-zero projection $k_i^T q \ne 0$ adds a fractional contribution $v_i (k_i^T q)$ directly into the retrieved vector, contaminating the output.
 
-### Q6: Why did you choose a low-dimensional state ($d \in [4, 16]$) for the interactive explorer?
-**Defense:** In high dimensions (e.g., $d=4096$), a $4096 \times 4096$ matrix contains 16.7 million cells, which cannot be meaningfully perceived or rendered in a browser. By scaling to $d=8$, the learner can inspect every individual matrix cell and see the exact outer-product footprint $\Delta S = v k^T$. We use the dimensionless memory load ratio $N/d$ as a diagnostic to study state behavior under controlled key overlap.
+### 4. What exactly does $\rho$ control?
+**Answer:** $\rho \in [0, 1]$ is the synthetic key correlation parameter. It controls the variance of a common shared latent vector $u_0 \sim \mathcal{N}(0, I)$ mixed with independent vector $\xi_i \sim \mathcal{N}(0, I)$ via $k_i \propto \sqrt{\rho} u_0 + \sqrt{1 - \rho} \xi_i$. When $\rho = 0$, keys are independent; when $\rho > 0$, keys align toward the shared direction, inducing controlled non-zero inner products.
 
----
+### 5. How are the keys generated?
+**Answer:** When $\rho = 0$ and $N \le d$, we use Gram-Schmidt orthogonalization on Gaussian samples to generate an exact orthonormal basis. When $\rho > 0$, we sample from the shared-component Gaussian distribution and normalize each vector to unit $L_2$ norm ($k_i \leftarrow k_i / \|k_i\|_2$).
 
-## Section 3: BDH & BDH-CQ Integration
+### 6. Is $\rho$ exactly the pairwise cosine similarity?
+**Answer:** No. $\rho$ is the generative parameter controlling the expected inner product $\mathbb{E}[k_i^T k_j] = \rho$. In any finite sample of $N$ keys in $\mathbb{R}^d$, the observed pairwise cosine similarities fluctuate statistically. We explicitly display these observed statistics ($\mu, \sigma, \min, \max$) on the Gram matrix heatmap to maintain empirical honesty.
 
-### Q7: Does BDH eliminate all memory interference?
-**Defense:** No, and we explicitly do NOT make that claim. BDH replaces dense real-valued superposition with sparse positive activations ($\text{ReLU}/\text{Top-K}$) and local synaptic updates. Under suitable sparse-support regimes, restricting which connections participate can reduce overlap and suppress cross-talk in this simplified model. However, under high memory load, interference still occurs. Our interactive module is labeled as a single-layer teaching abstraction, not the full multi-layer BDH architecture.
+### 7. What happens when $N > d$?
+**Answer:** By standard linear algebra, the maximum number of mutually orthogonal non-zero vectors in $\mathbb{R}^d$ is $d$. When $N > d$, keys cannot be mutually orthogonal. Consequently, off-diagonal inner products $k_i^T k_j$ must be non-zero, guaranteeing that non-target cross-talk terms contaminate linear retrieval.
 
-### Q8: What does BDH-CQ add to the research context?
-**Defense:** BDH-CQ (Engdahl et al., 2026, arXiv:2608.09888) explores in-context learning with recurrent latent reasoning directly from demonstration trajectories without requiring explicit verbal token chains. We cite this as broader research context for recurrent synaptic memory, while explicitly distinguishing our single-layer teaching abstraction from the full architecture.
+### 8. Is $N/d$ a capacity theorem?
+**Answer:** No. $\text{Rank}(S) \le d$ is an algebraic theorem, but $N/d$ is an empirical diagnostic ratio, not a universal capacity theorem. Retrieval error does not jump discontinuously at $N=d$; rather, in our synthetic setup, higher $N/d$ increases the accumulation of non-target cross-talk.
 
----
+### 9. Why does the result depend on the synthetic distribution?
+**Answer:** Our experiments use isotropic Gaussian key vectors on the unit sphere. In real-world language models, token representations lie on low-dimensional non-linear manifolds with power-law frequency distributions. While the algebraic decomposition holds universally, the quantitative error curves reflect our specified synthetic distribution.
 
-## Section 4: Engineering, Provenance & Integrity
+### 10. What is actually live in your app?
+**Answer:** Everything in the primary 7-step journey is computed live in browser: the recurrence state update $S_t$, matrix heatmaps, query retrieval $y_t = S_t q$, Gram matrix $G$, target/cross-talk decompositions, and float64 residual checks. Slider adjustments re-evaluate the full linear algebra engine in under 15 milliseconds.
 
-### Q9: Did you use AI to build this project, and how is it disclosed?
-**Defense:** Yes, AI assistance was used for code scaffolding, documentation generation, and visual layout optimization. All AI assistance, libraries, primary research sources, and data generation pipelines are fully documented in `AI_DISCLOSURE.md`, `LICENSES.md`, and `README.md`. Every line of code, equation, and test assertion has been audited, verified, and defended by our team.
+### 11. What is precomputed?
+**Answer:** Only the large reference benchmark distributions (50 Monte Carlo trials per step across 25 parameter configurations) in `data/experiment_benchmarks.json` generated by `generate_experiment_data.py`. These provide stable reference baselines on the Stress Test tab.
 
-### Q10: Can your computational substrate be run locally and reproduced?
-**Defense:** Yes. Anyone can clone the repository, install standard dependencies (`numpy`), and run `python -m unittest discover -s experiments` to reproduce all tests and benchmarks deterministically.
+### 12. How is cross-talk verified?
+**Answer:** Analytically, by evaluating the individual terms $\lambda^{t-i} \eta v_i (k_i^T q_j)$ for all $i \ne j$. Numerically, our test suite asserts in Python and TypeScript that the vector sum of target signal and cross-talk equals the retrieved output vector with residual error $< 10^{-14}$.
+
+### 13. Why is the decomposition exact in linear mode?
+**Answer:** By the distributive property of matrix-vector multiplication over vector addition: $S q = (\sum v_i k_i^T) q = \sum (v_i k_i^T q) = \sum v_i (k_i^T q)$. Partitioning the sum into index $j$ and indices $i \ne j$ is an exact algebraic identity.
+
+### 14. Why isn't the decomposition exact after Top-K pruning?
+**Answer:** Top-K connection pruning is a non-linear operation: $\text{TopK}(S) \ne \sum \text{TopK}(v_i k_i^T)$. Pruning zeroes out low-magnitude entries of the accumulated matrix, breaking linearity. Therefore, retrieval reflects the pruned state matrix rather than an exact sum of unpruned outer products.
+
+### 15. What exactly is BDH in this project?
+**Answer:** The Dragon Hatchling (BDH; Kosowski et al., 2025) is a biologically-grounded architecture by Pathway featuring non-negative sparse activations and local synaptic plasticity. In our project, it serves as the research motivation for exploring how non-negative sparsity alters associative memory interference.
+
+### 16. What is the difference between BDH and your toy abstraction?
+**Answer:** BDH is a multi-layer neural architecture with locally interacting neuron particles, synaptic plasticity, and monosemantic routing. Our toy abstraction is a single-layer visual demonstration model applying $\text{ReLU}(v)\text{ReLU}(k)^T$ and Top-K connection gating on a small matrix to make the effect of sparse support restriction visually perceivable.
+
+### 17. What does BDH-CQ contribute conceptually?
+**Answer:** BDH-CQ (Engdahl et al., 2026) demonstrates that in-context demonstrations can update recurrent synaptic memory, allowing queries to be answered through continuous latent reasoning without generating explicit chain-of-thought tokens. We cite this as advanced research context for demonstration-conditioned fast weights.
+
+### 18. What limitation would you improve with more time?
+**Answer:** We would add learned query, key, and value projection matrices ($W_Q, W_K, W_V$) trained on real language datasets (such as WikiText-103) to study how learned representations actively orthogonalize keys compared to isotropic synthetic vectors.
+
+### 19. What is your strongest experimental result?
+**Answer:** The verified numerical proof that linear fast-weight recurrence exactly matches causal linear attention across 125 randomized configurations at float64 machine epsilon ($< 1.33 \times 10^{-15}$ discrepancy), paired with live algebraic cross-talk decomposition in browser.
+
+### 20. What claim can your experiment NOT establish?
+**Answer:** Our experiment cannot claim that non-transformer architectures face an insurmountable barrier or that BDH completely eliminates interference. Finite-dimensional capacity bounds apply to all fixed-size states; our substrate rigorously demonstrates the geometric mechanics of that tradeoff.

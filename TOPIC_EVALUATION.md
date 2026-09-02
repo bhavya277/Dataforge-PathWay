@@ -55,18 +55,23 @@ This document rigorously evaluates the approved main topics from Page 2 of the D
 | 21. Potential for 60-second "OH!" Moment | 5 | 4 | 4 | 4 |
 | 22. Reusable Educational Tooling Value | 5 | 4 | 4 | 4 |
 | **TOTAL SCORE (out of 110)** | **109** | **91** | **94** | **87** |
+| 11. Failure-Case Potential | 5 (High-load stress case) | 4 (Decay collapse) | 4 (Dead units) | 4 (Drift) |
+| 12. "60-Second OH!" Factor | 5 (Visible matrix contamination) | 4 (Gating curves) | 3 (Slow drift) | 3 (State charts) |
+| 13. Blog Topic Natural Fit | 5 (Blog Topic 2: Associative Memory) | 4 (Topic 3) | 3 (Topic 1) | 3 (Topic 4) |
+| **Total Score (out of 65)** | **63** | **53** | **45** | **47** |
 
 ---
 
-## 3. Detailed Analysis of the TOP 3 Candidates
+## 3. Winner Selection & Scientific Rationale
 
-### TOP 1: Associative Memory in Fast Weights & Linear Attention (Score: 109/110)
-* **Concept:** The duality between linear attention recurrent state updates ($S_t = S_{t-1} + v_t k_t^T$) and fast-weight associative matrix memory, demonstrating capacity bounds, token interference, and Hebbian updating.
-* **Why it wins:**
-  1. **Perfect Computational Substrate:** Can execute 100% mathematically faithful matrix updates in live browser memory at 60 FPS without approximations or black-box neural networks.
-  2. **Direct, Unbroken BDH Connection:** Dragon Hatchling (BDH) uses sparse Hebbian synaptic updates as its foundational memory mechanism. Showing how classical linear attention suffers from cross-talk/interference that BDH's sparse monosemantic plasticity resolves is the ultimate pedagogical narrative.
-  3. **Visually Stunning & Intuitive:** A 2D recurrent weight matrix heatmap ($d \times d$) mutating live token-by-token reveals exactly how memories overwrite each other when key vectors lose orthogonality.
-  4. **Sharp, Clean Falsifiable Claim:** Quantifiable storage capacity threshold $N \le d$ under orthogonal keys, collapsing to retrieval error as token similarity increases.
+**Selected Winner: Topic 2 — Associative Memory in Fast-Weight Architectures**
+
+### Strategic Justification
+* **Primary Reasons:**
+  1. **Direct BDH Connection:** Dragon Hatchling (BDH) explores biologically-grounded synaptic plasticity, non-negative sparse positive representations, and recurrent latent reasoning (BDH-CQ) to address the limits of continuous linear associative memory.
+  2. **Mathematical Elegance:** Outer-product matrix accumulation ($S_t = S_{t-1} + v_t k_t^T$) is algebraically exact and provably identical to linear attention.
+  3. **High Visual Impact:** A $d \times d$ recurrent weight matrix can be visualized live in 2D with inspectable Float64 weights.
+  4. **Sharp, Clean Falsifiable Claim:** Quantifiable storage behavior under orthogonal keys, demonstrating how non-orthogonal key overlap induces cross-talk."
 
 ### TOP 2: Sparse Positive Activations & Monosemantic Synapses in Post-Transformers (Score: 94/110)
 * **Concept:** How non-negative Top-K / ReLU activation constraints force polysemantic superposition collapse into isolated, monosemantic circuits.
