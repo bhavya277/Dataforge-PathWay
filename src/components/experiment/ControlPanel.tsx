@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PROTOCOL_PRESETS } from "@/lib/presets";
-import { RotateCcw, Play } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 interface ControlPanelProps {
   d: number;
@@ -36,58 +36,55 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   onReset,
 }) => {
   return (
-    <div className="border border-white/[0.08] bg-[#0B0D12] p-5 font-mono text-xs space-y-4">
-      {/* Header & Reset */}
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-        <span className="text-xs font-bold tracking-widest text-white uppercase">
-          EXPERIMENT PARAMETERS
-        </span>
-        <button
-          onClick={onReset}
-          className="flex items-center space-x-1.5 px-2.5 py-1 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 transition-colors text-[10px]"
-        >
-          <RotateCcw className="w-3 h-3" />
-          <span>RESET DEFAULTS</span>
-        </button>
-      </div>
-
-      {/* Scientific Protocol Presets */}
-      <div>
-        <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-2">
-          Curated Scientific Protocols:
+    <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-5 shadow-sm">
+      {/* Top Bar: Title & Preset Buttons */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[#E2E4E8]">
+        <div className="flex items-center space-x-3">
+          <span className="text-xs font-bold tracking-widest text-[#111318] uppercase">
+            EXPERIMENT CONTROLS
+          </span>
+          <span className="text-[11px] font-mono text-[#626873]">
+            Sₜ = λSₜ₋₁ + vₜkₜᵀ
+          </span>
         </div>
-        <div className="grid grid-cols-2 gap-1.5">
+
+        {/* Protocol Shortcuts */}
+        <div className="flex flex-wrap items-center gap-1.5">
           {PROTOCOL_PRESETS.map((p) => {
             const active = selectedProtocolId === p.id;
             return (
               <button
                 key={p.id}
                 onClick={() => onSelectProtocol(p.id)}
-                className={`text-left p-2 border transition-all ${
+                className={`px-2.5 py-1 text-xs font-medium transition-all ${
                   active
-                    ? "bg-cyan-500/15 border-cyan-500/50 text-cyan-300"
-                    : "bg-black/40 border-white/5 text-slate-300 hover:bg-white/5"
+                    ? "bg-[#111318] text-white"
+                    : "bg-[#F0F1ED] hover:bg-[#EAEBE5] text-[#111318]"
                 }`}
               >
-                <div className="font-bold text-[11px] text-white">{p.title}</div>
-                <div className="text-[9px] text-slate-400 truncate mt-0.5">{p.subtitle}</div>
+                {p.title}
               </button>
             );
           })}
+
+          <button
+            onClick={onReset}
+            className="p-1 text-[#626873] hover:text-[#111318] transition-colors ml-1"
+            title="Reset Defaults"
+            aria-label="Reset Defaults"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
 
-      {/* Parameter Controls */}
-      <div className="space-y-3.5 pt-1">
-        {/* Param 1: State Dimension d */}
-        <div className="space-y-1">
-          <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-300">
-              Dimension <strong className="text-white">d</strong>:
-            </span>
-            <span className="font-bold text-cyan-400 bg-black/60 px-2 py-0.5 border border-white/10">
-              d = {d}
-            </span>
+      {/* 4 Horizontal Laboratory Parameter Sliders */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 pt-4">
+        {/* Param 1: Dimension d */}
+        <div className="space-y-1.5">
+          <div className="flex justify-between items-baseline">
+            <span className="text-xs font-medium text-[#626873]">Dimension (d)</span>
+            <span className="text-xs font-mono font-bold text-[#111318]">d = {d}</span>
           </div>
           <input
             type="range"
@@ -99,17 +96,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             className="w-full"
             aria-label="State dimension d"
           />
-          <div className="text-[10px] text-slate-400">Embedding vector dimensionality (Matrix S ∈ ℝ^(d×d)).</div>
+          <div className="text-[10px] text-[#8A909A] font-mono">State S ∈ ℝ^({d}×{d})</div>
         </div>
 
-        {/* Param 2: Memory Load N */}
-        <div className="space-y-1">
-          <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-300">
-              Memory Load <strong className="text-white">N</strong>:
-            </span>
-            <span className="font-bold text-cyan-400 bg-black/60 px-2 py-0.5 border border-white/10">
-              N = {N} (N/d = {(N / d).toFixed(2)})
+        {/* Param 2: Stored Associations N */}
+        <div className="space-y-1.5">
+          <div className="flex justify-between items-baseline">
+            <span className="text-xs font-medium text-[#626873]">Associations (N)</span>
+            <span className="text-xs font-mono font-bold text-[#111318]">
+              N = {N} <span className="text-[#626873] font-normal">({(N / d).toFixed(2)}d)</span>
             </span>
           </div>
           <input
@@ -122,18 +117,14 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             className="w-full"
             aria-label="Number of stored associations N"
           />
-          <div className="text-[10px] text-slate-400">Total number of key-value associations stored in S.</div>
+          <div className="text-[10px] text-[#8A909A] font-mono">Load Ratio N/d = {(N / d).toFixed(2)}</div>
         </div>
 
-        {/* Param 3: Key Correlation rho */}
-        <div className="space-y-1">
-          <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-300">
-              Key Correlation <strong className="text-white">ρ</strong>:
-            </span>
-            <span className="font-bold text-amber-400 bg-black/60 px-2 py-0.5 border border-white/10">
-              ρ = {correlation.toFixed(2)}
-            </span>
+        {/* Param 3: Key Overlap rho */}
+        <div className="space-y-1.5">
+          <div className="flex justify-between items-baseline">
+            <span className="text-xs font-medium text-[#626873]">Correlation (ρ)</span>
+            <span className="text-xs font-mono font-bold text-[#D97706]">ρ = {correlation.toFixed(2)}</span>
           </div>
           <input
             type="range"
@@ -143,20 +134,16 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             value={correlation}
             onChange={(e) => setCorrelation(parseFloat(e.target.value))}
             className="w-full"
-            aria-label="Controlled correlation parameter rho"
+            aria-label="Key correlation parameter rho"
           />
-          <div className="text-[10px] text-slate-400">Controls shared directional component across synthetic keys.</div>
+          <div className="text-[10px] text-[#8A909A] font-mono">Shared directional component</div>
         </div>
 
-        {/* Param 4: Retention Factor lambda */}
-        <div className="space-y-1">
-          <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-300">
-              Retention Factor <strong className="text-white">λ</strong>:
-            </span>
-            <span className="font-bold text-slate-200 bg-black/60 px-2 py-0.5 border border-white/10">
-              λ = {decay.toFixed(2)}
-            </span>
+        {/* Param 4: Retention lambda */}
+        <div className="space-y-1.5">
+          <div className="flex justify-between items-baseline">
+            <span className="text-xs font-medium text-[#626873]">Retention (λ)</span>
+            <span className="text-xs font-mono font-bold text-[#111318]">λ = {decay.toFixed(2)}</span>
           </div>
           <input
             type="range"
@@ -168,27 +155,26 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             className="w-full"
             aria-label="Retention factor lambda"
           />
-          <div className="text-[10px] text-slate-400">Recurrent decay factor Sₜ = λ Sₜ₋₁ + vₜ kₜᵀ.</div>
+          <div className="text-[10px] text-[#8A909A] font-mono">Temporal discount factor</div>
         </div>
       </div>
 
-      {/* BDH Sparse Plasticity Toggle */}
-      <div className="pt-2 border-t border-white/[0.08]">
-        <label className="flex items-center justify-between p-3 bg-emerald-950/20 border border-emerald-500/30 cursor-pointer hover:bg-emerald-950/30 transition-colors">
-          <div>
-            <div className="text-xs font-bold text-emerald-300">
-              Sparse Positive Plasticity
-            </div>
-            <div className="text-[9px] text-emerald-400/80">
-              [BDH-INSPIRED TEACHING ABSTRACTION]
-            </div>
-          </div>
+      {/* Sparse Plasticity Abstraction Toggle */}
+      <div className="mt-4 pt-3 border-t border-[#E2E4E8] flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <span className="text-xs font-medium text-[#111318]">BDH Sparse Plasticity Model:</span>
+          <span className="text-[10px] font-mono text-[#626873]">[TEACHING ABSTRACTION]</span>
+        </div>
+        <label className="flex items-center space-x-2 cursor-pointer">
           <input
             type="checkbox"
             checked={useBDH}
             onChange={(e) => setUseBDH(e.target.checked)}
-            className="w-4 h-4 rounded text-emerald-500 bg-slate-900 border-white/20 cursor-pointer"
+            className="w-3.5 h-3.5 text-[#111318] rounded accent-[#111318] cursor-pointer"
           />
+          <span className="text-xs font-medium text-[#111318]">
+            {useBDH ? "Activated (ReLU / Top-K)" : "Standard Linear Memory"}
+          </span>
         </label>
       </div>
     </div>

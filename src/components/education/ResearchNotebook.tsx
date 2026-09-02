@@ -1,126 +1,141 @@
 "use client";
 
 import React from "react";
-import { BookOpen, ExternalLink, ShieldAlert } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 export const ResearchNotebook: React.FC = () => {
   return (
-    <div className="border border-white/[0.08] bg-[#0B0D12] p-8 font-mono text-xs text-slate-300 space-y-8">
-      {/* Title Header */}
-      <div className="border-b border-white/[0.08] pb-6 space-y-2">
-        <div className="flex items-center space-x-2 text-cyan-400 text-xs font-bold uppercase tracking-widest">
-          <BookOpen className="w-4 h-4" />
-          <span>RESEARCH TECHNICAL NOTEBOOK • INTERACTIVE SPECIFICATION</span>
-        </div>
-        <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+    <article className="py-8 space-y-12 max-w-4xl mx-auto">
+      {/* Article Title Header */}
+      <header className="border-b border-[#D9DCE1] pb-8 space-y-3">
+        <span className="text-xs font-mono font-bold tracking-widest text-[#626873] uppercase">
+          07 / RESEARCH NOTES • TECHNICAL SPECIFICATION
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#111318]">
           Associative Memory &amp; Linear Recurrent State Updates in Fast-Weight Architectures
         </h1>
-        <p className="text-slate-400 text-xs">
+        <p className="text-sm text-[#626873]">
           DataForge × Pathway 2026 Hackathon • Primary Mathematical and Experimental Substrate
         </p>
-      </div>
+      </header>
 
       {/* 01. Research Question */}
-      <section className="space-y-3">
-        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
-          01. THE CENTRAL SCIENTIFIC QUESTION &amp; CLAIM
-        </h2>
-        <div className="p-4 bg-black/50 border-l-2 border-cyan-400 text-slate-200 text-xs sm:text-sm leading-relaxed">
-          <strong className="text-white block mb-1 uppercase font-bold text-xs">Falsifiable Claim:</strong>
+      <section className="space-y-4">
+        <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
+          <span className="text-lg font-mono font-bold text-[#626873]">01</span>
+          <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
+            THE CENTRAL SCIENTIFIC QUESTION &amp; CLAIM
+          </h2>
+        </div>
+        <div className="p-5 bg-[#FFFFFF] border-l-4 border-[#111318] shadow-sm text-sm sm:text-base text-[#111318] leading-relaxed italic">
           &ldquo;In a linear fast-weight associative memory, retrieving one stored value also receives contributions from other stored key-value pairs; increasing key similarity or memory load therefore increases interference under the stated retrieval setup.&rdquo;
         </div>
       </section>
 
-      {/* 02. Method & Substrate */}
-      <section className="space-y-3">
-        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
-          02. METHODOLOGY &amp; COMPUTATIONAL SUBSTRATE
-        </h2>
-        <p className="leading-relaxed">
+      {/* 02. Method & Computational Substrate */}
+      <section className="space-y-4">
+        <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
+          <span className="text-lg font-mono font-bold text-[#626873]">02</span>
+          <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
+            METHODOLOGY &amp; COMPUTATIONAL SUBSTRATE
+          </h2>
+        </div>
+        <p className="text-sm text-[#626873] leading-relaxed">
           The memory is modeled as a recurrent matrix Sₜ ∈ ℝ^(d×d) storing N key-value associations (k_i, v_i) ∈ ℝ^d.
           Keys are generated via isotropic Gaussian distributions with a controlled shared-component parameter ρ:
         </p>
-        <div className="p-3 bg-black/60 border border-white/10 text-center font-bold text-white text-xs sm:text-sm">
+        <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
           {"k_i = \\text{normalize}\\left(\\sqrt{1 - \\rho} \\cdot u_i + \\sqrt{\\rho} \\cdot u_0\\right), \\quad u_0, u_i \\sim \\mathcal{N}(0, I_d)"}
         </div>
       </section>
 
-      {/* 03. Mathematical Model & Exact Decay */}
+      {/* 03. Mathematical Model & Exact Recurrence Decomposition */}
       <section className="space-y-4">
-        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
-          03. MATHEMATICAL MODEL &amp; EXACT RECURRENCE DECOMPOSITION
-        </h2>
-        
-        <div className="space-y-3">
+        <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
+          <span className="text-lg font-mono font-bold text-[#626873]">03</span>
+          <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
+            MATHEMATICAL MODEL &amp; EXACT RECURRENCE DECOMPOSITION
+          </h2>
+        </div>
+
+        <div className="space-y-4 text-sm text-[#626873]">
           <div>
-            <span className="text-slate-400 text-[11px] block mb-1">Recurrent State Accumulation:</span>
-            <div className="p-3 bg-black/60 border border-white/10 text-center font-bold text-sm text-white">
+            <span className="font-medium text-[#111318] block mb-1">1. Recurrent State Update:</span>
+            <div className="p-3 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
               {"S_t = \\lambda S_{t-1} + v_t k_t^T = \\sum_{i=1}^t \\lambda^{t-i} v_i k_i^T"}
             </div>
           </div>
 
           <div>
-            <span className="text-slate-400 text-[11px] block mb-1">Query Readout for probe q_j = k_j:</span>
-            <div className="p-3 bg-black/60 border border-white/10 text-center font-bold text-sm text-white">
+            <span className="font-medium text-[#111318] block mb-1">2. Query Readout for probe q_j = k_j:</span>
+            <div className="p-3 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
               {"y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)"}
             </div>
           </div>
 
           <div>
-            <span className="text-slate-400 text-[11px] block mb-1">Exact Causal Algebraic Decomposition:</span>
-            <div className="p-4 bg-black/80 border border-cyan-500/30 text-center font-bold text-sm text-white space-y-2">
+            <span className="font-medium text-[#111318] block mb-1">3. Exact Causal Algebraic Decomposition:</span>
+            <div className="p-4 bg-[#FFFFFF] border border-[#0284C7]/40 text-center font-mono font-bold text-sm text-[#111318] shadow-sm space-y-2">
               <div>
                 {"y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal Component}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}"}
               </div>
-              <div className="text-[10px] text-slate-400 font-normal">
-                When &lambda; = 1.0, temporal decay disappears and recurrence reduces to cumulative outer-product memory.
-              </div>
+              <p className="text-xs font-normal text-[#626873]">
+                When λ = 1.0, temporal decay is absent and recurrence reduces to un-normalized sum of outer products.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 04. Linear Attention Equivalence Dual */}
-      <section className="space-y-3">
-        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
-          04. LINEAR RECURRENCE ↔ LINEAR ATTENTION EQUIVALENCE DUAL
-        </h2>
-        <p className="leading-relaxed">
+      {/* 04. Linear Attention Recurrence Dual */}
+      <section className="space-y-4">
+        <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
+          <span className="text-lg font-mono font-bold text-[#626873]">04</span>
+          <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
+            LINEAR RECURRENCE ↔ LINEAR ATTENTION EQUIVALENCE DUAL
+          </h2>
+        </div>
+        <p className="text-sm text-[#626873] leading-relaxed">
           Schlag, Irie, &amp; Schmidhuber (2021) demonstrated that causal linear transformers with feature map &phi;(x) compute:
         </p>
-        <div className="p-3 bg-black/60 border border-white/10 text-center font-bold text-sm text-white">
+        <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
           {"y_t = (V_{1:t} K_{1:t}^T) q_t = \\left( \\sum_{i=1}^t v_i k_i^T \\right) q_t = S_t q_t"}
         </div>
-        <p className="text-[11px] text-slate-400">
+        <p className="text-xs text-[#626873]">
           This proves that linear transformers operate via fast-weight associative recurrence, executing sequential token inference in O(1) memory per step. Our test suite numerically verifies this identity across 125 randomized parameter configurations at float64 error &lt; 10^-14.
         </p>
       </section>
 
-      {/* 05. Limitations & Scope Bounds */}
-      <section className="space-y-3">
-        <h2 className="text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-white/5 pb-1 flex items-center space-x-1.5">
-          <ShieldAlert className="w-3.5 h-3.5" />
-          <span>05. SCIENTIFIC LIMITATIONS &amp; SCOPE BOUNDS</span>
-        </h2>
-        <div className="p-4 bg-amber-950/20 border border-amber-500/30 space-y-2 text-[11px] text-slate-300">
+      {/* 05. Scientific Limitations */}
+      <section className="space-y-4">
+        <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
+          <span className="text-lg font-mono font-bold text-[#626873]">05</span>
+          <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
+            SCIENTIFIC LIMITATIONS &amp; HONEST BOUNDS
+          </h2>
+        </div>
+        <div className="p-5 bg-[#FFFFFF] border border-[#D9DCE1] shadow-sm space-y-2 text-xs text-[#626873] leading-relaxed">
           <div>
-            <strong className="text-amber-300">• Dimensionless Load Ratio N/d:</strong> Error scaling with N/d is an empirical observation on the specified isotropic Gaussian key distribution, not a universal theorem for arbitrary manifolds.
+            <strong className="text-[#111318]">• Dimensionless Load Ratio N/d:</strong> Error scaling with N/d is an empirical observation on the specified isotropic Gaussian key distribution, not a universal theorem for arbitrary manifolds.
           </div>
           <div>
-            <strong className="text-amber-300">• BDH-Inspired Abstraction:</strong> Our interactive ReLU/Top-K matrix is a simplified single-layer teaching model. It is NOT the complete multi-layer Dragon Hatchling architecture.
+            <strong className="text-[#111318]">• BDH-Inspired Abstraction:</strong> Our interactive ReLU/Top-K matrix is a simplified single-layer teaching model. It is NOT the complete multi-layer Dragon Hatchling architecture.
           </div>
           <div>
-            <strong className="text-amber-300">• Finite Numerical Verification:</strong> Floating-point test suites numerically verify the implemented algebraic formulation, which serves as computational validation rather than a deductive mathematical proof.
+            <strong className="text-[#111318]">• Finite Numerical Verification:</strong> Floating-point test suites numerically verify the implemented algebraic formulation, which serves as computational validation rather than a deductive mathematical proof.
           </div>
         </div>
       </section>
 
       {/* 06. Primary Verified Literature */}
-      <section className="space-y-3">
-        <h2 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-1">
-          06. PRIMARY RESEARCH LITERATURE REFERENCES
-        </h2>
-        <div className="space-y-2">
+      <section className="space-y-4">
+        <div className="flex items-baseline space-x-3 border-b border-[#D9DCE1] pb-2">
+          <span className="text-lg font-mono font-bold text-[#626873]">06</span>
+          <h2 className="text-lg font-bold text-[#111318] uppercase tracking-wider">
+            PRIMARY RESEARCH LITERATURE REFERENCES
+          </h2>
+        </div>
+        <div className="space-y-3">
           {[
             {
               authors: "Kosowski, A., Uznański, P., Chorowski, J., Stamirowska, Z., & Bartoszkiewicz, M. (2025)",
@@ -167,18 +182,18 @@ export const ResearchNotebook: React.FC = () => {
           ].map((ref, i) => (
             <div
               key={i}
-              className="p-3 bg-black/40 border border-white/10 flex items-center justify-between hover:bg-white/5 transition-colors"
+              className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] shadow-sm flex items-center justify-between"
             >
-              <div>
-                <span className="text-white font-bold">{ref.authors}. </span>
-                <span className="text-slate-300 italic">&ldquo;{ref.title}&rdquo;. </span>
-                <span className="text-slate-400">{ref.venue}.</span>
+              <div className="text-xs">
+                <strong className="text-[#111318]">{ref.authors}. </strong>
+                <span className="italic text-[#626873]">&ldquo;{ref.title}&rdquo;. </span>
+                <span className="font-mono text-[#8A909A]">{ref.venue}.</span>
               </div>
               <a
                 href={ref.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-1 text-cyan-400 hover:text-cyan-300 text-[10px] ml-3 flex-shrink-0"
+                className="flex items-center space-x-1 text-[#0284C7] hover:underline text-xs font-mono ml-4 flex-shrink-0"
               >
                 <span>{ref.id}</span>
                 <ExternalLink className="w-3 h-3" />
@@ -187,6 +202,6 @@ export const ResearchNotebook: React.FC = () => {
           ))}
         </div>
       </section>
-    </div>
+    </article>
   );
 };

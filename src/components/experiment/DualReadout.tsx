@@ -6,9 +6,18 @@ import { RetrievalBreakdown } from "@/lib/types";
 interface DualReadoutProps {
   retrieval: RetrievalBreakdown;
   dim: number;
+  availableKeys?: number;
+  selectedQueryIdx?: number;
+  onSelectQueryIdx?: (idx: number) => void;
 }
 
-export const DualReadout: React.FC<DualReadoutProps> = ({ retrieval, dim }) => {
+export const DualReadout: React.FC<DualReadoutProps> = ({
+  retrieval,
+  dim,
+  availableKeys = 4,
+  selectedQueryIdx = 0,
+  onSelectQueryIdx,
+}) => {
   const {
     queryLabel,
     groundTruthValue,
@@ -40,94 +49,63 @@ export const DualReadout: React.FC<DualReadoutProps> = ({ retrieval, dim }) => {
   const crosstalkPercent = Number(((crosstalkMagnitude / totalEnergy) * 100).toFixed(2));
 
   return (
-    <div className="border border-white/[0.08] bg-[#0B0D12] p-5 font-mono text-xs space-y-4">
-      {/* Header & Probe Indicator */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-white/[0.08] pb-3 gap-2">
-        <div>
-          <span className="text-xs font-bold tracking-widest text-white uppercase">
-            QUERY RETRIEVAL &amp; CAUSAL DECOMPOSITION
-          </span>
-          <div className="text-[11px] text-slate-400 mt-0.5">
-            Query probe: <strong className="text-cyan-400">{queryLabel}</strong> (q = k_{queryLabel.slice(-1)})
-          </div>
-        </div>
-
-        {/* Quantitative Metrics */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <div className="bg-black/60 px-3 py-1 border border-white/10 text-right">
-            <span className="text-[10px] text-slate-400 block uppercase">Cosine Error (1-cos)</span>
-            <span
-              className={`font-bold ${
-                cosineError < 0.05
-                  ? "text-emerald-400"
-                  : cosineError < 0.25
-                  ? "text-amber-400"
-                  : "text-rose-400"
-              }`}
-            >
-              {cosineError.toFixed(4)}
+    <div className="space-y-12 py-6">
+      {/* ============================================================ */}
+      {/* SECTION 02: ASK THE MEMORY */}
+      {/* ============================================================ */}
+      <section className="space-y-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#D9DCE1] pb-4">
+          <div>
+            <span className="text-xs font-mono font-bold tracking-widest text-[#626873] uppercase">
+              02 / ASK THE MEMORY
             </span>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111318] mt-1">
+              QUERY &amp; ASSOCIATIVE RETRIEVAL
+            </h2>
+            <p className="text-sm text-[#626873] mt-1">
+              Multiply recurrent matrix state by query vector q = k_j to extract the associated memory in O(1) time.
+            </p>
           </div>
 
-          <div className="bg-black/60 px-3 py-1 border border-white/10 text-right">
-            <span className="text-[10px] text-slate-400 block uppercase">Raw L2 Error (||ŷ - v||)</span>
-            <span className="font-bold text-cyan-300">{rawL2Error.toFixed(4)}</span>
-          </div>
-
-          <div className="bg-black/60 px-3 py-1 border border-white/10 text-right">
-            <span className="text-[10px] text-slate-400 block uppercase">ISR (Interference/Signal)</span>
-            <span
-              className={`font-bold ${
-                interferenceToSignalRatio < 0.1
-                  ? "text-emerald-400"
-                  : interferenceToSignalRatio < 0.8
-                  ? "text-amber-400"
-                  : "text-rose-400"
-              }`}
-            >
-              {interferenceToSignalRatio.toFixed(3)}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Primary Visual Comparison: Signal vs Interference Energy Ratio */}
-      <div className="bg-black/50 p-3 border border-white/10 space-y-2">
-        <div className="flex justify-between text-[11px] text-slate-300">
-          <span>
-            <strong className="text-cyan-400">TARGET SIGNAL:</strong> {signalMagnitude.toFixed(3)} ({signalPercent}%)
-          </span>
-          <span>
-            <strong className="text-amber-400">CROSS-TALK:</strong> {crosstalkMagnitude.toFixed(3)} ({crosstalkPercent}%)
-          </span>
-        </div>
-        <div className="w-full bg-[#161a22] h-4 flex border border-white/10 overflow-hidden">
-          <div
-            className="bg-cyan-400 h-full transition-all duration-300"
-            style={{ width: `${signalPercent}%` }}
-          />
-          <div
-            className="bg-amber-400 h-full transition-all duration-300"
-            style={{ width: `${crosstalkPercent}%` }}
-          />
-        </div>
-        <div className="flex justify-between text-[10px] text-slate-400">
-          <span>Target Component: λ^(t-j) v_j (k_jᵀ q)</span>
-          <span>Cross-Talk Contamination: ∑_{`i ≠ j`} λ^(t-i) v_i (k_iᵀ q)</span>
-        </div>
-      </div>
-
-      {/* Vector Component Inspection (Target vs Retrieved) */}
-      <div className="space-y-3 pt-1">
-        {/* Row 1: Target Vector vs Retrieved Output */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-black/40 p-3 border border-cyan-500/30">
-            <div className="flex justify-between text-[11px] mb-2">
-              <span className="text-cyan-400 font-bold">Target Vector v_target (||v|| = 1.0)</span>
-              <span className="text-slate-400">d = {dim}</span>
+          {/* Query Selector Buttons */}
+          {onSelectQueryIdx && (
+            <div className="flex flex-wrap items-center gap-1.5 bg-[#FFFFFF] p-1.5 border border-[#D9DCE1] shadow-sm">
+              <span className="text-[11px] font-mono font-bold text-[#626873] px-2 uppercase">
+                Probe q:
+              </span>
+              {Array.from({ length: availableKeys }).map((_, idx) => {
+                const active = selectedQueryIdx === idx;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => onSelectQueryIdx(idx)}
+                    className={`px-3 py-1 text-xs font-mono font-semibold transition-all ${
+                      active
+                        ? "bg-[#111318] text-white"
+                        : "bg-[#F0F1ED] hover:bg-[#EAEBE5] text-[#111318]"
+                    }`}
+                  >
+                    k_{idx + 1}
+                  </button>
+                );
+              })}
             </div>
+          )}
+        </div>
+
+        {/* Side-by-Side Target Vector vs Retrieved Output */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+          {/* Target Value Vector */}
+          <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-5 shadow-sm space-y-3">
+            <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-2">
+              <span className="text-xs font-bold text-[#0284C7] uppercase tracking-wider">
+                TARGET VECTOR v_{selectedQueryIdx + 1} (GROUND TRUTH)
+              </span>
+              <span className="text-[11px] font-mono text-[#8A909A]">||v|| = 1.00</span>
+            </div>
+
             <div
-              className="grid gap-1.5"
+              className="grid gap-2 pt-2"
               style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
             >
               {groundTruthValue.slice(0, dim).map((val, idx) => {
@@ -135,13 +113,13 @@ export const DualReadout: React.FC<DualReadoutProps> = ({ retrieval, dim }) => {
                 const displayVal = Math.abs(val) < 0.01 ? 0 : val;
                 return (
                   <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#161a22] h-10 flex items-end justify-center overflow-hidden border border-white/5">
+                    <div className="w-full bg-[#F0F1ED] h-16 flex items-end justify-center border border-[#E2E4E8]">
                       <div
-                        className="w-full bg-cyan-400"
+                        className="w-full bg-[#0284C7]"
                         style={{ height: `${heightPct}%` }}
                       />
                     </div>
-                    <span className="text-[8px] text-slate-400 mt-1">
+                    <span className="text-[9px] font-mono text-[#626873] mt-1 font-semibold">
                       {displayVal === 0 ? "0" : displayVal.toFixed(1)}
                     </span>
                   </div>
@@ -150,13 +128,17 @@ export const DualReadout: React.FC<DualReadoutProps> = ({ retrieval, dim }) => {
             </div>
           </div>
 
-          <div className="bg-black/40 p-3 border border-white/15">
-            <div className="flex justify-between text-[11px] mb-2">
-              <span className="text-white font-bold">Retrieved Output ŷ = S q</span>
-              <span className="text-slate-400">Signal + Cross-Talk</span>
+          {/* Retrieved Output Vector */}
+          <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-5 shadow-sm space-y-3">
+            <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-2">
+              <span className="text-xs font-bold text-[#111318] uppercase tracking-wider">
+                RETRIEVED OUTPUT ŷ = S q
+              </span>
+              <span className="text-[11px] font-mono text-[#8A909A]">Signal + Cross-Talk</span>
             </div>
+
             <div
-              className="grid gap-1.5"
+              className="grid gap-2 pt-2"
               style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
             >
               {retrievedValue.slice(0, dim).map((val, idx) => {
@@ -164,13 +146,13 @@ export const DualReadout: React.FC<DualReadoutProps> = ({ retrieval, dim }) => {
                 const displayVal = Math.abs(val) < 0.01 ? 0 : val;
                 return (
                   <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#161a22] h-10 flex items-end justify-center overflow-hidden border border-white/5">
+                    <div className="w-full bg-[#F0F1ED] h-16 flex items-end justify-center border border-[#E2E4E8]">
                       <div
-                        className="w-full bg-slate-200"
+                        className="w-full bg-[#111318]"
                         style={{ height: `${heightPct}%` }}
                       />
                     </div>
-                    <span className="text-[8px] text-slate-400 mt-1">
+                    <span className="text-[9px] font-mono text-[#626873] mt-1 font-semibold">
                       {displayVal === 0 ? "0" : displayVal.toFixed(1)}
                     </span>
                   </div>
@@ -179,17 +161,119 @@ export const DualReadout: React.FC<DualReadoutProps> = ({ retrieval, dim }) => {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Explanatory Footnote */}
-      <div className="pt-2 border-t border-white/[0.08] text-[11px] text-slate-400 flex flex-col sm:flex-row justify-between gap-1">
-        <span>
-          <strong>Metric Note:</strong> Cosine error measures pure directional disagreement; Raw L2 error captures un-normalized energy growth in linear recurrence.
-        </span>
-        <span className="text-cyan-300 font-bold">
-          ŷ = Target Signal + Cross-Talk (Exact)
-        </span>
-      </div>
+        {/* Big Numbers Readout (Whitespace Driven, Not Cards) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-[#D9DCE1]">
+          <div>
+            <span className="text-xs font-mono text-[#626873] block uppercase tracking-wider">
+              COSINE ERROR (1 - cos)
+            </span>
+            <div
+              className={`text-3xl sm:text-4xl font-mono font-bold mt-1 ${
+                cosineError < 0.05
+                  ? "text-[#111318]"
+                  : cosineError < 0.25
+                  ? "text-[#D97706]"
+                  : "text-[#DC2626]"
+              }`}
+            >
+              {cosineError.toFixed(4)}
+            </div>
+            <p className="text-xs text-[#626873] mt-1">Pure directional distortion</p>
+          </div>
+
+          <div>
+            <span className="text-xs font-mono text-[#626873] block uppercase tracking-wider">
+              RAW L2 ERROR (||ŷ - v||)
+            </span>
+            <div className="text-3xl sm:text-4xl font-mono font-bold text-[#111318] mt-1">
+              {rawL2Error.toFixed(4)}
+            </div>
+            <p className="text-xs text-[#626873] mt-1">Euclidean distance in state</p>
+          </div>
+
+          <div>
+            <span className="text-xs font-mono text-[#626873] block uppercase tracking-wider">
+              INTERFERENCE RATIO (ISR)
+            </span>
+            <div
+              className={`text-3xl sm:text-4xl font-mono font-bold mt-1 ${
+                interferenceToSignalRatio < 0.1
+                  ? "text-[#111318]"
+                  : interferenceToSignalRatio < 0.8
+                  ? "text-[#D97706]"
+                  : "text-[#DC2626]"
+              }`}
+            >
+              {interferenceToSignalRatio.toFixed(3)}
+            </div>
+            <p className="text-xs text-[#626873] mt-1">Cross-talk energy / Target signal energy</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* SECTION 03: WHERE THE ERROR COMES FROM */}
+      {/* ============================================================ */}
+      <section className="space-y-6 pt-6 border-t border-[#D9DCE1]">
+        <div>
+          <span className="text-xs font-mono font-bold tracking-widest text-[#626873] uppercase">
+            03 / WHERE THE ERROR COMES FROM
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111318] mt-1">
+            TARGET SIGNAL VS. CROSS-TALK DECOMPOSITION
+          </h2>
+          <div className="text-sm sm:text-base font-mono font-bold text-[#111318] mt-2">
+            y_t = TARGET SIGNAL + CROSS-TALK
+          </div>
+        </div>
+
+        {/* Visual Energy Ratio Bar */}
+        <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-6 shadow-sm space-y-4">
+          <div className="flex justify-between items-baseline text-sm font-mono">
+            <span className="text-[#0284C7] font-bold">
+              TARGET SIGNAL: {signalMagnitude.toFixed(3)} ({signalPercent}%)
+            </span>
+            <span className="text-[#D97706] font-bold">
+              CROSS-TALK: {crosstalkMagnitude.toFixed(3)} ({crosstalkPercent}%)
+            </span>
+          </div>
+
+          <div className="w-full bg-[#F0F1ED] h-6 flex overflow-hidden border border-[#D9DCE1]">
+            <div
+              className="bg-[#0284C7] h-full transition-all duration-300"
+              style={{ width: `${signalPercent}%` }}
+            />
+            <div
+              className="bg-[#D97706] h-full transition-all duration-300"
+              style={{ width: `${crosstalkPercent}%` }}
+            />
+          </div>
+
+          {/* Mathematical Formulations Breakdown */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-3 border-t border-[#E2E4E8] text-xs font-mono">
+            <div className="space-y-1">
+              <span className="font-bold text-[#0284C7] block">TARGET CONTRIBUTION:</span>
+              <div className="p-2.5 bg-[#F7F7F4] border border-[#E2E4E8] text-[#111318] font-bold">
+                {"\\lambda^{t-j} v_j (k_j^T q_j)"}
+              </div>
+              <p className="text-[#626873] text-[11px] mt-1">
+                The true stored memory discounted by temporal decay factor λ^(t-j).
+              </p>
+            </div>
+
+            <div className="space-y-1">
+              <span className="font-bold text-[#D97706] block">CROSS-TALK INTERFERENCE:</span>
+              <div className="p-2.5 bg-[#F7F7F4] border border-[#E2E4E8] text-[#111318] font-bold">
+                {"\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)"}
+              </div>
+              <p className="text-[#626873] text-[11px] mt-1">
+                Additive contamination from all other stored associations with non-zero key projections.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from "react";
 import { generateSyntheticPairs, LiveAssociativeEngine } from "@/lib/math-engine";
-import { BarChart3, Info } from "lucide-react";
 
 type MetricType = "cosineError" | "l2Error" | "isr" | "observedCosine";
 
@@ -46,9 +45,9 @@ export const StressTestExplorer: React.FC = () => {
   }, [d, rho, lambdaDecay, useBDH]);
 
   // Compute SVG coordinates for real empirical chart
-  const chartWidth = 600;
-  const chartHeight = 200;
-  const padding = 40;
+  const chartWidth = 760;
+  const chartHeight = 240;
+  const padding = 50;
 
   const maxVal = useMemo(() => {
     const vals = sweepResults.map((r) => r[selectedMetric]);
@@ -69,35 +68,34 @@ export const StressTestExplorer: React.FC = () => {
   }, "");
 
   return (
-    <div className="border border-white/[0.08] bg-[#0B0D12] p-6 font-mono text-xs space-y-6">
-      {/* Header */}
-      <div className="border-b border-white/[0.08] pb-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+    <div className="py-6 space-y-8">
+      {/* Editorial Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#D9DCE1] pb-4">
         <div>
-          <div className="flex items-center space-x-2 text-cyan-400 font-bold uppercase tracking-wider text-xs">
-            <BarChart3 className="w-4 h-4" />
-            <span>03 — EMPIRICAL STRESS TEST &amp; CAPACITY CONSOLE</span>
-          </div>
-          <h1 className="text-base font-bold text-white mt-1">
-            Retrieval Degradation Under Memory Load &amp; Key Overlap
-          </h1>
-          <p className="text-[11px] text-slate-400 mt-0.5">
-            Systematic measurement across dimensionless load ratio γ = N / d.
+          <span className="text-xs font-mono font-bold tracking-widest text-[#626873] uppercase">
+            05 / STRESS TEST
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111318] mt-1">
+            EMPIRICAL CAPACITY &amp; LOAD INVESTIGATION
+          </h2>
+          <p className="text-sm text-[#626873] mt-1 max-w-2xl">
+            Change memory load and key overlap. Measure what happens across the dimensionless ratio γ = N / d.
           </p>
         </div>
 
-        <div className="text-[11px] bg-black/60 px-3 py-1.5 border border-white/10 text-slate-300">
-          Rank Bound: <strong className="text-white">Rank(S) ≤ {d}</strong>
+        <div className="text-xs font-mono bg-[#FFFFFF] px-3.5 py-1.5 border border-[#D9DCE1] shadow-sm">
+          Rank Bound: <strong className="text-[#111318]">Rank(S) ≤ {d}</strong>
         </div>
       </div>
 
-      {/* Experiment Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 bg-black/40 p-4 border border-white/10">
+      {/* Experiment Controls Bar */}
+      <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-5 shadow-sm grid grid-cols-1 sm:grid-cols-4 gap-5">
         <div>
-          <label className="text-[10px] text-slate-400 block mb-1">State Dimension d:</label>
+          <label className="text-xs font-medium text-[#626873] block mb-1">State Dimension d:</label>
           <select
             value={d}
             onChange={(e) => setD(parseInt(e.target.value))}
-            className="w-full bg-[#14171F] border border-white/15 px-2 py-1.5 text-white font-mono text-xs focus:outline-none"
+            className="w-full bg-[#F7F7F4] border border-[#D9DCE1] px-3 py-1.5 text-xs font-mono font-bold text-[#111318] focus:outline-none"
           >
             <option value={4}>d = 4 (Rank limit 4)</option>
             <option value={8}>d = 8 (Rank limit 8)</option>
@@ -107,8 +105,8 @@ export const StressTestExplorer: React.FC = () => {
         </div>
 
         <div>
-          <label className="text-[10px] text-slate-400 block mb-1">
-            Controlled Parameter ρ: <strong className="text-amber-400">{rho.toFixed(2)}</strong>
+          <label className="text-xs font-medium text-[#626873] block mb-1">
+            Key Correlation ρ: <strong className="text-[#D97706] font-mono">{rho.toFixed(2)}</strong>
           </label>
           <input
             type="range"
@@ -117,13 +115,13 @@ export const StressTestExplorer: React.FC = () => {
             step="0.1"
             value={rho}
             onChange={(e) => setRho(parseFloat(e.target.value))}
-            className="w-full mt-1"
+            className="w-full mt-1.5"
           />
         </div>
 
         <div>
-          <label className="text-[10px] text-slate-400 block mb-1">
-            Retention Factor λ: <strong className="text-slate-200">{lambdaDecay.toFixed(2)}</strong>
+          <label className="text-xs font-medium text-[#626873] block mb-1">
+            Retention Factor λ: <strong className="text-[#111318] font-mono">{lambdaDecay.toFixed(2)}</strong>
           </label>
           <input
             type="range"
@@ -132,41 +130,44 @@ export const StressTestExplorer: React.FC = () => {
             step="0.05"
             value={lambdaDecay}
             onChange={(e) => setLambdaDecay(parseFloat(e.target.value))}
-            className="w-full mt-1"
+            className="w-full mt-1.5"
           />
         </div>
 
         <div className="flex items-end">
-          <label className="flex items-center space-x-2 p-2 bg-white/5 border border-white/10 cursor-pointer w-full">
+          <label className="flex items-center space-x-2 p-2 bg-[#F7F7F4] border border-[#D9DCE1] cursor-pointer w-full">
             <input
               type="checkbox"
               checked={useBDH}
               onChange={(e) => setUseBDH(e.target.checked)}
-              className="w-3.5 h-3.5 rounded text-emerald-500 bg-slate-900 border-white/20"
+              className="w-3.5 h-3.5 rounded text-[#111318] accent-[#111318]"
             />
-            <span className="text-[11px] text-emerald-400 font-bold">Sparse Projection [ABSTRACTION]</span>
+            <span className="text-xs font-medium text-[#111318]">Sparse Plasticity [ABSTRACTION]</span>
           </label>
         </div>
       </div>
 
-      {/* Metric Selector & Real Empirical SVG Chart */}
-      <div className="border border-white/10 bg-black/60 p-4 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
-          <span className="text-xs font-bold text-white uppercase">Empirical Curve (Live In-Browser Computation):</span>
-          <div className="flex space-x-1">
+      {/* Large Clean SVG Empirical Chart */}
+      <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-6 shadow-sm space-y-4">
+        {/* Metric Switcher */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E4E8] pb-3">
+          <span className="text-xs font-bold text-[#111318] uppercase tracking-wider">
+            Empirical Curve (Live Client In-Browser Computation):
+          </span>
+          <div className="flex space-x-1.5">
             {[
-              { id: "cosineError", label: "COSINE ERROR (1-cos)" },
-              { id: "l2Error", label: "RAW L2 ERROR" },
+              { id: "cosineError", label: "COSINE ERROR" },
+              { id: "l2Error", label: "L2 ERROR" },
               { id: "isr", label: "ISR (CROSSTALK/SIGNAL)" },
-              { id: "observedCosine", label: "PAIRWISE KEY COSINE" },
+              { id: "observedCosine", label: "KEY OVERLAP" },
             ].map((m) => (
               <button
                 key={m.id}
                 onClick={() => setSelectedMetric(m.id as MetricType)}
-                className={`px-2 py-1 text-[10px] font-mono transition-all ${
+                className={`px-3 py-1 text-xs font-mono font-medium transition-all ${
                   selectedMetric === m.id
-                    ? "bg-cyan-500 text-slate-950 font-bold"
-                    : "bg-white/5 text-slate-400 hover:text-white"
+                    ? "bg-[#111318] text-white"
+                    : "bg-[#F0F1ED] text-[#626873] hover:text-[#111318]"
                 }`}
               >
                 {m.label}
@@ -175,142 +176,91 @@ export const StressTestExplorer: React.FC = () => {
           </div>
         </div>
 
-        {/* Real Empirical SVG Plot */}
+        {/* Real Empirical SVG Plot on Paper Background */}
         <div className="overflow-x-auto py-2 flex justify-center">
-          <svg width={chartWidth} height={chartHeight} className="border border-white/5 bg-[#090B10]">
+          <svg width={chartWidth} height={chartHeight} className="bg-[#F7F7F4] border border-[#E2E4E8]">
             {/* Grid & Axis Lines */}
             <line
               x1={padding}
               y1={chartHeight - padding}
               x2={chartWidth - padding}
               y2={chartHeight - padding}
-              stroke="rgba(255, 255, 255, 0.2)"
+              stroke="#D9DCE1"
+              strokeWidth="1.5"
             />
             <line
               x1={padding}
               y1={padding}
               x2={padding}
               y2={chartHeight - padding}
-              stroke="rgba(255, 255, 255, 0.2)"
+              stroke="#D9DCE1"
+              strokeWidth="1.5"
             />
 
-            {/* Capacity Threshold Vertical Indicator (N/d = 1.0) */}
+            {/* Capacity Threshold Vertical Line (N/d = 1.0) */}
             {1.0 >= minLoad && 1.0 <= maxLoad && (
               <line
-                x1={padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)}
+                x1={Number((padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)).toFixed(2))}
                 y1={padding}
-                x2={padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)}
+                x2={Number((padding + ((1.0 - minLoad) / (maxLoad - minLoad)) * (chartWidth - 2 * padding)).toFixed(2))}
                 y2={chartHeight - padding}
-                stroke="rgba(245, 158, 11, 0.4)"
+                stroke="#D97706"
+                strokeWidth="1.5"
                 strokeDasharray="4 4"
               />
             )}
 
-            {/* Empirical Line */}
-            <path d={pathD} fill="none" stroke="#00E5FF" strokeWidth="2" />
+            {/* Empirical Curve Line */}
+            <path d={pathD} fill="none" stroke="#0284C7" strokeWidth="2.5" />
 
-            {/* Data Points */}
+            {/* Empirical Data Points */}
             {points.map((pt, i) => (
-              <g key={i}>
-                <circle cx={pt.x} cy={pt.y} r="3.5" fill="#00E5FF" stroke="#08090C" strokeWidth="1" />
-              </g>
+              <circle
+                key={i}
+                cx={pt.x}
+                cy={pt.y}
+                r="4.5"
+                fill="#0284C7"
+                stroke="#FFFFFF"
+                strokeWidth="1.5"
+              />
             ))}
 
             {/* Axis Labels */}
             <text
               x={chartWidth / 2}
-              y={chartHeight - 10}
-              fill="#94A3B8"
-              fontSize="10"
+              y={chartHeight - 12}
+              fill="#626873"
+              fontSize="11"
               textAnchor="middle"
               fontFamily="monospace"
+              fontWeight="600"
             >
               Dimensionless Memory Load Ratio γ = N / d
             </text>
             <text
-              x={15}
+              x={16}
               y={chartHeight / 2}
-              fill="#94A3B8"
-              fontSize="10"
+              fill="#626873"
+              fontSize="11"
               textAnchor="middle"
-              transform={`rotate(-90 15 ${chartHeight / 2})`}
+              transform={`rotate(-90 16 ${chartHeight / 2})`}
               fontFamily="monospace"
+              fontWeight="600"
             >
               {selectedMetric}
             </text>
           </svg>
         </div>
-      </div>
 
-      {/* Structured Results Table */}
-      <div className="space-y-2">
-        <div className="text-xs font-bold text-white uppercase">Empirical Sweep Measurements:</div>
-        <div className="overflow-x-auto border border-white/10">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr className="border-b border-white/10 bg-black/60 text-[10px] text-slate-400 uppercase">
-                <th className="py-2.5 px-3">Associations (N)</th>
-                <th className="py-2.5 px-3">Load Ratio (N/d)</th>
-                <th className="py-2.5 px-3">Observed Key Cosine</th>
-                <th className="py-2.5 px-3">Cosine Error</th>
-                <th className="py-2.5 px-3">Raw L2 Error</th>
-                <th className="py-2.5 px-3">Interference/Signal</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5 bg-black/30">
-              {sweepResults.map((r) => {
-                const isOverCapacity = r.loadRatio > 1.0;
-                return (
-                  <tr
-                    key={r.N}
-                    className={`hover:bg-white/5 transition-colors ${
-                      isOverCapacity ? "bg-amber-500/5" : ""
-                    }`}
-                  >
-                    <td className="py-2 px-3 font-bold text-white">N = {r.N}</td>
-                    <td className="py-2 px-3">
-                      <span
-                        className={`px-1.5 py-0.5 border text-[10px] ${
-                          isOverCapacity
-                            ? "bg-amber-950/40 text-amber-300 border-amber-500/30"
-                            : "bg-cyan-950/40 text-cyan-300 border-cyan-500/30"
-                        }`}
-                      >
-                        {r.loadRatio.toFixed(2)} {isOverCapacity ? "(Over Rank)" : "(Within Rank)"}
-                      </span>
-                    </td>
-                    <td className="py-2 px-3 text-slate-300">
-                      {r.observedCosine.toFixed(3)} ± {r.observedStd.toFixed(3)}
-                    </td>
-                    <td className="py-2 px-3">
-                      <span
-                        className={`font-bold ${
-                          r.cosineError < 0.05
-                            ? "text-emerald-400"
-                            : r.cosineError < 0.25
-                            ? "text-amber-400"
-                            : "text-rose-400"
-                        }`}
-                      >
-                        {r.cosineError.toFixed(4)}
-                      </span>
-                    </td>
-                    <td className="py-2 px-3 text-slate-300">{r.l2Error.toFixed(3)}</td>
-                    <td className="py-2 px-3 text-slate-300">{r.isr.toFixed(2)}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Scientific Methodology Qualification */}
-      <div className="p-3.5 bg-black/60 border border-white/10 flex items-start space-x-3 text-[11px] text-slate-300 leading-relaxed">
-        <Info className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
-        <div>
-          <strong className="text-white block mb-0.5">Methodology &amp; Scientific Interpretation:</strong>
-          Dimensionless memory load N/d reflects state capacity constraints. In our synthetic experiments, retrieval degradation increases systematically with load ratio; these curves represent empirical observations of the specified isotropic Gaussian distribution, not a universal theorem.
+        {/* Observation Block */}
+        <div className="p-4 bg-[#F7F7F4] border border-[#D9DCE1] space-y-1 text-xs text-[#111318]">
+          <strong className="text-xs font-bold uppercase tracking-wider block">
+            SCIENTIFIC OBSERVATION:
+          </strong>
+          <p className="text-xs text-[#626873] leading-relaxed">
+            In our synthetic experiments, retrieval degradation increases monotonically with memory load ratio γ = N / d and key overlap ρ. These curves reflect empirical observations under isotropic Gaussian distributions, illustrating finite-dimensional subspace saturation rather than an arbitrary threshold.
+          </p>
         </div>
       </div>
     </div>

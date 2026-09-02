@@ -104,14 +104,16 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
   };
 
   return (
-    <div className="border border-white/[0.08] bg-[#0B0D12] p-6 font-mono text-xs space-y-6">
+    <div className="py-6 space-y-6">
       {/* Step Navigation Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-white/[0.08] pb-4 gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-[#D9DCE1] pb-4 gap-3">
         <div className="flex items-center space-x-3">
-          <span className="text-xs font-bold px-2 py-0.5 bg-cyan-500/15 border border-cyan-500/40 text-cyan-300">
+          <span className="text-xs font-mono font-bold px-2 py-0.5 bg-[#111318] text-white">
             STEP {current.num} / 06
           </span>
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider">{current.title}</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-[#111318] uppercase tracking-wider">
+            {current.title}
+          </h2>
         </div>
 
         {/* Step Buttons */}
@@ -119,7 +121,7 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
           <button
             onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
             disabled={currentStep === 1}
-            className="p-1.5 bg-white/5 border border-white/10 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1.5 bg-[#FFFFFF] border border-[#D9DCE1] text-[#626873] hover:text-[#111318] disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
             aria-label="Previous step"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -130,10 +132,10 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
               <button
                 key={ch.step}
                 onClick={() => setCurrentStep(ch.step)}
-                className={`w-3 h-3 text-[9px] font-bold flex items-center justify-center transition-all ${
+                className={`w-6 h-6 text-xs font-mono font-bold flex items-center justify-center transition-all ${
                   ch.step === currentStep
-                    ? "bg-cyan-400 text-slate-950 font-bold"
-                    : "bg-white/10 text-slate-400 hover:bg-white/20"
+                    ? "bg-[#111318] text-white"
+                    : "bg-[#FFFFFF] border border-[#D9DCE1] text-[#626873] hover:bg-[#F0F1ED]"
                 }`}
                 aria-label={`Go to step ${ch.step}`}
               >
@@ -145,7 +147,7 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
           <button
             onClick={() => setCurrentStep(Math.min(6, currentStep + 1))}
             disabled={currentStep === 6}
-            className="p-1.5 bg-white/5 border border-white/10 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1.5 bg-[#FFFFFF] border border-[#D9DCE1] text-[#626873] hover:text-[#111318] disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
             aria-label="Next step"
           >
             <ArrowRight className="w-4 h-4" />
@@ -153,42 +155,42 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
         </div>
       </div>
 
-      {/* Question, Formula, and Live Action Box */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 space-y-3">
-          <div className="text-xs sm:text-sm text-cyan-300 font-bold">
+      {/* Question, Formula, and Live Action */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+        <div className="md:col-span-2 space-y-4">
+          <div className="text-base font-bold text-[#111318]">
             Scientific Question: &ldquo;{current.question}&rdquo;
           </div>
 
-          <div className="p-3 bg-black/60 border border-white/10 text-center text-xs sm:text-sm font-bold text-white overflow-x-auto">
+          <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm overflow-x-auto">
             {current.formula}
           </div>
 
-          <p className="text-slate-300 text-xs leading-relaxed">{current.explanation}</p>
+          <p className="text-sm text-[#626873] leading-relaxed">{current.explanation}</p>
 
-          <div className="text-[11px] text-amber-300 bg-amber-950/20 p-3 border border-amber-500/30">
+          <div className="p-3 bg-[#F0F1ED] border border-[#D9DCE1] text-xs text-[#111318]">
             <strong>Key Observation:</strong> {current.takeaway}
           </div>
         </div>
 
         {/* Live Parameter Injection Action */}
-        <div className="bg-black/60 p-4 border border-white/10 flex flex-col justify-between space-y-4">
+        <div className="bg-[#FFFFFF] p-5 border border-[#D9DCE1] shadow-sm flex flex-col justify-between space-y-4">
           <div>
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-2">
-              Inject Step Protocol
+            <span className="text-xs font-mono font-bold text-[#626873] uppercase tracking-widest block mb-2">
+              STEP PARAMETERS
             </span>
-            <div className="space-y-1.5 text-xs text-slate-300">
-              <div>Dimension d: <strong className="text-white">{current.config.d}</strong></div>
-              <div>Associations N: <strong className="text-white">{current.config.N}</strong></div>
-              <div>Correlation ρ: <strong className="text-amber-400">{current.config.correlation.toFixed(2)}</strong></div>
-              <div>Decay λ: <strong className="text-slate-200">{current.config.decay.toFixed(2)}</strong></div>
-              <div>Plasticity: <strong className={current.config.useBDH ? "text-emerald-400" : "text-slate-400"}>{current.config.useBDH ? "Sparse Positive" : "Standard Linear"}</strong></div>
+            <div className="space-y-1.5 text-xs font-mono text-[#111318]">
+              <div>Dimension: <strong>d = {current.config.d}</strong></div>
+              <div>Associations: <strong>N = {current.config.N}</strong></div>
+              <div>Correlation: <strong className="text-[#D97706]">ρ = {current.config.correlation.toFixed(2)}</strong></div>
+              <div>Retention: <strong>λ = {current.config.decay.toFixed(2)}</strong></div>
+              <div>Model: <strong>{current.config.useBDH ? "Sparse Positive" : "Standard Linear"}</strong></div>
             </div>
           </div>
 
           <button
             onClick={handleApply}
-            className="w-full flex items-center justify-center space-x-2 py-2.5 px-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-colors"
+            className="w-full flex items-center justify-center space-x-2 py-2.5 px-3 bg-[#111318] hover:bg-black text-white font-bold text-xs transition-colors shadow-sm"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
             <span>Apply This Protocol</span>

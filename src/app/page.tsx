@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Header } from "@/components/ui/Header";
 import { MemoryMatrixHeatmap } from "@/components/visualization/MemoryMatrixHeatmap";
 import { GramMatrixHeatmap } from "@/components/visualization/GramMatrixHeatmap";
-import { KeyGeometryPlot } from "@/components/visualization/KeyGeometryPlot";
 import { DualReadout } from "@/components/experiment/DualReadout";
 import { ControlPanel } from "@/components/experiment/ControlPanel";
-import { InteractiveEquation } from "@/components/equations/InteractiveEquation";
 import { GuidedChapterFlow } from "@/components/education/GuidedChapterFlow";
 import { StressTestExplorer } from "@/components/experiment/StressTestExplorer";
 import { BDHComparisonExplorer } from "@/components/bdh/BDHComparisonExplorer";
@@ -15,7 +13,7 @@ import { ResearchNotebook } from "@/components/education/ResearchNotebook";
 import { PROTOCOL_PRESETS } from "@/lib/presets";
 import { generateSyntheticPairs, LiveAssociativeEngine } from "@/lib/math-engine";
 import { ActiveMode } from "@/lib/types";
-import { Play, RotateCcw } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 
 export default function HomePage() {
   const [activeMode, setActiveMode] = useState<ActiveMode>("lab");
@@ -30,7 +28,7 @@ export default function HomePage() {
   const [selectedProtocolId, setSelectedProtocolId] = useState<string | null>("protocol_01_baseline");
   const [mounted, setMounted] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
 
@@ -93,172 +91,171 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08090C] text-slate-100 flex flex-col font-mono selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#F7F7F4] text-[#111318] flex flex-col selection:bg-[#0284C7]/20">
       <Header activeMode={activeMode} setActiveMode={setActiveMode} isLive={true} />
 
       {/* Main Research Instrument Canvas */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
-        {/* Editorial Hero Header (First Viewport) */}
-        <section className="border-b border-white/[0.08] pb-6 space-y-3">
-          <div className="text-[11px] font-mono tracking-widest text-cyan-400 uppercase font-bold">
-            DATAFORGE × PATHWAY 2026 • RESEARCH EXPERIMENT
-          </div>
-
-          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white uppercase">
-            ASSOCIATIVE MEMORY UNDER INTERFERENCE
-          </h1>
-
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
-            <p className="text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
-              How much information can a fixed-size recurrent state preserve before stored associations begin to interfere?
-            </p>
-
-            <div className="flex items-center space-x-2 flex-shrink-0">
-              <button
-                onClick={() => handleSelectProtocol("protocol_01_baseline")}
-                className="flex items-center space-x-1.5 px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-colors"
-              >
-                <Play className="w-3.5 h-3.5 fill-current" />
-                <span>RUN BASELINE (ρ = 0.0)</span>
-              </button>
-              <button
-                onClick={() => handleSelectProtocol("protocol_02_interference")}
-                className="flex items-center space-x-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 text-xs transition-colors"
-              >
-                <span>INJECT OVERLAP (ρ = 0.45)</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Central Claim Box */}
-          <div className="p-3 bg-black/40 border-l-2 border-cyan-400 text-xs text-slate-300 flex items-start space-x-2">
-            <span className="text-cyan-400 font-bold uppercase tracking-wider flex-shrink-0 text-[11px]">
-              Central Claim:
-            </span>
-            <span className="text-[11px] leading-relaxed">
-              &ldquo;In a linear fast-weight associative memory, retrieving one stored value also receives contributions from other stored key-value pairs; increasing key similarity or memory load therefore increases interference under the stated retrieval setup.&rdquo;
-            </span>
-          </div>
-        </section>
-
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
         {/* ============================================================ */}
-        {/* MODE 1: LAB (The Live Research Instrument) */}
+        {/* MODE 1: LAB (The Long-Form Interactive Research Article) */}
         {/* ============================================================ */}
         {activeMode === "lab" && (
-          <div className="space-y-8">
-            {/* Probe Selector Strip */}
-            <div className="border border-white/[0.08] bg-[#0B0D12] p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
-              <span className="text-slate-300 font-bold">
-                01. SELECT ACTIVE QUERY PROBE (q = k_j):
-              </span>
-              <div className="flex flex-wrap items-center gap-1.5">
-                {pairs.map((p, idx) => {
-                  const active = selectedQueryIdx === idx;
-                  return (
-                    <button
-                      key={p.id}
-                      onClick={() => setSelectedQueryIdx(idx)}
-                      className={`px-3 py-1 text-xs font-mono transition-all ${
-                        active
-                          ? "bg-cyan-500 text-slate-950 font-bold"
-                          : "bg-black/50 text-slate-300 hover:bg-white/10 border border-white/10"
-                      }`}
-                    >
-                      Probe Item {idx + 1} (k_{idx + 1})
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Asymmetric Instrument Grid: Left Parameters | Center Memory Centerpiece */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              {/* Left Column (4 cols): Control Instrument */}
-              <div className="lg:col-span-4 space-y-6">
-                <ControlPanel
-                  d={d}
-                  setD={setD}
-                  N={N}
-                  setN={setN}
-                  correlation={correlation}
-                  setCorrelation={setCorrelation}
-                  decay={decay}
-                  setDecay={setDecay}
-                  useBDH={useBDH}
-                  setUseBDH={setUseBDH}
-                  selectedProtocolId={selectedProtocolId}
-                  onSelectProtocol={handleSelectProtocol}
-                  onReset={handleReset}
-                />
+          <div className="space-y-12">
+            {/* Editorial Hero Section */}
+            <section className="space-y-6 pt-4 border-b border-[#D9DCE1] pb-10">
+              <div className="text-xs font-mono font-bold tracking-widest text-[#626873] uppercase">
+                DATAFORGE × PATHWAY 2026 • FRONTIER RESEARCH SUBSTRATE
               </div>
 
-              {/* Right Column (8 cols): Memory Matrix Heatmap (HERO) */}
-              <div className="lg:col-span-8 space-y-6">
-                <MemoryMatrixHeatmap
-                  matrix={engine.stateMatrix}
-                  d={d}
-                  t={N}
-                  decay={decay}
-                  isBDH={useBDH}
-                />
-              </div>
-            </div>
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#111318] leading-[1.05] font-editorial">
+                ASSOCIATIVE MEMORY
+                <br />
+                UNDER INTERFERENCE
+              </h1>
 
-            {/* Section 03: Retrieval Readout & Energy Ratio */}
+              <p className="text-base sm:text-xl text-[#626873] max-w-3xl leading-relaxed font-normal">
+                A fixed-size recurrent state stores key-value associations. Change the geometry. Change the load. Watch retrieval change.
+              </p>
+
+              {/* Action Row & Live Metadata */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={() => handleSelectProtocol("protocol_01_baseline")}
+                    className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#111318] hover:bg-black text-white text-xs font-bold transition-colors shadow-sm"
+                  >
+                    <span>RUN THE EXPERIMENT</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => handleSelectProtocol("protocol_02_interference")}
+                    className="inline-flex items-center space-x-1.5 px-4 py-2.5 bg-[#FFFFFF] hover:bg-[#F0F1ED] text-[#111318] border border-[#D9DCE1] text-xs font-semibold transition-colors shadow-sm"
+                  >
+                    <span>INJECT OVERLAP (ρ = 0.45)</span>
+                  </button>
+                </div>
+
+                {/* Compact Live Metadata */}
+                <div className="flex items-center space-x-3 text-xs font-mono text-[#626873] bg-[#FFFFFF] px-3.5 py-2 border border-[#D9DCE1] shadow-sm">
+                  <span>d = {d}</span>
+                  <span>•</span>
+                  <span>N = {N}</span>
+                  <span>•</span>
+                  <span>ρ = {correlation.toFixed(2)}</span>
+                  <span>•</span>
+                  <span>λ = {decay.toFixed(2)}</span>
+                </div>
+              </div>
+
+              {/* Editorial Pull Quote */}
+              <div className="pt-4">
+                <blockquote className="text-sm sm:text-base italic text-[#111318] border-l-2 border-[#111318] pl-4 py-1 leading-relaxed">
+                  &ldquo;In a linear fast-weight memory, retrieving one association also receives contributions from other stored associations.&rdquo;
+                </blockquote>
+                <span className="text-[11px] font-mono text-[#8A909A] block mt-1 pl-4 uppercase">
+                  Central Scientific Falsifiable Claim • Exact Recurrence Decomposition
+                </span>
+              </div>
+            </section>
+            {/* Laboratory Control Bar */}
             <div>
-              <DualReadout retrieval={retrieval} dim={d} />
-            </div>
-
-            {/* Section 04: Key Overlap (Gram Matrix) & 2D Geometry */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <GramMatrixHeatmap
-                gramMatrix={gramMatrix}
-                pairLabels={pairs.map((p) => p.label)}
-                stats={stats}
-                correlationParam={correlation}
-              />
-
-              <KeyGeometryPlot
-                pairs={pairs}
-                correlationParam={correlation}
+              <ControlPanel
+                d={d}
+                setD={setD}
+                N={N}
+                setN={setN}
+                correlation={correlation}
+                setCorrelation={setCorrelation}
+                decay={decay}
+                setDecay={setDecay}
+                useBDH={useBDH}
+                setUseBDH={setUseBDH}
+                selectedProtocolId={selectedProtocolId}
+                onSelectProtocol={handleSelectProtocol}
+                onReset={handleReset}
               />
             </div>
 
-            {/* Section 05: Mathematical Formulations */}
-            <div>
-              <InteractiveEquation />
-            </div>
+            {/* Section 01: The Memory Matrix Hero Centerpiece */}
+            <MemoryMatrixHeatmap
+              matrix={engine.stateMatrix}
+              d={d}
+              t={N}
+              decay={decay}
+              isBDH={useBDH}
+            />
+
+            {/* Section 02 & 03: Ask the Memory + Where the Error Comes From */}
+            <DualReadout
+              retrieval={retrieval}
+              dim={d}
+              availableKeys={pairs.length}
+              selectedQueryIdx={selectedQueryIdx}
+              onSelectQueryIdx={setSelectedQueryIdx}
+            />
+
+            {/* Section 04: Key Overlap & Gram Matrix */}
+            <GramMatrixHeatmap
+              gramMatrix={gramMatrix}
+              pairLabels={pairs.map((p) => p.label)}
+              stats={stats}
+              correlationParam={correlation}
+              pairs={pairs}
+            />
+
+            {/* Section 05: Stress Test Console */}
+            <StressTestExplorer />
+
+            {/* Section 06: BDH Frontier Connection */}
+            <BDHComparisonExplorer />
+
+            {/* Section 07: Research Notes */}
+            <ResearchNotebook />
           </div>
         )}
 
         {/* ============================================================ */}
-        {/* MODE 2: GUIDED DISCOVERY TUTORIAL */}
+        {/* MODE 2: GUIDED DISCOVERY */}
         {/* ============================================================ */}
         {activeMode === "guided" && (
-          <div className="space-y-6">
+          <div className="space-y-12">
             <GuidedChapterFlow onApplyConfig={handleGuidedConfig} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-7">
-                <DualReadout retrieval={retrieval} dim={d} />
+            {/* Live Observation Substrate */}
+            <div className="border-t border-[#D9DCE1] pt-8 space-y-8">
+              <div className="border-b border-[#D9DCE1] pb-3">
+                <span className="text-xs font-mono font-bold tracking-widest text-[#626873] uppercase">
+                  LIVE OBSERVATION SUBSTRATE
+                </span>
+                <h3 className="text-xl font-bold text-[#111318] mt-1">
+                  Active Memory State &amp; Retrieval Decomposition
+                </h3>
               </div>
-              <div className="lg:col-span-5">
-                <MemoryMatrixHeatmap
-                  matrix={engine.stateMatrix}
-                  d={d}
-                  t={N}
-                  decay={decay}
-                  isBDH={useBDH}
-                />
-              </div>
-            </div>
 
-            <InteractiveEquation />
+              {/* Memory Matrix */}
+              <MemoryMatrixHeatmap
+                matrix={engine.stateMatrix}
+                d={d}
+                t={N}
+                decay={decay}
+                isBDH={useBDH}
+                showSectionHeader={false}
+              />
+
+              {/* Retrieval Breakdown */}
+              <DualReadout
+                retrieval={retrieval}
+                dim={d}
+                availableKeys={pairs.length}
+                selectedQueryIdx={selectedQueryIdx}
+                onSelectQueryIdx={setSelectedQueryIdx}
+              />
+            </div>
           </div>
         )}
 
         {/* ============================================================ */}
-        {/* MODE 3: STRESS TEST MODE */}
+        {/* MODE 3: STRESS TEST EXPLORER */}
         {/* ============================================================ */}
         {activeMode === "stress-test" && <StressTestExplorer />}
 
@@ -273,11 +270,11 @@ export default function HomePage() {
         {activeMode === "research-notebook" && <ResearchNotebook />}
       </main>
 
-      {/* Scientific Lab Footer */}
-      <footer className="border-t border-white/[0.08] bg-[#08090C] py-4 text-center text-xs text-slate-400 font-mono mt-12">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      {/* Editorial Footer */}
+      <footer className="border-t border-[#D9DCE1] bg-[#FFFFFF] py-6 text-xs text-[#626873] font-mono mt-16">
+        <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>DataForge × Pathway 2026 • Verified Float64 Associative Memory Substrate</span>
-          <span className="text-slate-400">Exact Algebraic Decomposition • In-Browser Live Computation</span>
+          <span>Exact Algebraic Decomposition • In-Browser Live Computation</span>
         </div>
       </footer>
     </div>
