@@ -20,77 +20,83 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
     {
       step: 1,
       num: "01",
-      title: "THE RECURRENT MEMORY STATE",
-      subtitle: "How associations are stored via outer products",
-      question: "How does a fixed-size matrix store continuous key-value associations over time?",
+      name: "STORE",
+      title: "STORE: RANK-1 OUTER PRODUCT UPDATES",
+      subtitle: "Writing associations into state matrix S",
+      question: "How does a recurrent matrix store continuous key-value associations?",
       formula: "S_t = \\lambda S_{t-1} + v_t k_t^T = \\sum_{i=1}^t \\lambda^{t-i} v_i k_i^T",
       explanation:
-        "At each timestep t, the memory accumulates a rank-1 outer product matrix delta S = v_t k_t^T. Storing orthogonal keys embeds distinct associative pathways into orthogonal subspaces of S.",
-      actionText: "Load Baseline: 4 Orthogonal Keys (rho = 0.0, d = 8)",
+        "At each timestep t, the memory accumulates a rank-1 outer product matrix ΔS = v_t k_t^T. When keys are mutually orthonormal, each association occupies an independent subspace.",
+      actionText: "Load 4 Orthogonal Keys (d = 8, N = 4, ρ = 0.0)",
       config: { d: 8, N: 4, correlation: 0.0, decay: 1.0, useBDH: false },
-      takeaway: "Observe S_t updating dynamically as each outer product is added to the state.",
+      takeaway: "Notice S_t updating as each outer product is written into the state.",
     },
     {
       step: 2,
       num: "02",
-      title: "THE QUERY & ASSOCIATIVE RECALL",
-      subtitle: "O(1) matrix-vector associative readout",
-      question: "How does the model retrieve a specific value without scanning a full history cache?",
-      formula: "y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)",
+      name: "COMPRESS",
+      title: "COMPRESS: FIXED-SIZE STATE SATURATION",
+      subtitle: "Fixed parameter budget S ∈ ℝ^(d×d)",
+      question: "Why does recurrent associative memory operate with O(1) inference memory?",
+      formula: "S_t \\in \\mathbb{R}^{d \\times d} \\implies \\text{Parameters Fixed at } d^2",
       explanation:
-        "To query for key k_j, the model multiplies S q_j. When keys are mutually orthonormal, k_i^T q_j = 0 for all i != j and k_j^T q_j = 1, extracting ground truth v_j with zero distortion.",
-      actionText: "Test Orthogonal Query Readout (Cosine Sim = 1.000)",
+        "Unlike transformers with growing KV caches, the fast-weight recurrent state maintains fixed memory size d×d. All associations are compressed in continuous superposition.",
+      actionText: "Check Fixed Parameter Budget (d = 8, N = 4)",
       config: { d: 8, N: 4, correlation: 0.0, decay: 1.0, useBDH: false },
-      takeaway: "Notice that with orthogonal keys, Cross-Talk is identically 0.00 and Cosine Error is 0.0000.",
+      takeaway: "Notice that state size S remains exactly 8×8 regardless of sequence length.",
     },
     {
       step: 3,
       num: "03",
-      title: "THE CROSS-TALK BREAKDOWN",
-      subtitle: "The algebraic root of associative interference",
-      question: "What happens when key vectors have non-zero geometric overlap (rho > 0)?",
-      formula: "y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}",
+      name: "QUERY",
+      title: "QUERY: O(1) ASSOCIATIVE READOUT",
+      subtitle: "Matrix-vector multiplication y = S q",
+      question: "How is a stored association retrieved from the compressed state?",
+      formula: "y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)",
       explanation:
-        "When keys overlap, querying key k_j activates non-zero projections k_i^T q_j. The retrieved vector becomes a contaminated linear superposition of the target value and all other memories.",
-      actionText: "Inject Key Correlation (rho = 0.45, d = 8, N = 4)",
-      config: { d: 8, N: 4, correlation: 0.45, decay: 1.0, useBDH: false },
-      takeaway: "Look at the Amber Cross-Talk bar in the Dual Readout: unrelated memories now bleed into the output.",
+        "Querying key k_j computes S q_j. When keys are orthogonal, off-diagonal inner products k_i^T q_j = 0 for all i ≠ j, isolating ground truth v_j with zero error.",
+      actionText: "Query Orthogonal State (Cosine Sim = 1.000)",
+      config: { d: 8, N: 4, correlation: 0.0, decay: 1.0, useBDH: false },
+      takeaway: "Notice that with orthogonal keys, Cross-Talk is identically 0.00 and Cosine Error is 0.0000.",
     },
     {
       step: 4,
       num: "04",
-      title: "MEMORY LOAD RATIO (N / d)",
-      subtitle: "Capacity bounds under isotropic keys",
-      question: "What happens when the number of stored memories N exceeds state dimension d?",
-      formula: "\\text{Dimensionless Load Ratio: } \\gamma = N / d > 1.0",
+      name: "INTERFERE",
+      title: "INTERFERE: CROSS-TALK CONTAMINATION",
+      subtitle: "Non-orthogonal key overlap (ρ > 0)",
+      question: "What happens when keys have non-zero geometric overlap?",
+      formula: "y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}",
       explanation:
-        "The mathematical rank of an 8x8 matrix cannot exceed 8. Storing 12 associations in an 8-dimensional state matrix forces geometric overlap by linear algebra bounds, multiplying cumulative cross-talk.",
-      actionText: "Stress Test Over-Capacity Load (N = 12, d = 8, N/d = 1.5)",
-      config: { d: 8, N: 12, correlation: 0.2, decay: 1.0, useBDH: false },
-      takeaway: "Observe how memory load ratio N/d > 1.0 elevates observed pairwise key overlap and error.",
+        "When keys overlap, off-diagonal projections k_i^T q_j become non-zero. The retrieved vector is contaminated by additive contributions from all other stored associations.",
+      actionText: "Inject Key Overlap (ρ = 0.45, d = 8, N = 4)",
+      config: { d: 8, N: 4, correlation: 0.45, decay: 1.0, useBDH: false },
+      takeaway: "Look at the Amber Cross-Talk bar: unrelated memories bleed into the readout.",
     },
     {
       step: 5,
       num: "05",
-      title: "TEMPORAL FORGETTING & RETENTION",
-      subtitle: "Exponential decay factor lambda < 1",
-      question: "How does temporal decay alter retention of earlier vs recent memories?",
-      formula: "S_t = \\lambda S_{t-1} + v_t k_t^T \\implies \\text{Discount } \\lambda^{t-i}",
+      name: "STRESS",
+      title: "STRESS: MEMORY LOAD RATIO (N / d > 1.0)",
+      subtitle: "State saturation beyond subspace rank",
+      question: "What happens when stored associations N exceed state dimension d?",
+      formula: "\\text{Dimensionless Load Ratio: } \\gamma = N / d > 1.0",
       explanation:
-        "Setting lambda < 1 discounts earlier associations exponentially by lambda^(t-i). This attenuates cross-talk from old memories while reducing earlier target signal magnitude.",
-      actionText: "Apply Temporal Decay (lambda = 0.80, N = 6, d = 8)",
-      config: { d: 8, N: 6, correlation: 0.2, decay: 0.8, useBDH: false },
-      takeaway: "Notice how recent memories have stronger signal retention while older memories fade.",
+        "The algebraic rank of an 8×8 matrix cannot exceed 8. Storing 12 associations in an 8-dimensional state forces geometric overlap, amplifying cross-talk interference.",
+      actionText: "Stress Test Over-Capacity (N = 12, d = 8, N/d = 1.5)",
+      config: { d: 8, N: 12, correlation: 0.2, decay: 1.0, useBDH: false },
+      takeaway: "Observe how load ratio N/d > 1.0 elevates observed pairwise key overlap and error.",
     },
     {
       step: 6,
       num: "06",
-      title: "BDH-INSPIRED SPARSE PLASTICITY",
+      name: "CONNECT",
+      title: "CONNECT: BDH SPARSE POSITIVE PLASTICITY",
       subtitle: "Sparse Positive Rectification [TEACHING ABSTRACTION]",
-      question: "How do sparse positive activations suppress cross-talk without an expanding KV cache?",
+      question: "How do sparse positive activations suppress cross-talk without an expanding cache?",
       formula: "W_t = \\text{TopK}(\\lambda W_{t-1} + \\eta \\cdot \\text{ReLU}(v_t) \\text{ReLU}(k_t)^T)",
       explanation:
-        "Dragon Hatchling (BDH) explores non-negative sparse activations (ReLU/Top-K). In high dimensions, sparse positive vectors have quasi-disjoint supports, driving cross-talk inner products toward zero. (Note: this is a single-layer visual teaching abstraction; not the complete multi-layer BDH architecture).",
+        "Dragon Hatchling (BDH) utilizes non-negative sparse activations (ReLU/Top-K). In high dimensions, sparse positive vectors exhibit quasi-disjoint supports, driving cross-talk inner products toward zero. (Note: this is a single-layer visual teaching abstraction; not the complete multi-layer BDH architecture).",
       actionText: "Activate Sparse Positive Plasticity [TEACHING ABSTRACTION]",
       config: { d: 8, N: 12, correlation: 0.35, decay: 1.0, useBDH: true },
       takeaway: "Notice how sparse non-negative projection suppresses off-diagonal cross-talk in this toy model.",
@@ -127,19 +133,19 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
             <ArrowLeft className="w-4 h-4" />
           </button>
 
-          <div className="flex space-x-1.5">
+          <div className="flex space-x-1">
             {chapters.map((ch) => (
               <button
                 key={ch.step}
                 onClick={() => setCurrentStep(ch.step)}
-                className={`w-6 h-6 text-xs font-mono font-bold flex items-center justify-center transition-all ${
+                className={`px-2 py-1 text-[11px] font-mono font-bold flex items-center justify-center transition-all ${
                   ch.step === currentStep
                     ? "bg-[#111318] text-white"
                     : "bg-[#FFFFFF] border border-[#D9DCE1] text-[#626873] hover:bg-[#F0F1ED]"
                 }`}
-                aria-label={`Go to step ${ch.step}`}
+                aria-label={`Go to step ${ch.step}: ${ch.name}`}
               >
-                {ch.step}
+                {ch.num} {ch.name}
               </button>
             ))}
           </div>
