@@ -49,11 +49,20 @@ In accordance with the official Pathway Problem Statement guidelines, the proven
 
 ## 3. Third-Party Libraries & Dependencies
 
-| Library / Tool | Version | Purpose | License | Provenance Link |
+### Direct Production Dependencies (npm)
+| Library | Version | Purpose | License | Provenance Link |
 |---|---|---|---|---|
 | **Next.js** | 15.5.7 | React framework & server-side generation | MIT | https://github.com/vercel/next.js |
-| **React** | 19.x | UI component architecture | MIT | https://github.com/facebook/react |
-| **Tailwind CSS** | 3.4.x | Utility-first CSS layout engine | MIT | https://github.com/tailwindlabs/tailwindcss |
-| **Lucide React** | 0.475.x | Minimalist UI glyphs and icons | ISC | https://github.com/lucide-icons/lucide |
-| **NumPy** | 1.26+ | Python numerical verification & testing | BSD 3-Clause | https://github.com/numpy/numpy |
-| **MathJax** | 3.x | LaTeX mathematical typesetting in export | Apache 2.0 | https://github.com/mathjax/MathJax |
+| **React** / **React DOM** | 19.0.0 | UI component architecture | MIT | https://github.com/facebook/react |
+| **Tailwind CSS** | 3.4.17 | Utility-first CSS layout engine | MIT | https://github.com/tailwindlabs/tailwindcss |
+| **Lucide React** | 0.475.0 | Minimalist UI glyphs and icons | ISC | https://github.com/lucide-icons/lucide |
+| **Framer Motion** | 12.4.7 | UI transitions | MIT | https://github.com/framer/motion |
+
+### Verification & Export Tooling (Python)
+| Tool | Version | Purpose | License | Provenance Link |
+|---|---|---|---|---|
+| **NumPy** | 1.26+ | Numerical equivalence & verification suite | BSD 3-Clause | https://github.com/numpy/numpy |
+| **Python-Markdown** | 3.x | Markdown to HTML conversion in PDF export | BSD | https://github.com/Python-Markdown/markdown |
+| **MathJax** | 3.x (CDN) | Client-side script loaded exclusively in `export_blog_pdf.py` for offline PDF generation | Apache 2.0 | https://github.com/mathjax/MathJax |
+
+*(Note: KaTeX is not installed or bundled in the web application; interactive equations are rendered via accessible, styled semantic typography).*

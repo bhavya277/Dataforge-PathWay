@@ -124,6 +124,37 @@ class TestLinearAssociativeMemory(unittest.TestCase):
             
         np.testing.assert_allclose(mem.S, S_sum, atol=1e-12)
 
+    def test_exact_linear_decomposition_residual_invariant(self):
+        """
+        Phase 4 requirement:
+        Asserts ||total - (target + crossTalk)||_2 < 1e-12 across diverse configurations:
+        varying dimension d, sequence length N, key correlation rho, and decay lambda.
+        """
+        configurations = [
+            {"d": 4, "N": 2, "rho": 0.0, "lam": 1.0},
+            {"d": 4, "N": 6, "rho": 0.45, "lam": 1.0},
+            {"d": 8, "N": 4, "rho": 0.0, "lam": 1.0},
+            {"d": 8, "N": 4, "rho": 0.5, "lam": 0.9},
+            {"d": 8, "N": 12, "rho": 0.7, "lam": 0.8},
+            {"d": 16, "N": 16, "rho": 0.35, "lam": 0.75},
+        ]
+
+        for cfg in configurations:
+            d, N, rho, lam = cfg["d"], cfg["N"], cfg["rho"], cfg["lam"]
+            keys, values, _ = generate_synthetic_keys(N, d, correlation=rho, seed=101 + d * 7 + N)
+            mem = LinearAssociativeMemory(d=d, lambda_decay=lam)
+            mem.store_sequence(keys, values)
+
+            for q_idx in range(N):
+                res = mem.retrieve(keys[q_idx], target_idx=q_idx)
+                reconstructed = res.signal_component + res.interference_component
+                residual = np.linalg.norm(res.retrieved_value - reconstructed)
+                self.assertLess(
+                    residual,
+                    1e-12,
+                    f"Residual {residual} exceeded 1e-12 at config {cfg}, query {q_idx}"
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

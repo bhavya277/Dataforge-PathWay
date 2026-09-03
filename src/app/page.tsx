@@ -10,6 +10,7 @@ import { GuidedChapterFlow } from "@/components/education/GuidedChapterFlow";
 import { StressTestExplorer } from "@/components/experiment/StressTestExplorer";
 import { BDHComparisonExplorer } from "@/components/bdh/BDHComparisonExplorer";
 import { RetrievalDecomposition } from "@/components/experiment/RetrievalDecomposition";
+import { LearnerExplainBack } from "@/components/education/LearnerExplainBack";
 import { ResearchNotebook } from "@/components/education/ResearchNotebook";
 import { PROTOCOL_PRESETS } from "@/lib/presets";
 import { generateSyntheticPairs, LiveAssociativeEngine } from "@/lib/math-engine";
@@ -439,6 +440,11 @@ export default function HomePage() {
                 </div>
               </div>
             </section>
+
+            {/* ============================================================ */}
+            {/* LEARNER EXPLAIN-BACK CHECKPOINT */}
+            {/* ============================================================ */}
+            <LearnerExplainBack />
 
             {/* Research Notes & Primary Sources */}
             <ResearchNotebook />

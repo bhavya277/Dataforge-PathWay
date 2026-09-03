@@ -11,42 +11,42 @@ export const InteractiveEquation: React.FC = () => {
   > = {
     recurrence: {
       title: "Generalized Recurrent State Update",
-      math: "S_t = \\lambda S_{t-1} + v_t k_t^T = \\sum_{i=1}^t \\lambda^{t-i} v_i k_i^T",
+      math: "S_t = λ S_{t-1} + v_t k_tᵀ = Σ_{i=1}^t λ^(t-i) v_i k_iᵀ",
       explanation:
-        "Sequential associative write: the memory matrix updates linearly by accumulating the outer product of value vector v_t and key vector k_t^T, decayed exponentially by retention factor lambda.",
-      dimension: "S_t \\in \\mathbb{R}^{d \\times d}",
-      note: "When lambda = 1.0, decay vanishes and S_t equals the exact sum of outer products.",
+        "Sequential associative write: the memory matrix updates linearly by accumulating the outer product of value vector v_t and key vector k_tᵀ, decayed exponentially by retention factor λ.",
+      dimension: "S_t ∈ ℝ^(d × d)",
+      note: "When λ = 1.0, decay vanishes and S_t equals the exact sum of outer products.",
     },
     retrieval: {
       title: "Linear Matrix-Vector Query Readout",
-      math: "y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)",
+      math: "y_t = S_t q_t = Σ_{i=1}^t λ^(t-i) v_i (k_iᵀ q_t)",
       explanation:
-        "Associative recall is executed via a single matrix-vector multiplication in O(d^2) compute per token, bypassing the need to attend over historical key-value sequence caches.",
-      dimension: "y_t \\in \\mathbb{R}^d",
-      note: "Equivalent to linear causal attention (V K^T) q when lambda = 1.0.",
+        "Associative recall is executed via a single matrix-vector multiplication in O(d²) compute per token, bypassing the need to attend over historical key-value sequence caches.",
+      dimension: "y_t ∈ ℝ^d",
+      note: "Equivalent to linear causal attention (V Kᵀ) q when λ = 1.0.",
     },
     decomposition: {
       title: "Signal + Cross-Talk Decomposition",
-      math: "y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}",
+      math: "y_t = [Target: λ^(t-j) v_j (k_jᵀ q_j)] + [Cross-Talk: Σ_{i ≠ j} λ^(t-i) v_i (k_iᵀ q_j)]",
       explanation:
-        "The fundamental algebraic reason for memory degradation: querying key k_j retrieves target value v_j plus a linear superposition of all other stored values weighted by their pairwise key inner products k_i^T q_j.",
-      dimension: "y_t \\in \\mathbb{R}^d",
-      note: "If all stored keys are mutually orthogonal (k_i^T k_j = 0 for i != j), cross-talk is identically zero.",
+        "The fundamental algebraic mechanism of memory degradation: querying key k_j retrieves target value v_j plus an additive linear superposition of non-target values weighted by their pairwise key inner products k_iᵀ q_j.",
+      dimension: "y_t ∈ ℝ^d",
+      note: "If all stored keys are mutually orthogonal (k_iᵀ k_j = 0 for i ≠ j), cross-talk evaluates to zero.",
     },
     linear_attn: {
       title: "Recurrence ↔ Linear Attention Dual",
-      math: "S_t q_t = \\left(\\sum_{i=1}^t v_i k_i^T\\right) q_t = V_{1:t} (K_{1:t}^T q_t)",
+      math: "S_t q_t = (Σ_{i=1}^t v_i k_iᵀ) q_t = V_{1:t} (K_{1:t}ᵀ q_t)",
       explanation:
         "Associative duality: recurrent sequential state accumulation in O(1) memory per step is algebraically equivalent to linear causal self-attention over the full token context.",
-      dimension: "\\text{Equivalence verified at } < 10^{-14} \\text{ error}",
+      dimension: "Equivalence verified at < 10⁻¹⁴ error",
       note: "Proves that linear transformers operate secretly as fast-weight recurrent memories (Schlag et al., 2021).",
     },
     bdh_abstraction: {
       title: "BDH-Inspired Sparse Plasticity Abstraction",
-      math: "W_t = \\text{TopK}(\\lambda W_{t-1} + \\eta \\cdot \\text{ReLU}(v_t) \\text{ReLU}(k_t)^T)",
+      math: "W_t = TopK(λ W_{t-1} + η · ReLU(v_t) ReLU(k_t)ᵀ)",
       explanation:
         "A simplified teaching abstraction inspired by mechanisms discussed in Dragon Hatchling (BDH): non-negative sparse projections reduce active overlapping connections, suppressing cross-talk in this toy model.",
-      dimension: "W_t \\in \\mathbb{R}^{d \\times d} \\text{ (Sparse Non-Negative)}",
+      dimension: "W_t ∈ ℝ^(d × d) (Sparse Non-Negative)",
       note: "[BDH-INSPIRED TEACHING ABSTRACTION • NOT THE FULL BDH ARCHITECTURE]",
     },
   };

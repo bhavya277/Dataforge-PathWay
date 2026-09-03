@@ -2,6 +2,7 @@
 
 import React from "react";
 import { RetrievalBreakdown } from "@/lib/types";
+import { vectorNorm } from "@/lib/math-engine";
 import { ArrowRight, CheckCircle, AlertCircle } from "lucide-react";
 
 interface RetrievalDecompositionProps {
@@ -51,10 +52,10 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
           04 / SEE CROSS-TALK
         </span>
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111318] mt-1">
-          WHY DID THE RETRIEVED VECTOR CHANGE?
+          WHERE DID THE UNWANTED PART OF THE RETRIEVAL COME FROM?
         </h2>
         <p className="text-sm text-[#626873] mt-1 max-w-3xl leading-relaxed">
-          Because the query is similar to keys other than the target key, those stored associations also contribute to the readout.
+          Because the keys are not perfectly orthogonal, a query for one key can have non-zero projection onto other stored keys. Those projections contribute non-target terms to the retrieved value.
         </p>
       </div>
 
@@ -94,7 +95,7 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
               EXACT ALGEBRAIC DECOMPOSITION
             </span>
             <div className="text-base sm:text-lg font-mono font-bold text-[#111318] mt-0.5">
-              Retrieved Output = Target Signal + Cross-Talk
+              Total Retrieved Vector (y) = Target Contribution + Cross-Talk Contribution
             </div>
           </div>
 
@@ -116,10 +117,10 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
         <div className="space-y-2">
           <div className="flex justify-between items-baseline text-xs sm:text-sm font-mono">
             <span className="text-[#0284C7] font-bold">
-              TARGET SIGNAL: {signalMagnitude.toFixed(3)} ({signalPercent}%)
+              TARGET CONTRIBUTION: {signalMagnitude.toFixed(3)} ({signalPercent}%)
             </span>
             <span className="text-[#D97706] font-bold">
-              CROSS-TALK: {crosstalkMagnitude.toFixed(3)} ({crosstalkPercent}%)
+              CROSS-TALK CONTRIBUTION: {crosstalkMagnitude.toFixed(3)} ({crosstalkPercent}%)
             </span>
           </div>
 
@@ -127,7 +128,7 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
             <div
               className="bg-[#0284C7] h-full transition-all duration-300"
               style={{ width: `${signalPercent}%` }}
-              title={`Target Signal: ${signalPercent}%`}
+              title={`Target Contribution: ${signalPercent}%`}
             />
             <div
               className="bg-[#D97706] h-full transition-all duration-300"
@@ -137,13 +138,13 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
           </div>
         </div>
 
-        {/* Side-by-Side Component Breakdown */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-          {/* Target Component */}
+        {/* 3-Column Component Breakdown: Target + Cross-Talk = Total Retrieved */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-2">
+          {/* 1. Target Contribution */}
           <div className="space-y-3 bg-[#F7F7F4] p-4 border border-[#E2E4E8]">
             <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-1.5">
               <span className="text-xs font-bold text-[#0284C7] uppercase font-mono">
-                TARGET CONTRIBUTION (v_{queryIdx + 1})
+                1. TARGET CONTRIBUTION
               </span>
               <span className="text-[11px] font-mono text-[#626873]">
                 ||signal|| = {signalMagnitude.toFixed(3)}
@@ -155,19 +156,19 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
             </div>
 
             <p className="text-[11px] text-[#626873] leading-relaxed">
-              The desired associative memory term, scaled by retention decay λ^(t-j) and key projection.
+              Target associative memory term, scaled by retention decay λ^(t-j) and key projection.
             </p>
 
             {/* Vector Profile */}
             <div
-              className="grid gap-1.5 pt-1"
+              className="grid gap-1 pt-1"
               style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
             >
               {signalComponent.slice(0, dim).map((val, idx) => {
                 const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
                 return (
                   <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#EAEBE5] h-12 flex items-end justify-center">
+                    <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
                       <div className="w-full bg-[#0284C7]" style={{ height: `${heightPct}%` }} />
                     </div>
                     <span className="text-[8px] font-mono text-[#626873] mt-0.5 font-semibold">
@@ -179,11 +180,11 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
             </div>
           </div>
 
-          {/* Cross-Talk Component */}
+          {/* 2. Cross-Talk Contribution */}
           <div className="space-y-3 bg-[#F7F7F4] p-4 border border-[#E2E4E8]">
             <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-1.5">
               <span className="text-xs font-bold text-[#D97706] uppercase font-mono">
-                CROSS-TALK INTERFERENCE
+                2. CROSS-TALK CONTRIBUTION
               </span>
               <span className="text-[11px] font-mono text-[#626873]">
                 ||crosstalk|| = {crosstalkMagnitude.toFixed(3)}
@@ -195,22 +196,62 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
             </div>
 
             <p className="text-[11px] text-[#626873] leading-relaxed">
-              Additive contamination from non-target stored keys having non-zero inner product with the query.
+              Non-target terms from stored keys having non-zero inner product with query q.
             </p>
 
             {/* Vector Profile */}
             <div
-              className="grid gap-1.5 pt-1"
+              className="grid gap-1 pt-1"
               style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
             >
               {interferenceComponent.slice(0, dim).map((val, idx) => {
                 const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
                 return (
                   <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#EAEBE5] h-12 flex items-end justify-center">
+                    <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
                       <div className="w-full bg-[#D97706]" style={{ height: `${heightPct}%` }} />
                     </div>
                     <span className="text-[8px] font-mono text-[#626873] mt-0.5 font-semibold">
+                      {Math.abs(val) < 0.05 ? "0" : val.toFixed(1)}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 3. Total Retrieved Vector */}
+          <div className="space-y-3 bg-[#F7F7F4] p-4 border border-[#111318]/20 bg-[#FBFBFA]">
+            <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-1.5">
+              <span className="text-xs font-bold text-[#111318] uppercase font-mono">
+                3. TOTAL RETRIEVED (y = S q)
+              </span>
+              <span className="text-[11px] font-mono text-[#111318] font-bold">
+                ||y|| = {vectorNorm(retrievedValue).toFixed(3)}
+              </span>
+            </div>
+
+            <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E4E8] font-mono text-xs text-[#111318] font-semibold">
+              {"y = Target + Cross-Talk"}
+            </div>
+
+            <p className="text-[11px] text-[#626873] leading-relaxed">
+              Output vector returned by the state matrix: Target plus non-target interference.
+            </p>
+
+            {/* Vector Profile */}
+            <div
+              className="grid gap-1 pt-1"
+              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+            >
+              {retrievedValue.slice(0, dim).map((val, idx) => {
+                const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
+                return (
+                  <div key={idx} className="flex flex-col items-center">
+                    <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
+                      <div className="w-full bg-[#111318]" style={{ height: `${heightPct}%` }} />
+                    </div>
+                    <span className="text-[8px] font-mono text-[#111318] mt-0.5 font-bold">
                       {Math.abs(val) < 0.05 ? "0" : val.toFixed(1)}
                     </span>
                   </div>
