@@ -47,7 +47,7 @@ This document rigorously evaluates the approved main topics from Page 2 of the D
 | 13. Natural BDH-CQ Connection | 5 (Demonstration memory) | 3 | 4 | 5 |
 | 14. 6-Day Implementation Feasibility | 5 | 4 | 4 | 3 |
 | 15. Minimal Compute Requirements | 5 (Real-time in browser) | 4 | 4 | 3 |
-| 16. Deployment Simplicity | 5 (Deterministic Wasm/TS) | 4 | 4 | 3 |
+| 16. Deployment Simplicity | 5 (Deterministic TypeScript) | 4 | 4 | 3 |
 | 17. Research Rigor & Grounding | 5 | 5 | 4 | 4 |
 | 18. Low Risk of Becoming Generic | 5 | 3 (Mamba is common) | 4 | 4 |
 | 19. Competition Differentiation | 5 | 3 | 4 | 4 |

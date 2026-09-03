@@ -58,7 +58,7 @@ Our primary operational directive is:
 | Day | Focus Milestone | Deliverables & Artifacts |
 |---|---|---|
 | **Day 1** | Strategic Analysis, Topic Selection & Experiment Architecture | `PATHWAY_STRATEGY.md`, `TOPIC_EVALUATION.md`, `CONCEPT_LOCK.md`, `RESEARCH_MAP.md`, `EXPERIMENT_PLAN.md`, `BDH_CONNECTION.md`. |
-| **Day 2** | Scientific Substrate & Core Mathematical Engine | `/experiments` Python verification scripts, PyTorch reference models, TypeScript/Wasm engine, test suite with assertions. |
+| **Day 2** | Scientific Substrate & Core Mathematical Engine | `/experiments` Python verification scripts, PyTorch reference models, TypeScript linear algebra engine, test suite with assertions. |
 | **Day 3** | Core Interactive Experience & State Visualizers | Next.js/React application, interactive memory matrix heatmaps, dual-readout ground-truth inspector, causal motion layer. |
 | **Day 4** | BDH / BDH-CQ Integration & Deep Mathematical Linking | BDH sparse synaptic update explorer, interactive formula breakdown, paper citation overlays. |
 | **Day 5** | Frontier Visual Polish, Accessibility & Performance | Dark-mode research lab aesthetic, responsive layout, keyboard navigation, WebWorker acceleration, complete disclosures. |

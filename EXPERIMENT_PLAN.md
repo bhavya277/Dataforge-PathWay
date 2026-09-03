@@ -24,8 +24,8 @@ $$\text{Input Tokens } \{x_1, \dots, x_N\} \xrightarrow{\text{Projection}} \{(k_
    Given base orthogonal basis vectors $\{e_1, \dots, e_d\}$, synthetic key vectors are parameterized by correlation $\rho \in [0, 1]$:
    $$k_i = \sqrt{1 - \rho} \, e_i + \sqrt{\rho} \, u_0$$
    where $u_0$ is a shared interference direction ($\|u_0\|=1, u_0 \perp e_i$).
-   * When $\rho = 0$, $k_i^T k_j = 0$ (perfect orthogonality).
-   * When $\rho > 0$, $k_i^T k_j = \rho$ for all $i \ne j$ (controlled cross-talk).
+   * When $\rho = 0$, $k_i^T k_j = 0$ (orthogonal construction for $N \le d$).
+   * When $\rho > 0$, $\rho$ controls the shared component of the synthetic key distribution; observed pairwise cosine similarity varies around this setting.
 
 3. **Exact Error Metric:**
    $$\text{Cosine Error} = 1 - \frac{\hat{v}_m \cdot v_m}{\|\hat{v}_m\| \|v_m\|}$$

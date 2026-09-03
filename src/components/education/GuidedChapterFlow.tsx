@@ -24,9 +24,9 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       title: "STORE: RANK-1 OUTER PRODUCT UPDATES",
       subtitle: "Writing associations into state matrix S",
       question: "How does a recurrent matrix store continuous key-value associations?",
-      formula: "S_t = \\lambda S_{t-1} + v_t k_t^T = \\sum_{i=1}^t \\lambda^{t-i} v_i k_i^T",
+      formula: "S_t = λ S_{t-1} + v_t k_tᵀ = Σ_{i=1}^t λ^(t-i) v_i k_iᵀ",
       explanation:
-        "At each timestep t, the memory accumulates a rank-1 outer product matrix ΔS = v_t k_t^T. When keys are mutually orthonormal, each association occupies an independent subspace.",
+        "At each timestep t, the memory accumulates a rank-1 outer product matrix ΔS = v_t k_tᵀ. When keys are mutually orthonormal, each association occupies an independent subspace.",
       actionText: "Load 4 Orthogonal Keys (d = 8, N = 4, ρ = 0.0)",
       config: { d: 8, N: 4, correlation: 0.0, decay: 1.0, useBDH: false },
       takeaway: "Notice S_t updating as each outer product is written into the state.",
@@ -38,7 +38,7 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       title: "COMPRESS: FIXED-SIZE STATE SATURATION",
       subtitle: "Fixed parameter budget S ∈ ℝ^(d×d)",
       question: "Why does recurrent associative memory operate with O(1) inference memory?",
-      formula: "S_t \\in \\mathbb{R}^{d \\times d} \\implies \\text{Parameters Fixed at } d^2",
+      formula: "S_t ∈ ℝ^(d × d) ⟹ Parameters Fixed at d²",
       explanation:
         "Unlike transformers with growing KV caches, the fast-weight recurrent state maintains fixed memory size d×d. All associations are compressed in continuous superposition.",
       actionText: "Check Fixed Parameter Budget (d = 8, N = 4)",
@@ -52,9 +52,9 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       title: "QUERY: O(1) ASSOCIATIVE READOUT",
       subtitle: "Matrix-vector multiplication y = S q",
       question: "How is a stored association retrieved from the compressed state?",
-      formula: "y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)",
+      formula: "y_t = S_t q_t = Σ_{i=1}^t λ^(t-i) v_i (k_iᵀ q_t)",
       explanation:
-        "Querying key k_j computes S q_j. When keys are orthogonal, off-diagonal inner products k_i^T q_j = 0 for all i ≠ j, isolating ground truth v_j with zero error.",
+        "Querying key k_j computes S q_j. When keys are orthogonal, off-diagonal inner products k_iᵀ q_j = 0 for all i ≠ j, isolating ground truth v_j with zero error.",
       actionText: "Query Orthogonal State (Cosine Sim = 1.000)",
       config: { d: 8, N: 4, correlation: 0.0, decay: 1.0, useBDH: false },
       takeaway: "Notice that with orthogonal keys, Cross-Talk is identically 0.00 and Cosine Error is 0.0000.",
@@ -66,9 +66,9 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       title: "INTERFERE: CROSS-TALK CONTAMINATION",
       subtitle: "Non-orthogonal key overlap (ρ > 0)",
       question: "What happens when keys have non-zero geometric overlap?",
-      formula: "y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}",
+      formula: "y_t = [Target: λ^(t-j) v_j (k_jᵀ q_j)] + [Cross-Talk: Σ_{i ≠ j} λ^(t-i) v_i (k_iᵀ q_j)]",
       explanation:
-        "When keys overlap, off-diagonal projections k_i^T q_j become non-zero. The retrieved vector is contaminated by additive contributions from all other stored associations.",
+        "When keys overlap, off-diagonal projections k_iᵀ q_j become non-zero. The retrieved vector is contaminated by additive contributions from all other stored associations.",
       actionText: "Inject Key Overlap (ρ = 0.45, d = 8, N = 4)",
       config: { d: 8, N: 4, correlation: 0.45, decay: 1.0, useBDH: false },
       takeaway: "Look at the Amber Cross-Talk bar: unrelated memories bleed into the readout.",
@@ -80,12 +80,12 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       title: "STRESS: MEMORY LOAD RATIO (N / d > 1.0)",
       subtitle: "State saturation beyond subspace rank",
       question: "What happens when stored associations N exceed state dimension d?",
-      formula: "\\text{Dimensionless Load Ratio: } \\gamma = N / d > 1.0",
+      formula: "Dimensionless Load Ratio: γ = N / d > 1.0",
       explanation:
-        "The algebraic rank of an 8×8 matrix cannot exceed 8. Storing 12 associations in an 8-dimensional state forces geometric overlap, amplifying cross-talk interference.",
-      actionText: "Stress Test Over-Capacity (N = 12, d = 8, N/d = 1.5)",
+        "When N exceeds d, the keys cannot all remain mutually orthogonal. In this synthetic experiment, higher memory load is associated with increased observed cross-talk.",
+      actionText: "Apply High Memory Load (N = 12, d = 8, N/d = 1.5)",
       config: { d: 8, N: 12, correlation: 0.2, decay: 1.0, useBDH: false },
-      takeaway: "Observe how load ratio N/d > 1.0 elevates observed pairwise key overlap and error.",
+      takeaway: "Observe how higher memory load ratio N/d > 1.0 is associated with higher observed key overlap and cross-talk.",
     },
     {
       step: 6,
@@ -94,12 +94,12 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       title: "CONNECT: BDH SPARSE POSITIVE PLASTICITY",
       subtitle: "Sparse Positive Rectification [TEACHING ABSTRACTION]",
       question: "How do sparse positive activations suppress cross-talk without an expanding cache?",
-      formula: "W_t = \\text{TopK}(\\lambda W_{t-1} + \\eta \\cdot \\text{ReLU}(v_t) \\text{ReLU}(k_t)^T)",
+      formula: "W_t = TopK(λ W_{t-1} + η · ReLU(v_t) ReLU(k_t)ᵀ)",
       explanation:
-        "Dragon Hatchling (BDH) utilizes non-negative sparse activations (ReLU/Top-K). Under suitable sparse-support regimes, restricting active interactions can reduce overlap and suppress cross-talk. (Note: this is a single-layer visual teaching abstraction; not the complete multi-layer BDH architecture).",
+        "The sparse variant is a teaching abstraction used to illustrate how changing the pattern of active interactions can affect retrieval. It is not a reproduction of the full BDH architecture or its published results.",
       actionText: "Activate Sparse Positive Plasticity [TEACHING ABSTRACTION]",
       config: { d: 8, N: 12, correlation: 0.35, decay: 1.0, useBDH: true },
-      takeaway: "Notice how sparse non-negative projection suppresses off-diagonal cross-talk in this toy model.",
+      takeaway: "Notice how sparse non-negative projection alters active interactions in this toy teaching model.",
     },
   ];
 

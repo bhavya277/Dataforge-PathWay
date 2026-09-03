@@ -31,7 +31,7 @@ The central insight is straightforward: **in a linear fast-weight memory, retrie
 
 If all keys are strictly orthonormal ($k_i^T k_j = 0$ for $i \ne j$), the cross-talk sum vanishes entirely, yielding lossless reconstruction $y_j = v_j$. However, in dense continuous representation spaces, unit vectors are rarely mutually orthogonal once the sequence length $N$ approaches or exceeds the state dimension $d$.
 
-To quantify this, our empirical benchmark sweeps (evaluated across 50 Monte Carlo trials per configuration at $d=8$) measured retrieval degradation as a function of key correlation $\rho = k_i^T k_j$:
+To quantify this, our empirical benchmark sweeps (evaluated across 50 Monte Carlo trials per configuration at $d=8$) measured retrieval degradation as a function of controlled key correlation $\rho$ (controlling the shared component of the synthetic key distribution):
 
 1. **Orthogonal Baseline ($\rho = 0.0, N = 4$):** Mean Cosine Similarity $= 1.0000$, Mean L2 Error $= 0.0000$.
 2. **Moderate Correlation ($\rho = 0.45, N = 4$):** Mean Cosine Similarity drops to $0.8412$, Mean L2 Error rises to $0.4821$.

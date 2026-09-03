@@ -1,18 +1,23 @@
 # AI Assistance & Attribution Disclosure
+## DataForge × Pathway 2026 Submission
 
-In compliance with the DataForge 2026 Pathway Track regulations, this document transparently discloses all AI tooling, models, and assistance utilized in the creation of this submission.
-
----
-
-## 1. AI Tooling & Models Used
-* **AI Assistant:** Antigravity AI coding assistant.
-* **Role & Tasks:**
-  * AI assistance was used for code, UI layout, and documentation development.
-  * Human Direction & Ownership: The project direction, mathematical methodology, experimental design, validation suite, and final decisions were human-directed and reviewed.
+In compliance with the DataForge 2026 Pathway Track regulations, this document transparently discloses all AI tooling, assistance, and mentorship details for this submission.
 
 ---
 
-## 2. Technical Ownership & Audit
-* **Human Research & Direction:** All mathematical derivations, topic selection, 1-sentence falsifiable claim formulation, BDH architectural analysis, primary research citations, and experimental boundaries were directed, audited, and verified by the team.
-* **Mathematical Integrity:** All linear algebraic formulas ($S_t = S_{t-1} + v_t k_t^T$, $\hat{v} = S q$, cross-talk decomposition) and unit test assertions were verified against peer-reviewed publications (Schlag et al. ICML 2021; Beck et al. NeurIPS 2024).
-* **Zero Fake Computation:** No AI-generated fake data or scripted animations are passed off as computation. All client-side visualizations are driven by live matrix operations in `lib/math-engine.ts`.
+## 1. AI Assistance Disclosure
+* **Tool:** AI coding assistant.
+* **Scope of Assistance:** AI-assisted coding, documentation, and design support was used during development.
+* **Technical Ownership:** The team provided the project direction, reviewed generated work, verified mathematical behavior, and retains responsibility for the final implementation, empirical findings, and scientific claims.
+
+---
+
+## 2. Mentor Involvement Disclosure
+* **Mentor involvement:** None.
+* All mathematical modeling, experimental design, software implementation, visual presentation, and defense materials were conceived, built, and verified independently by the registered author.
+
+---
+
+## 3. Technical Integrity & Mathematical Verification
+* **Mathematical Integrity:** All linear algebraic formulations ($S_t = \lambda S_{t-1} + v_t k_t^T$, $y_t = S_t q_t$, exact signal/cross-talk decomposition) and unit test assertions were verified against peer-reviewed literature (Schlag et al. ICML 2021; Beck et al. NeurIPS 2024).
+* **Zero Fake Computation:** No AI-generated fake numbers or scripted animations are passed off as computation. All visualizations and metrics are driven by deterministic live Float64 matrix operations in `src/lib/math-engine.ts`.
