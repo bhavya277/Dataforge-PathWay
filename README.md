@@ -5,8 +5,8 @@
 
 ### Required Submission Deliverables & Artifacts
 * **Public Interactive Web Application:** [https://dataforge-pathway-iota.vercel.app/](https://dataforge-pathway-iota.vercel.app/)
-* **One-Page Concept Summary PDF:** [`CONCEPT_SUMMARY.pdf`](file:///c:/Users/modib/OneDrive/Desktop/Pathway/CONCEPT_SUMMARY.pdf) (Repository Root; ~686 words, single-page A4)
-* **Research Blog Post PDF:** [`BLOG_POST.pdf`](file:///c:/Users/modib/OneDrive/Desktop/Pathway/BLOG_POST.pdf) (Repository Root; publication layout with MathJax typesetting)
+* **One-Page Concept Summary PDF:** [`CONCEPT_SUMMARY.pdf`](CONCEPT_SUMMARY.pdf) (Repository Root; ~686 words, single-page A4)
+* **Research Blog Post PDF:** [`BLOG_POST.pdf`](BLOG_POST.pdf) (Repository Root; publication layout with KaTeX typesetting)
 * **Public Source Repository:** [https://github.com/bhavya277/Dataforge-PathWay.git](https://github.com/bhavya277/Dataforge-PathWay.git)
 
 ---
@@ -112,7 +112,9 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 * **Residual Verification:** Dynamic live $L_2$ difference $\|y_t - (\text{target} + \text{crosstalk})\|_2$ computed live in browser.
 * **Interactive Sandbox Controls:** Sliders ($d, N, \rho, \lambda$) re-evaluate the full computational engine instantaneously.
 
-## 9. Component Classification: Live vs. Precomputed vs. Teaching Abstraction
+---
+
+## 10. Component Classification: Live vs. Precomputed vs. Teaching Abstraction
 
 | Component / Subsystem | Classification | Implementation Details |
 |---|---|---|
@@ -126,7 +128,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 
 ---
 
-## 10. What is Computed Live
+## 11. What is Computed Live (Engine Summary)
 
 * **Matrix Recurrence Updates:** Sequential calculation of $S_t = \lambda S_{t-1} + v_t k_t^T$ computed live on every parameter change.
 * **Associative Retrieval:** Exact matrix-vector multiplication $y_t = S_t q$ executed in real time (<15 ms).
@@ -137,13 +139,13 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 
 ---
 
-## 11. What is Precomputed
+## 12. What is Precomputed
 
 * **Statistical Benchmark Sweeps:** Large-scale Monte Carlo reference distributions (50 trials per step across 25 parameter configurations) saved in `data/experiment_benchmarks.json`. These provide statistical baseline reference curves on the Stress Test tab. No live UI simulation passes off precomputed traces as real-time computation.
 
 ---
 
-## 12. What is Synthetic
+## 13. What is Synthetic
 
 * **Key and Value Vectors:** Generated in-memory via controlled isotropic Gaussian sampling.
 * **Controlled Overlap Distribution:** When $\rho > 0$, keys share a common latent Gaussian direction:
@@ -153,7 +155,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 
 ---
 
-## 13. What is a Teaching Abstraction
+## 14. What is a Teaching Abstraction
 
 * **BDH-Inspired Sparse Plasticity Module:** A simplified single-layer model applying $\text{ReLU}(v) \text{ReLU}(k)^T$ and Top-K connection pruning on $S \in \mathbb{R}^{d \times d}$.
 * **Purpose:** Demonstrates how non-negative activations and sparse connections restrict active interactions in a low-dimensional state.
@@ -161,21 +163,21 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 
 ---
 
-## 14. BDH Connection
+## 15. BDH Connection
 
 * **Literature:** Dragon Hatchling (**BDH**; Kosowski et al., 2025, arXiv:2509.26507) proposes a Post-Transformer brain-inspired architecture where attention is reformulated as local synaptic plasticity over non-negative sparse activations ($a \ge 0$).
 * **Relevance:** While standard fast weights superimpose unconstrained real-valued vectors causing dense interference, BDH grounds memory in localized, monosemantic synaptic pathways. Our teaching abstraction illustrates how non-negative sparsity alters the pattern of active interactions.
 
 ---
 
-## 14. BDH-CQ Connection
+## 16. BDH-CQ Connection
 
 * **Literature:** **BDH-CQ** (Engdahl et al., 2026, arXiv:2608.09888) investigates in-context demonstration learning where input-output examples $(X \to Y)$ update recurrent synaptic states, allowing multi-step reasoning via continuous latent forward passes without generating explicit text tokens.
 * **Relevance:** Serves as broader research context for how recurrent fast-weight updates can assimilate demonstration pairs in modern architectures.
 
 ---
 
-## 15. Known Limitations
+## 17. Known Limitations
 
 1. **Synthetic Key Distribution:** Keys use isotropic Gaussian vectors; real linguistic tokens lie on structured, non-uniform natural language manifolds.
 2. **Single-Layer Low-Dimensional Scale:** State dimension $d \in [4, 16]$ enables visible matrix cell inspection in browser, but lacks the multi-head, multi-layer depth of production LLMs ($d \ge 2048$).
@@ -184,7 +186,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 
 ---
 
-## 16. Reproduction / Local Setup
+## 18. Reproduction / Local Setup
 
 ```bash
 # Clone repository
@@ -208,22 +210,23 @@ npm start
 
 ---
 
-## 17. Tests
+## 19. Tests & Verification
 
 ```bash
-# Run Python automated mathematical unit tests (6 tests: outer-product, decomposition, orthogonality, decay, bounds)
-python -m unittest discover -s experiments
+# Run Python automated mathematical unit tests (outer-product, decomposition, orthogonality, decay, bounds)
+npm run test:py
+# or: python -m unittest discover -s experiments
 
 # Run numerical recurrence equivalence verification across 125 randomized parameter sweeps
 python experiments/verify_recurrence.py
 
-# Export publication-ready Blog Post PDF
-python experiments/export_blog_pdf.py
+# Export publication-ready Blog Post & One-Page Concept Summary PDFs (KaTeX + Puppeteer SSR)
+npm run export:pdf
 ```
 
 ---
 
-## 18. Sources / Primary Papers
+## 20. Sources / Primary Papers
 
 1. **Kosowski, A., Uznański, P., Chorowski, J., Stamirowska, Z., & Bartoszkiewicz, M. (2025).** *The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain.* [arXiv:2509.26507](https://arxiv.org/abs/2509.26507).
 2. **Engdahl, B., Kosowski, A., Chorowski, J., Stamirowska, Z., Uznański, P., et al. (2026).** *BDH-CQ: In-Context Learning with Recurrent Latent Reasoning.* [arXiv:2608.09888](https://arxiv.org/abs/2608.09888).
@@ -235,9 +238,9 @@ python experiments/export_blog_pdf.py
 
 ---
 
-## 19. Code/Data/Asset Licenses
+## 21. Code/Data/Asset Licenses
 
-* **Code:** Open-source under the MIT License (see [LICENSES.md](file:///c:/Users/modib/OneDrive/Desktop/Pathway/LICENSES.md)).
+* **Code:** Open-source under the MIT License (see [LICENSES.md](LICENSES.md)).
 * **Data:** Synthetic only; no private or proprietary external datasets.
 * **Model Weights:** None used or bundled.
 * **Graphics:** Original, programmatic inline SVGs.
@@ -246,7 +249,7 @@ python experiments/export_blog_pdf.py
 
 ---
 
-## 20. AI Assistance Disclosure
+## 22. AI Assistance Disclosure
 
 In compliance with the DataForge 2026 regulations:
 * **Tool Used:** Antigravity AI coding assistant.
@@ -255,6 +258,7 @@ In compliance with the DataForge 2026 regulations:
 
 ---
 
-## 21. Mentor Involvement Disclosure
+## 23. Mentor Involvement Disclosure
 
 **Mentor involvement: None. No mentor or advisor was involved in this submission.** All research framing, mathematical implementations, interactive visualizations, and defense documentation were conceived, implemented, tested, and defended independently by the registered author.
+
