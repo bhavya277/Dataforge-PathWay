@@ -13,7 +13,7 @@ In compliance with the DataForge 2026 Pathway Track regulations, this document t
 ---
 
 ## 2. Mentor Involvement Disclosure
-* **Mentor involvement:** None.
+* **Mentor involvement:** None. No mentor or advisor was involved in this submission.
 * All mathematical modeling, experimental design, software implementation, visual presentation, and defense materials were conceived, built, and verified independently by the registered author.
 
 ---

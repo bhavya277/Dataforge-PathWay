@@ -4,25 +4,24 @@ import markdown
 
 def generate_pdf():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    blog_md_path = os.path.join(base_dir, "BLOG_POST.md")
+    summary_md_path = os.path.join(base_dir, "CONCEPT_SUMMARY.md")
     docs_dir = os.path.join(base_dir, "docs")
     os.makedirs(docs_dir, exist_ok=True)
-    html_path = os.path.join(docs_dir, "blog_post.html")
-    pdf_path = os.path.join(base_dir, "BLOG_POST.pdf")
-    docs_pdf_path = os.path.join(docs_dir, "BLOG_POST.pdf")
+    html_path = os.path.join(docs_dir, "concept_summary.html")
+    pdf_path = os.path.join(base_dir, "CONCEPT_SUMMARY.pdf")
+    docs_pdf_path = os.path.join(docs_dir, "CONCEPT_SUMMARY.pdf")
 
-    with open(blog_md_path, "r", encoding="utf-8") as f:
+    with open(summary_md_path, "r", encoding="utf-8") as f:
         md_text = f.read()
 
-    # Convert markdown to HTML
     body_html = markdown.markdown(md_text, extensions=['tables', 'fenced_code'])
 
-    # Wrap in academic editorial publication styling with MathJax for math rendering
+    # Clean, compact single-page academic brief layout
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Associative Memory in Fast-Weight Architectures</title>
+<title>Associative Memory & Fast Weights: Concept Summary</title>
 <script>
 MathJax = {{
   tex: {{
@@ -40,67 +39,72 @@ MathJax = {{
 <style>
   @page {{
     size: A4;
-    margin: 20mm;
+    margin: 12mm 15mm;
   }}
   body {{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.55;
+    line-height: 1.35;
     color: #111318;
     background: #FFFFFF;
-    max-width: 800px;
+    max-width: 820px;
     margin: 0 auto;
-    font-size: 13px;
+    font-size: 10.5pt;
   }}
   h1 {{
-    font-size: 22px;
+    font-size: 16pt;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin: 0 0 2pt 0;
     color: #111318;
-    line-height: 1.25;
+    line-height: 1.2;
   }}
   h3 {{
-    font-size: 15px;
+    font-size: 11pt;
     font-weight: 700;
-    margin-top: 18px;
-    margin-bottom: 6px;
+    margin-top: 8pt;
+    margin-bottom: 3pt;
     color: #111318;
-    border-bottom: 1px solid #E2E4E8;
-    padding-bottom: 3px;
+    border-bottom: 0.75pt solid #D1D5DB;
+    padding-bottom: 1.5pt;
   }}
   p {{
-    margin: 8px 0;
+    margin: 4pt 0;
   }}
-  strong {{
-    color: #111318;
+  table {{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6pt 0;
+    font-size: 9pt;
   }}
-  blockquote {{
-    border-left: 3px solid #111318;
-    margin: 12px 0;
-    padding-left: 12px;
-    font-style: italic;
-    color: #374151;
+  th, td {{
+    border: 0.5pt solid #D1D5DB;
+    padding: 3.5pt 5pt;
+    text-align: left;
   }}
-  ol, ul {{
-    padding-left: 20px;
-    margin: 8px 0;
+  th {{
+    background-color: #F3F4F6;
+    font-weight: 600;
+  }}
+  ul {{
+    padding-left: 16pt;
+    margin: 3pt 0;
   }}
   li {{
-    margin: 3px 0;
+    margin: 1.5pt 0;
   }}
   hr {{
     border: none;
-    border-top: 1px solid #E5E7EB;
-    margin: 16px 0;
+    border-top: 0.5pt solid #E5E7EB;
+    margin: 6pt 0;
   }}
   code {{
     font-family: "JetBrains Mono", Menlo, Consolas, monospace;
-    font-size: 11px;
+    font-size: 9pt;
     background: #F3F4F6;
-    padding: 1px 4px;
-    border-radius: 2px;
+    padding: 1pt 3pt;
+    border-radius: 2pt;
   }}
   .mjx-chtml {{
-    font-size: 105% !important;
+    font-size: 98% !important;
   }}
 </style>
 </head>
@@ -115,7 +119,6 @@ MathJax = {{
 
     print(f"Generated clean HTML: {html_path}")
 
-    # Use Chrome or Edge headless to print to PDF
     chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     edge_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
     browser = chrome_path if os.path.exists(chrome_path) else edge_path

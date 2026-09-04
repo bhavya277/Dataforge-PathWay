@@ -103,7 +103,7 @@ MathJax = {
 <h3>The Mechanism of Interference</h3>
 <p>The central insight is straightforward: <strong>in a linear fast-weight memory, retrieving one stored value inevitably accumulates linear contributions from all other stored pairs whose keys are not orthogonal to the query.</strong></p>
 <p>If all keys are strictly orthonormal ($k_i^T k_j = 0$ for $i \ne j$), the cross-talk sum vanishes entirely, yielding lossless reconstruction $y_j = v_j$. However, in dense continuous representation spaces, unit vectors are rarely mutually orthogonal once the sequence length $N$ approaches or exceeds the state dimension $d$.</p>
-<p>To quantify this, our empirical benchmark sweeps (evaluated across 50 Monte Carlo trials per configuration at $d=8$) measured retrieval degradation as a function of key correlation $\rho = k_i^T k_j$:</p>
+<p>To quantify this, our empirical benchmark sweeps (evaluated across 50 Monte Carlo trials per configuration at $d=8$) measured retrieval degradation as a function of controlled key correlation $\rho$ (controlling the shared component of the synthetic key distribution):</p>
 <ol>
 <li><strong>Orthogonal Baseline ($\rho = 0.0, N = 4$):</strong> Mean Cosine Similarity $= 1.0000$, Mean L2 Error $= 0.0000$.</li>
 <li><strong>Moderate Correlation ($\rho = 0.45, N = 4$):</strong> Mean Cosine Similarity drops to $0.8412$, Mean L2 Error rises to $0.4821$.</li>

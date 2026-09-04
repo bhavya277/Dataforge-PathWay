@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ExternalLink } from "lucide-react";
+import { BlockMath } from "@/components/ui/MathView";
 
 export const ResearchNotebook: React.FC = () => {
   return (
@@ -28,7 +29,7 @@ export const ResearchNotebook: React.FC = () => {
           </h2>
         </div>
         <div className="p-5 bg-[#FFFFFF] border-l-4 border-[#111318] shadow-sm text-sm sm:text-base text-[#111318] leading-relaxed italic">
-          &ldquo;In a linear fast-weight associative memory, retrieving one stored value also receives contributions from other stored key-value pairs; increasing key similarity or memory load therefore increases interference under the stated retrieval setup.&rdquo;
+          &ldquo;When stored keys are not orthogonal, a linear fast-weight state adds non-target contributions to retrieval; in our synthetic setup, increasing controlled key overlap increases measured cross-talk.&rdquo;
         </div>
       </section>
 
@@ -44,8 +45,8 @@ export const ResearchNotebook: React.FC = () => {
           The memory is modeled as a recurrent matrix Sₜ ∈ ℝ^(d×d) storing N key-value associations (k_i, v_i) ∈ ℝ^d.
           Keys are generated via isotropic Gaussian distributions with a controlled shared-component parameter ρ:
         </p>
-        <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
-          {"k_i = \\text{normalize}\\left(\\sqrt{1 - \\rho} \\cdot u_i + \\sqrt{\\rho} \\cdot u_0\\right), \\quad u_0, u_i \\sim \\mathcal{N}(0, I_d)"}
+        <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] text-center shadow-sm">
+          <BlockMath math={"k_i = \\operatorname{normalize}\\left(\\sqrt{1 - \\rho} \\cdot u_i + \\sqrt{\\rho} \\cdot u_0\\right), \\quad u_0, u_i \\sim \\mathcal{N}(0, I_d)"} />
         </div>
       </section>
 
@@ -61,24 +62,22 @@ export const ResearchNotebook: React.FC = () => {
         <div className="space-y-4 text-sm text-[#626873]">
           <div>
             <span className="font-medium text-[#111318] block mb-1">1. Recurrent State Update:</span>
-            <div className="p-3 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
-              {"S_t = \\lambda S_{t-1} + v_t k_t^T = \\sum_{i=1}^t \\lambda^{t-i} v_i k_i^T"}
+            <div className="p-3 bg-[#FFFFFF] border border-[#D9DCE1] text-center shadow-sm">
+              <BlockMath math={"S_t = \\lambda S_{t-1} + v_t k_t^T = \\sum_{i=1}^t \\lambda^{t-i} v_i k_i^T"} />
             </div>
           </div>
 
           <div>
             <span className="font-medium text-[#111318] block mb-1">2. Query Readout for probe q_j = k_j:</span>
-            <div className="p-3 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
-              {"y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)"}
+            <div className="p-3 bg-[#FFFFFF] border border-[#D9DCE1] text-center shadow-sm">
+              <BlockMath math={"y_t = S_t q_t = \\sum_{i=1}^t \\lambda^{t-i} v_i (k_i^T q_t)"} />
             </div>
           </div>
 
           <div>
             <span className="font-medium text-[#111318] block mb-1">3. Exact Causal Algebraic Decomposition:</span>
-            <div className="p-4 bg-[#FFFFFF] border border-[#0284C7]/40 text-center font-mono font-bold text-sm text-[#111318] shadow-sm space-y-2">
-              <div>
-                {"y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal Component}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}"}
-              </div>
+            <div className="p-4 bg-[#FFFFFF] border border-[#0284C7]/40 text-center shadow-sm space-y-2">
+              <BlockMath math={"y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal Component}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}"} />
               <p className="text-xs font-normal text-[#626873]">
                 When λ = 1.0, temporal decay is absent and recurrence reduces to un-normalized sum of outer products.
               </p>
@@ -98,8 +97,8 @@ export const ResearchNotebook: React.FC = () => {
         <p className="text-sm text-[#626873] leading-relaxed">
           Schlag, Irie, &amp; Schmidhuber (2021) demonstrated that causal linear transformers compute:
         </p>
-        <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] text-center font-mono font-bold text-sm text-[#111318] shadow-sm">
-          {"y_t = (V_{1:t} K_{1:t}^T) q_t = \\left( \\sum_{i=1}^t v_i k_i^T \\right) q_t = S_t q_t"}
+        <div className="p-4 bg-[#FFFFFF] border border-[#D9DCE1] text-center shadow-sm">
+          <BlockMath math={"y_t = (V_{1:t} K_{1:t}^T) q_t = \\left( \\sum_{i=1}^t v_i k_i^T \\right) q_t = S_t q_t"} />
         </div>
         <p className="text-xs text-[#626873]">
           Our Python and TypeScript test suites numerically verify this identity across 125 randomized parameter sweeps with float64 discrepancy &lt; 10^-14.

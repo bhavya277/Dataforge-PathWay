@@ -10,7 +10,9 @@
     "test:py": "python -m unittest discover -s experiments"
   },
   "dependencies": {
+    "@types/katex": "^0.16.8",
     "framer-motion": "^12.4.7",
+    "katex": "^0.18.5",
     "lucide-react": "^0.475.0",
     "next": "^15.5.7",
     "react": "^19.0.0",

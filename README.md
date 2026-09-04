@@ -3,6 +3,14 @@
 
 ---
 
+### Required Submission Deliverables & Artifacts
+* **Public Interactive Web Application:** [https://dataforge-pathway-iota.vercel.app/](https://dataforge-pathway-iota.vercel.app/)
+* **One-Page Concept Summary PDF:** [`CONCEPT_SUMMARY.pdf`](file:///c:/Users/modib/OneDrive/Desktop/Pathway/CONCEPT_SUMMARY.pdf) (Repository Root; ~686 words, single-page A4)
+* **Research Blog Post PDF:** [`BLOG_POST.pdf`](file:///c:/Users/modib/OneDrive/Desktop/Pathway/BLOG_POST.pdf) (Repository Root; publication layout with MathJax typesetting)
+* **Public Source Repository:** [https://github.com/bhavya277/Dataforge-PathWay.git](https://github.com/bhavya277/Dataforge-PathWay.git)
+
+---
+
 ## 1. What This Project Teaches
 
 This project teaches the geometric and algebraic mechanics of **associative memory recall and recurrent cross-talk interference** in linear fast-weight neural network architectures.
@@ -104,15 +112,38 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 * **Residual Verification:** Dynamic live $L_2$ difference $\|y_t - (\text{target} + \text{crosstalk})\|_2$ computed live in browser.
 * **Interactive Sandbox Controls:** Sliders ($d, N, \rho, \lambda$) re-evaluate the full computational engine instantaneously.
 
+## 9. Component Classification: Live vs. Precomputed vs. Teaching Abstraction
+
+| Component / Subsystem | Classification | Implementation Details |
+|---|---|---|
+| **Recurrent Outer-Product State Update ($S_t$)** | **Live Computation** | Vectorized Float64 linear algebra in `src/lib/math-engine.ts` evaluated on every user interaction. |
+| **Associative Query Readout ($y_t = S_t q_t$)** | **Live Computation** | Exact matrix-vector multiplication executed in browser (<15 ms latency). |
+| **Target vs. Cross-Talk Decomposition** | **Live Computation** | Exact algebraic separation with live float64 residual badge ($\|y_t - (\text{target} + \text{crosstalk})\|_2 < 10^{-14}$). |
+| **Pairwise Key Gram Matrix ($G = K K^T$)** | **Live Computation** | Full inner-product matrix and observed statistics ($\mu, \sigma, \min, \max$) evaluated on the fly. |
+| **Learner Explain-Back Reflection Checkpoint** | **Live Interactive UI** | In-memory reflection prompt with concept hint tags and reference model answer reveal. |
+| **Monte Carlo Benchmark Distributions** | **Precomputed / Cached** | 50 trials per step across 25 parameter configurations stored in `data/experiment_benchmarks.json` as baseline curves. |
+| **BDH Sparse Plasticity Block** | **Teaching Abstraction** | Simplified single-layer $\text{ReLU}(v)\text{ReLU}(k)^T$ with Top-K pruning; illustrates sparse gating, not full BDH model. |
+
 ---
 
-## 10. What is Precomputed
+## 10. What is Computed Live
+
+* **Matrix Recurrence Updates:** Sequential calculation of $S_t = \lambda S_{t-1} + v_t k_t^T$ computed live on every parameter change.
+* **Associative Retrieval:** Exact matrix-vector multiplication $y_t = S_t q$ executed in real time (<15 ms).
+* **Gram Matrix Evaluation:** Full pairwise inner-product matrix $G_{ij} = k_i^T k_j$ and statistical distributions (mean, std, min, max) computed on the fly.
+* **Target vs. Cross-Talk Decomposition:** Exact algebraic separation of target signal and cross-talk interference vectors.
+* **Residual Verification:** Dynamic live $L_2$ difference $\|y_t - (\text{target} + \text{crosstalk})\|_2$ computed live in browser.
+* **Interactive Sandbox Controls:** Sliders ($d, N, \rho, \lambda$) re-evaluate the full computational engine instantaneously.
+
+---
+
+## 11. What is Precomputed
 
 * **Statistical Benchmark Sweeps:** Large-scale Monte Carlo reference distributions (50 trials per step across 25 parameter configurations) saved in `data/experiment_benchmarks.json`. These provide statistical baseline reference curves on the Stress Test tab. No live UI simulation passes off precomputed traces as real-time computation.
 
 ---
 
-## 11. What is Synthetic
+## 12. What is Synthetic
 
 * **Key and Value Vectors:** Generated in-memory via controlled isotropic Gaussian sampling.
 * **Controlled Overlap Distribution:** When $\rho > 0$, keys share a common latent Gaussian direction:
@@ -122,7 +153,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 
 ---
 
-## 12. What is a Teaching Abstraction
+## 13. What is a Teaching Abstraction
 
 * **BDH-Inspired Sparse Plasticity Module:** A simplified single-layer model applying $\text{ReLU}(v) \text{ReLU}(k)^T$ and Top-K connection pruning on $S \in \mathbb{R}^{d \times d}$.
 * **Purpose:** Demonstrates how non-negative activations and sparse connections restrict active interactions in a low-dimensional state.
@@ -130,7 +161,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 
 ---
 
-## 13. BDH Connection
+## 14. BDH Connection
 
 * **Literature:** Dragon Hatchling (**BDH**; Kosowski et al., 2025, arXiv:2509.26507) proposes a Post-Transformer brain-inspired architecture where attention is reformulated as local synaptic plasticity over non-negative sparse activations ($a \ge 0$).
 * **Relevance:** While standard fast weights superimpose unconstrained real-valued vectors causing dense interference, BDH grounds memory in localized, monosemantic synaptic pathways. Our teaching abstraction illustrates how non-negative sparsity alters the pattern of active interactions.
@@ -211,7 +242,7 @@ python experiments/export_blog_pdf.py
 * **Model Weights:** None used or bundled.
 * **Graphics:** Original, programmatic inline SVGs.
 * **Fonts:** Google Fonts (Inter, JetBrains Mono) under SIL Open Font License 1.1 / system sans fallbacks.
-* **Dependencies:** Next.js (MIT), React (MIT), Tailwind CSS (MIT), Lucide React (ISC), Framer Motion (MIT), NumPy (BSD 3-Clause).
+* **Dependencies:** Next.js (MIT), React (MIT), Tailwind CSS (MIT), KaTeX (MIT), Lucide React (ISC), Framer Motion (MIT), NumPy (BSD 3-Clause).
 
 ---
 
@@ -226,4 +257,4 @@ In compliance with the DataForge 2026 regulations:
 
 ## 21. Mentor Involvement Disclosure
 
-No external faculty, industry, or corporate mentor advised or contributed to this submission. All research framing, mathematical implementations, interactive visualizations, and defense documentation were conceived, implemented, tested, and defended independently by the registered author (Bhavya Modi).
+**Mentor involvement: None. No mentor or advisor was involved in this submission.** All research framing, mathematical implementations, interactive visualizations, and defense documentation were conceived, implemented, tested, and defended independently by the registered author.
