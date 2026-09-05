@@ -202,7 +202,7 @@ def generate_synthetic_keys(
     rng = np.random.default_rng(seed)
     
     if correlation == 0.0 and N <= d:
-        # Exact orthonormal construction for orthogonal baseline within rank capacity
+        # Exact orthonormal construction for low-overlap baseline where N <= d
         raw_basis = rng.standard_normal((d, d))
         Q, _ = np.linalg.qr(raw_basis)
         keys = [Q[:, i] for i in range(N)]

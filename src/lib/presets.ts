@@ -4,7 +4,7 @@ export const PROTOCOL_PRESETS: ProtocolPreset[] = [
   {
     id: "protocol_01_baseline",
     title: "BASELINE",
-    subtitle: "Orthogonal retrieval with orthonormal keys",
+    subtitle: "Low-overlap retrieval baseline",
     question: "Can a fixed-size recurrent state store and retrieve values without cross-talk?",
     scientificLesson:
       "When stored keys are mutually orthonormal (G_ij = 0 for i != j), off-diagonal cross-talk terms vanish completely. The retrieved vector matches ground truth with zero linear error.",
@@ -42,10 +42,10 @@ export const PROTOCOL_PRESETS: ProtocolPreset[] = [
   {
     id: "protocol_03_load_stress",
     title: "LOAD STRESS",
-    subtitle: "Synthetic stress case with memory load ratio N/d = 1.5",
+    subtitle: "Higher synthetic memory load: N/d = 1.5",
     question: "What happens when the number of stored memories N exceeds state dimension d?",
     scientificLesson:
-      "When N exceeds d, the keys cannot all remain mutually orthogonal. In this synthetic setup, higher memory load is associated with increased observed cross-talk and retrieval error.",
+      "When N > d, keys cannot all be mutually orthogonal. This creates non-zero off-diagonal projections; in this synthetic configuration, those contributions increase the measured retrieval error.",
     d: 8,
     N: 12,
     correlation: 0.2,

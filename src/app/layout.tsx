@@ -5,7 +5,7 @@ import "katex/dist/katex.min.css";
 export const metadata: Metadata = {
   title: "Associative Memory & Linear Recurrence in Fast-Weight Architectures | Pathway 2026",
   description:
-    "An interactive, research-grounded scientific platform exploring associative memory, key cross-talk interference, and conceptual connections to Dragon Hatchling (BDH) sparse synaptic plasticity.",
+    "An interactive associative-memory and fast-weight research instrument with a conceptual connection to Dragon Hatchling (BDH) and BDH-CQ.",
   keywords: [
     "Pathway",
     "Associative Memory",

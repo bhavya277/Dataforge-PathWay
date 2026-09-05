@@ -16,7 +16,7 @@ export const BDHComparisonExplorer: React.FC = () => {
             BRIDGING LINEAR RECURRENCE &amp; DRAGON HATCHLING
           </h2>
           <p className="text-sm text-[#626873] mt-1 max-w-2xl">
-            Exploring conceptual connections between continuous linear superposition and sparse positive synaptic plasticity.
+            Exploring how sparse positive activations and synaptic-plasticity ideas motivate a contrasting interference pattern in a simplified associative-memory model.
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export const BDHComparisonExplorer: React.FC = () => {
           </p>
 
           <div className="p-3 bg-[#F0F1ED] border border-[#E2E4E8] text-xs font-mono text-[#111318]">
-            <strong>Additive Superposition:</strong> Off-diagonal inner products accumulate additively across all non-orthogonal stored associations.
+            <strong>Linear Superposition in This Model:</strong> Off-diagonal inner products accumulate additively across non-orthogonal stored associations.
           </div>
         </div>
 
@@ -63,15 +63,15 @@ export const BDHComparisonExplorer: React.FC = () => {
           </div>
 
           <div className="p-3 bg-[#F7F7F4] border border-[#0284C7]/30 text-center font-mono font-bold text-sm text-[#0284C7]">
-            {"a_t \\ge 0 \\quad (\\text{Sparse Positive Monosemantic Activations})"}
+            {"a_t \\ge 0 \\quad (\\text{Sparse Positive Activation Abstraction})"}
           </div>
 
           <p className="text-xs text-[#626873] leading-relaxed">
-            Brain-inspired architecture investigating non-negative sparse activations (a ≥ 0), local synaptic plasticity, and sparse routing.
+            Published BDH research studies sparse positive activations (a ≥ 0) and synaptic plasticity in a scale-free neural architecture.
           </p>
 
           <div className="p-3 bg-[#F0F1ED] border border-[#E2E4E8] text-xs font-mono text-[#111318]">
-            <strong>Support Separation:</strong> Under suitable sparse-support regimes, restricting active interactions reduces overlapping connections.
+            <strong>Support Separation:</strong> Restricting active interactions can reduce the number of active contributing interactions in this abstraction.
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@ export const BDHComparisonExplorer: React.FC = () => {
         </div>
 
         <p className="text-xs text-[#626873] leading-relaxed">
-          Under suitable sparse-support regimes, restricting which connections participate can reduce interference; this interactive interface uses a single-layer non-negative toy abstraction to make that geometric intuition tangible.
+          Under suitable sparse-support regimes, restricting which connections participate can reduce the number of active contributing interactions in this abstraction; this interactive interface uses a single-layer non-negative toy abstraction to make that geometric intuition tangible.
         </p>
       </div>
 

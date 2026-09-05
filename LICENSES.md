@@ -42,7 +42,7 @@ In accordance with the official Pathway Problem Statement guidelines, the proven
 | **DATA** | Synthetic Only | No external private or proprietary datasets used. All key-value vectors are generated synthetically in-memory via controlled isotropic Gaussian sampling (`src/lib/math-engine.ts`, `experiments/associative_memory.py`). |
 | **MODEL WEIGHTS** | None | No pre-trained proprietary or third-party neural network model weights are bundled or utilized. All state matrices ($S \in \mathbb{R}^{d \times d}$) are computed deterministically from first principles. |
 | **GRAPHICS** | Original / Programmatic | All heatmaps, vector bars, capacity curves, and decomposition diagrams are rendered programmatically via inline HTML5 SVG/Canvas elements. |
-| **FONTS** | Open Font License | System sans-serif fallbacks and Google Fonts (Inter, JetBrains Mono) under the SIL Open Font License (OFL 1.1). |
+| **FONTS** | System / Bundled | Standard system sans-serif font stack; mathematical symbols rendered via KaTeX bundled font assets. No external font CDNs or remote dependencies. |
 | **REUSED COMPONENTS** | Permissive Open Source | See third-party dependency manifest below. |
 
 ---
@@ -53,11 +53,11 @@ In accordance with the official Pathway Problem Statement guidelines, the proven
 | Library | Version | Purpose | License | Provenance Link |
 |---|---|---|---|---|
 | **Next.js** | 15.5.7 | React framework & server-side generation | MIT | https://github.com/vercel/next.js |
-| **React** / **React DOM** | 19.0.0 | UI component architecture | MIT | https://github.com/facebook/react |
-| **Tailwind CSS** | 3.4.17 | Utility-first CSS layout engine | MIT | https://github.com/tailwindlabs/tailwindcss |
+| **React** / **React DOM** | 19.2.8 | UI component architecture | MIT | https://github.com/facebook/react |
+| **Tailwind CSS** | 3.4.19 | Utility-first CSS layout engine | MIT | https://github.com/tailwindlabs/tailwindcss |
 | **KaTeX** | 0.18.5 | Fast, accessible mathematical LaTeX typeset rendering (`InteractiveEquation.tsx`, `ResearchNotebook.tsx`, PDF export) | MIT | https://github.com/KaTeX/KaTeX |
 | **Lucide React** | 0.475.0 | Minimalist UI glyphs and icons | ISC | https://github.com/lucide-icons/lucide |
-| **Framer Motion** | 12.4.7 | UI transitions | MIT | https://github.com/framer/motion |
+| **Framer Motion** | 12.43.0 | UI transitions | MIT | https://github.com/framer/motion |
 
 ### PDF Export & Verification Dependencies (npm)
 | Tool | Version | Purpose | License | Provenance Link |
@@ -65,6 +65,12 @@ In accordance with the official Pathway Problem Statement guidelines, the proven
 | **Puppeteer** | 25.10.0 | Headless Chrome browser for deterministic PDF compilation | Apache 2.0 | https://github.com/puppeteer/puppeteer |
 | **Marked** | 18.0.11 | Markdown parsing with math span protection | MIT | https://github.com/markedjs/marked |
 | **pdf-parse** | 2.4.5 | PDF text extraction and verification test suite | MIT | https://github.com/modesty/pdf2json |
+| **TypeScript** | 5.9.3 | Type safety and static analysis | Apache 2.0 | https://github.com/microsoft/TypeScript |
+| **@types/node** | 22.20.1 | Node.js type definitions | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| **@types/react** | 19.2.18 | React type definitions | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| **@types/react-dom** | 19.2.5 | React DOM type definitions | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| **Autoprefixer** | 10.5.4 | CSS vendor prefixing | MIT | https://github.com/postcss/autoprefixer |
+| **PostCSS** | 8.5.26 | CSS transformation pipeline | MIT | https://github.com/postcss/postcss |
 
 ### Mathematical Verification Tooling (Python)
 | Tool | Version | Purpose | License | Provenance Link |

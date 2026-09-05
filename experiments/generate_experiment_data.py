@@ -35,7 +35,7 @@ def generate_preset_protocols() -> Dict[str, Any]:
     presets["protocol_01_baseline"] = {
         "id": "protocol_01_baseline",
         "title": "PROTOCOL 01: BASELINE",
-        "subtitle": "Orthogonal key storage within rank capacity",
+        "subtitle": "Low-overlap retrieval baseline",
         "question": "Can a recurrent state achieve zero linear cross-talk when keys are orthonormal?",
         "scientificLesson": "When stored keys are mutually orthonormal, off-diagonal Gram matrix terms vanish and retrieval is mathematically lossless.",
         "d": d1,
@@ -111,9 +111,9 @@ def generate_preset_protocols() -> Dict[str, Any]:
     presets["protocol_03_load_stress"] = {
         "id": "protocol_03_load_stress",
         "title": "PROTOCOL 03: LOAD STRESS",
-        "subtitle": "Memory load ratio N/d = 1.5 exceeding state rank",
+        "subtitle": "Higher synthetic memory load: N/d = 1.5",
         "question": "What happens when the number of associations exceeds state dimension?",
-        "scientificLesson": "A fixed-size state matrix in R^(d x d) has rank at most d. Storing N > d associations forces geometric overlap, compounding cumulative cross-talk.",
+        "scientificLesson": "When N > d, keys cannot all be mutually orthogonal. This creates non-zero off-diagonal projections; in this synthetic configuration, those contributions increase the measured retrieval error.",
         "d": d3,
         "N": N3,
         "correlation": rho3,

@@ -36,7 +36,7 @@
 > **"How do memory load and key overlap affect retrieval quality in the specified fixed-size recurrent associative-memory model?"**
 
 ### The One-Sentence Falsifiable Claim
-> **"In a linear fast-weight associative memory, retrieving one stored value also receives contributions from other stored key-value pairs; increasing key similarity or memory load therefore increases interference under the stated retrieval setup."**
+> **"When stored keys are not orthogonal, a linear fast-weight state adds non-target contributions to retrieval; in our synthetic setup, increasing controlled key overlap increases measured cross-talk."**
 
 *(Note: Empirical error scaling with $N/d$ is documented strictly as an empirical observation under isotropic Gaussian keys, not a universal theorem.)*
 
@@ -52,16 +52,16 @@
    $$\hat{v}_{query} = S_t q_{query}$$
    Expanding the recurrence for query $q = k_m$:
    $$\hat{v}_m = \sum_{i=1}^t \lambda^{t-i} \eta v_i (k_i^T k_m) = \underbrace{v_m \|k_m\|^2}_{\text{Target Signal}} + \underbrace{\sum_{i \ne m} \lambda^{t-i} \eta v_i (k_i^T k_m)}_{\text{Cross-Talk Interference}}$$
-3. **BDH Sparse Positive Rectification & Synaptic Gating:**
+3. **BDH-Inspired Teaching Abstraction (Non-negative Rectification & Connection Gating):**
    $$W_{t} = \text{TopK}\left(\lambda W_{t-1} + \eta \cdot \text{ReLU}(v_t) \text{ReLU}(k_t)^T\right)$$
-   Sparsity enforces that $\text{supp}(\text{ReLU}(k_i)) \cap \text{supp}(\text{ReLU}(k_j)) \approx \emptyset$, suppressing cross-talk by mathematical construction.
+   The BDH-inspired teaching abstraction applies non-negative activation and sparse connection gating to explore how restricting active supports can change the pattern of cross-talk.
 
 ### Meaningful Learner Variables
-1. **Key Orthogonality / Correlation ($\rho \in [0, 1]$):** Adjusts the angular separation between stored keys.
-2. **State Dimension ($d \in [4, 64]$):** Changes the rank capacity of the recurrent matrix.
-3. **Sequence Length / Number of Injected Key-Values ($N \in [1, 32]$):** Pushes the system beyond its theoretical rank capacity ($N > d$).
+1. **Controlled Key Overlap / Parameter ($\rho \in [0, 1]$):** Adjusts the shared-component parameter between stored keys.
+2. **State Dimension ($d \in [4, 64]$):** Changes the dimension of the recurrent matrix ($S \in \mathbb{R}^{d \times d}$).
+3. **Sequence Length / Number of Injected Key-Values ($N \in [1, 32]$):** Explores memory load where $N > d$.
 4. **Decay / Forgetting Factor ($\lambda \in [0.5, 1.0]$):** Controls recency bias versus long-term retention.
-5. **BDH Sparsity Level ($K / d \in [0.05, 1.0]$):** Switches the architecture from dense linear attention to BDH sparse monosemantic plasticity.
+5. **Connection Sparsity ($K / d \in [0.05, 1.0]$):** Controls sparsity in the BDH-inspired teaching abstraction used for comparison.
 
 ---
 
@@ -70,16 +70,16 @@
 * **Model Output:** $\hat{v} = S_N q_{target}$, normalized and projected onto the token dictionary.
 * **Failure Mode (Preset 03 - High-Load Stress Case):** When $N > d$ and $\rho \ge 0.45$, cross-talk terms accumulate relative to the target signal under this synthetic distribution:
   $$\|\text{Interference}\| \approx \|\text{Signal}\| \implies \text{ArgMax}(\hat{v}) \ne \text{ArgMax}(v_{target})$$
-  The learner witnesses exact matrix cell accumulation and output error in real time.
+  The learner witnesses exact matrix cell accumulation and output error interactively in the browser.
 
 ---
 
 ## 7. Direct BDH & BDH-CQ Grounding
-* **BDH (Dragon Hatchling):** Explores a brain-inspired alternative where memory and computation are tied to local synaptic activity:
-  1. *Sparse Positive Activations:* Non-negative activations reduce active overlapping connections in high dimensions.
-  2. *Monosemantic Synaptic Connections:* Encourages localized, disentangled feature representations.
-  3. *Local Synaptic Plasticity:* Dynamic connection updates occur during context consumption without full backpropagation.
-* **BDH-CQ (Research Context):** Uses demonstration-conditioned recurrent state updates to reason across demonstration pairs without writing explicit verbal tokens. (Our interactive model is a single-layer teaching abstraction).
+* **BDH (Dragon Hatchling Research Context):** Explores a brain-inspired architecture where memory and computation are tied to local synaptic activity:
+  1. *Sparse Positive Activations:* Non-negative activations restrict active overlapping connections in high dimensions.
+  2. *Sparse Synaptic Plasticity:* Dynamic local connection updates occur during context consumption.
+  3. *Note on Abstraction:* This project does NOT implement the full multi-layer BDH architecture; our interactive mode is a simplified single-layer teaching abstraction.
+* **BDH-CQ (Research Context):** Studies demonstration-conditioned recurrent states to evaluate queries via continuous latent reasoning without explicit chain-of-thought tokens. (Our interactive model is a simplified teaching abstraction).
 
 ---
 

@@ -166,7 +166,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 ## 15. BDH Connection
 
 * **Literature:** Dragon Hatchling (**BDH**; Kosowski et al., 2025, arXiv:2509.26507) proposes a Post-Transformer brain-inspired architecture where attention is reformulated as local synaptic plasticity over non-negative sparse activations ($a \ge 0$).
-* **Relevance:** While standard fast weights superimpose unconstrained real-valued vectors causing dense interference, BDH grounds memory in localized, monosemantic synaptic pathways. Our teaching abstraction illustrates how non-negative sparsity alters the pattern of active interactions.
+* **Relevance:** While standard fast weights superimpose unconstrained real-valued vectors causing dense interference, BDH explores grounding memory in localized synaptic pathways with sparse positive activations. Our teaching abstraction illustrates how non-negative sparsity alters the pattern of active interactions.
 
 ---
 
@@ -193,8 +193,8 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 git clone https://github.com/bhavya277/Dataforge-PathWay.git
 cd Dataforge-PathWay
 
-# Install dependencies
-npm install
+# Install dependencies cleanly
+npm ci
 
 # Start development server
 npm run dev
@@ -244,7 +244,7 @@ npm run export:pdf
 * **Data:** Synthetic only; no private or proprietary external datasets.
 * **Model Weights:** None used or bundled.
 * **Graphics:** Original, programmatic inline SVGs.
-* **Fonts:** Google Fonts (Inter, JetBrains Mono) under SIL Open Font License 1.1 / system sans fallbacks.
+* **Fonts:** Standard system sans-serif font stack; mathematical symbols rendered via KaTeX bundled font assets.
 * **Dependencies:** Next.js (MIT), React (MIT), Tailwind CSS (MIT), KaTeX (MIT), Lucide React (ISC), Framer Motion (MIT), NumPy (BSD 3-Clause).
 
 ---

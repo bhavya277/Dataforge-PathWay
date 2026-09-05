@@ -142,7 +142,7 @@ export function generateSyntheticPairs(
   const values: number[][] = [];
 
   if (correlation === 0.0 && N <= d) {
-    // Exact orthonormal basis within rank capacity
+    // Exact orthonormal basis for low-overlap baseline where N <= d
     const basis: number[][] = [];
     for (let i = 0; i < d; i++) {
       let v = Array.from({ length: d }, () => gaussianRandom(rng));

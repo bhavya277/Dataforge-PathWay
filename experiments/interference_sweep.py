@@ -20,7 +20,7 @@ from associative_memory import LinearAssociativeMemory, generate_synthetic_keys
 
 
 def run_experiment_a_orthogonal_baseline(d: int = 8, N: int = 4, seed: int = 42) -> Dict[str, Any]:
-    """Experiment A: Orthogonal Keys within rank capacity."""
+    """Experiment A: Low-overlap baseline where N <= d."""
     keys, values, stats = generate_synthetic_keys(N, d, correlation=0.0, seed=seed)
     mem = LinearAssociativeMemory(d=d, lambda_decay=1.0)
     mem.store_sequence(keys, values)

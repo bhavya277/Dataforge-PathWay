@@ -27,7 +27,7 @@ $$y_j = \underbrace{v_j (k_j^T k_j)}_{\text{Target Signal}} + \underbrace{\sum_{
 
 ### The Mechanism of Interference
 
-The central insight is straightforward: **in a linear fast-weight memory, retrieving one stored value inevitably accumulates linear contributions from all other stored pairs whose keys are not orthogonal to the query.**
+Our central claim is: **When stored keys are not orthogonal, a linear fast-weight state adds non-target contributions to retrieval; in our synthetic setup, increasing controlled key overlap increases measured cross-talk.**
 
 If all keys are strictly orthonormal ($k_i^T k_j = 0$ for $i \ne j$), the cross-talk sum vanishes entirely, yielding lossless reconstruction $y_j = v_j$. However, in dense continuous representation spaces, unit vectors are rarely mutually orthogonal once the sequence length $N$ approaches or exceeds the state dimension $d$.
 
@@ -54,7 +54,7 @@ Under these conditions, retrieval does not merely degrade with small noise—the
 Dragon Hatchling (**BDH**; Kosowski et al., 2025) explores a brain-inspired alternative where memory and computation are tied to local synaptic activity:
 
 1. **Sparse Positive Activations ($\text{ReLU} / \text{Top-K}$):** Activations are strictly non-negative and sparse. Under suitable sparse-support regimes, restricting active connections reduces overlapping interactions compared to dense linear superposition.
-2. **Monosemantic Synaptic Connectivity:** Isolates semantic circuits into localized synaptic pathways.
+2. **Sparse Synaptic Connectivity:** Localizes connections to reduce overlapping feature interactions.
 3. **Local Synaptic Plasticity:** Updates synaptic connection weights dynamically during context consumption according to local co-activation rules.
 
 Furthermore, **BDH-CQ** (Engdahl et al., 2026) provides broader research context by exploring how in-context demonstration pairs $(X \to Y)$ update recurrent synaptic states, allowing queries to be solved through iterative latent computation without requiring explicit verbal tokens. (Note: our interactive module is a single-layer teaching abstraction to illustrate sparse representation dynamics, not the full multi-layer BDH architecture).

@@ -41,7 +41,7 @@ This document classifies every claim and technical mechanism in our project acco
 
 6. **"BDH eliminates all memory interference."**
    * **Classification:** `[DISALLOWED CLAIM / FALSE PSEUDOSCIENCE]`
-   * **Correction:** BDH significantly suppresses polysemantic cross-talk via non-negative sparsity and localized plasticity, but finite-dimensional capacity limits still apply under extreme load.
+   * **Correction:** The project does not claim that BDH eliminates memory interference. BDH's sparse-positive activations and synaptic-plasticity mechanisms motivate our teaching abstraction, which explores how restricting active interactions can alter interference patterns. We clearly distinguish published BDH research (scale-free neural architecture with sparse-positive activations and local synaptic plasticity), our conceptual interpretation (associative memory under sparse support constraints), and our toy implementation (a single-layer teaching model with ReLU outer products and connection gating).
 
 ---
 

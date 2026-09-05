@@ -24,8 +24,8 @@ This document catalogs the primary peer-reviewed and pre-print literature (2021�
 * **Citation:** Beck, Maximilian, Korbinian Pöppel, Markus Spanring, Andreas Auer, Oleksandra Prudnikova, Michael Kopp, Günter Klambauer, Johannes Brandstetter, and Sepp Hochreiter (2024). "xLSTM: Extended Long Short-Term Memory." *Advances in Neural Information Processing Systems (NeurIPS 2024)*. [arXiv:2405.04517](https://arxiv.org/abs/2405.04517).
 * **Year:** 2024 (NeurIPS)
 * **Mechanism / System Studied:** Matrix-memory LSTM cells (mLSTM) using a covariance-like recurrent state matrix $C_t = f_t C_{t-1} + i_t v_t k_t^T$ paired with a normalizer state $n_t$.
-* **Relationship to Associative Memory:** Uses the outer-product associative update $v_t k_t^T$ as the core storage primitive to dramatically increase capacity beyond scalar LSTM hidden states, while adding gating to suppress noise.
-* **Relevance to Our Experiment:** Validates that matrix outer-product associative states are central to state-of-the-art non-transformer sequence models; illustrates the necessity of retention/decay mechanisms ($\lambda$) to manage capacity.
+* **Relationship to Associative Memory:** Uses the outer-product associative update $v_t k_t^T$ as the core storage primitive to expand representational capacity via a matrix state beyond scalar LSTM hidden states, while adding gating to stabilize updates.
+* **Relevance to Our Experiment:** Validates that matrix outer-product associative states are central to state-of-the-art non-transformer sequence models; illustrates the necessity of retention/decay mechanisms ($\lambda$) to manage memory retention.
 * **Classification:** `[PUBLISHED LITERATURE • ARCHITECTURAL EXTENSION]`
 
 ### Paper 3: Mamba: Linear-Time Sequence Modeling with Selective State Spaces
@@ -51,8 +51,8 @@ This document catalogs the primary peer-reviewed and pre-print literature (2021�
 ### Paper 5: The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain
 * **Citation:** Kosowski, Adrian, Przemysław Uznański, Jan Chorowski, Zuzanna Stamirowska, and Michał Bartoszkiewicz (2025). "The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain." *arXiv preprint*. [arXiv:2509.26507](https://arxiv.org/abs/2509.26507).
 * **Year:** 2025
-* **Mechanism / System Studied:** Scale-free neural architecture featuring locally interacting neuron particles, non-negative sparse activations, local synaptic plasticity, and monosemantic routing.
-* **Relationship to Associative Memory:** Connects transformer self-attention and recurrent memory to biological synaptic plasticity, exploring how non-negative sparse positive representations avoid the interference pathologies of unconstrained continuous superposition.
+* **Mechanism / System Studied:** Scale-free neural architecture featuring locally interacting neuron particles, non-negative sparse activations, and local synaptic plasticity.
+* **Relationship to Associative Memory:** Connects transformer self-attention and recurrent memory to biological synaptic plasticity, exploring how non-negative sparse representations alter interaction patterns relative to dense continuous superposition.
 * **Relevance to Our Experiment:** Inspires our single-layer sparse-plasticity teaching abstraction (`useBDH` in `math-engine.ts`), contrasting dense linear fast weights with sparse positive projections.
 * **Classification:** `[PRIMARY BENCHMARK / SOURCE • RESEARCH SUBSTRATE]`
 
