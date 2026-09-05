@@ -145,7 +145,8 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
                 }`}
                 aria-label={`Go to step ${ch.step}: ${ch.name}`}
               >
-                {ch.num} {ch.name}
+                <span>{ch.num}</span>
+                <span className="hidden sm:inline ml-1">{ch.name}</span>
               </button>
             ))}
           </div>

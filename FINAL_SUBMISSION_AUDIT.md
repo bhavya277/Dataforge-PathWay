@@ -172,7 +172,16 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 * `experiments/interference_sweep.py`: Refined low-overlap baseline comments.
 * `src/app/layout.tsx`: Updated metadata description.
 * `src/components/bdh/BDHComparisonExplorer.tsx`: UI labels updated to conservative phrasing.
-* `src/components/education/GuidedChapterFlow.tsx`: Chapter 5 and 6 labels and descriptions updated.
+* `src/components/education/GuidedChapterFlow.tsx`: Chapter 5 and 6 labels and descriptions updated; compact responsive step numbering for mobile viewports.
+* `src/components/education/LearnerExplainBack.tsx`: Responsive button and action-bar layout for mobile/tablet.
+* `src/components/experiment/ControlPanel.tsx`: Responsive flex-wrap for BDH option footer.
+* `src/components/experiment/DualReadout.tsx`: Mobile-friendly vector profile containers with horizontal overflow scroll.
+* `src/components/experiment/RetrievalDecomposition.tsx`: Responsive vertical down-arrows on mobile, wrapping energy ratio meters, scrollable vector profiles.
+* `src/components/experiment/StressTestExplorer.tsx`: Fluid responsive SVG with viewBox and responsive 1/2/4-column control grid.
+* `src/components/ui/Header.tsx`: Responsive compact badges and navigation tags for mobile screens down to 320px.
+* `src/components/visualization/GramMatrixHeatmap.tsx`: Fluid responsive aspect-square scaling and wrapping inspection cards.
+* `src/components/visualization/MemoryMatrixHeatmap.tsx`: Fluid responsive aspect-square matrix layout and wrapping legend.
+* `src/app/page.tsx`: Responsive hero title scaling and slider label wrapping.
 * `src/lib/math-engine.ts`: Refined low-overlap baseline comments.
 * `src/lib/presets.ts`: Presets 1 and 3 updated with conservative subtitles and lessons.
 

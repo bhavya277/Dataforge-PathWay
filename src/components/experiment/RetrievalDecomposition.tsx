@@ -3,7 +3,7 @@
 import React from "react";
 import { RetrievalBreakdown } from "@/lib/types";
 import { vectorNorm } from "@/lib/math-engine";
-import { ArrowRight, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowRight, ArrowDown, CheckCircle, AlertCircle } from "lucide-react";
 
 interface RetrievalDecompositionProps {
   retrieval: RetrievalBreakdown;
@@ -70,16 +70,19 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
             <span className="font-bold text-[#D97706]">ρ = {correlation.toFixed(2)}</span>
           </div>
           <ArrowRight className="w-3.5 h-3.5 text-[#8A909A] shrink-0 hidden sm:block" />
+          <ArrowDown className="w-3.5 h-3.5 text-[#8A909A] shrink-0 sm:hidden" />
           <div className="p-2 bg-[#F7F7F4] border border-[#E2E4E8] text-center w-full sm:w-auto flex-1">
             <span className="text-[#626873] block text-[10px]">2. NON-ZERO INNER PRODUCTS</span>
             <span className="font-bold text-[#111318]">k_iᵀ q ≠ 0 (for i ≠ j)</span>
           </div>
           <ArrowRight className="w-3.5 h-3.5 text-[#8A909A] shrink-0 hidden sm:block" />
+          <ArrowDown className="w-3.5 h-3.5 text-[#8A909A] shrink-0 sm:hidden" />
           <div className="p-2 bg-[#F7F7F4] border border-[#E2E4E8] text-center w-full sm:w-auto flex-1">
             <span className="text-[#626873] block text-[10px]">3. NON-TARGET CONTRIBUTIONS</span>
             <span className="font-bold text-[#D97706]">Cross-Talk Accumulates</span>
           </div>
           <ArrowRight className="w-3.5 h-3.5 text-[#8A909A] shrink-0 hidden sm:block" />
+          <ArrowDown className="w-3.5 h-3.5 text-[#8A909A] shrink-0 sm:hidden" />
           <div className="p-2 bg-[#F7F7F4] border border-[#E2E4E8] text-center w-full sm:w-auto flex-1">
             <span className="text-[#626873] block text-[10px]">4. MEASURED RETRIEVAL</span>
             <span className="font-bold text-[#111318]">y_t Contaminated</span>
@@ -88,7 +91,7 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
       </div>
 
       {/* Exact Recurrence Decomposition Card */}
-      <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-6 shadow-sm space-y-5">
+      <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-6 shadow-sm space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#E2E4E8] pb-3">
           <div>
             <span className="text-xs font-mono font-bold text-[#626873] uppercase tracking-wider block">
@@ -115,7 +118,7 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
 
         {/* Visual Energy Ratio Bar */}
         <div className="space-y-2">
-          <div className="flex justify-between items-baseline text-xs sm:text-sm font-mono">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-baseline gap-1 text-xs sm:text-sm font-mono">
             <span className="text-[#0284C7] font-bold">
               TARGET CONTRIBUTION: {signalMagnitude.toFixed(3)} ({signalPercent}%)
             </span>
@@ -160,23 +163,25 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
             </p>
 
             {/* Vector Profile */}
-            <div
-              className="grid gap-1 pt-1"
-              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
-            >
-              {signalComponent.slice(0, dim).map((val, idx) => {
-                const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
-                return (
-                  <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
-                      <div className="w-full bg-[#0284C7]" style={{ height: `${heightPct}%` }} />
+            <div className="overflow-x-auto pb-1">
+              <div
+                className="min-w-[200px] grid gap-1 pt-1"
+                style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+              >
+                {signalComponent.slice(0, dim).map((val, idx) => {
+                  const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
+                  return (
+                    <div key={idx} className="flex flex-col items-center">
+                      <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
+                        <div className="w-full bg-[#0284C7]" style={{ height: `${heightPct}%` }} />
+                      </div>
+                      <span className="text-[8px] font-mono text-[#626873] mt-0.5 font-semibold">
+                        {Math.abs(val) < 0.05 ? "0" : val.toFixed(1)}
+                      </span>
                     </div>
-                    <span className="text-[8px] font-mono text-[#626873] mt-0.5 font-semibold">
-                      {Math.abs(val) < 0.05 ? "0" : val.toFixed(1)}
-                    </span>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -200,23 +205,25 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
             </p>
 
             {/* Vector Profile */}
-            <div
-              className="grid gap-1 pt-1"
-              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
-            >
-              {interferenceComponent.slice(0, dim).map((val, idx) => {
-                const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
-                return (
-                  <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
-                      <div className="w-full bg-[#D97706]" style={{ height: `${heightPct}%` }} />
+            <div className="overflow-x-auto pb-1">
+              <div
+                className="min-w-[200px] grid gap-1 pt-1"
+                style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+              >
+                {interferenceComponent.slice(0, dim).map((val, idx) => {
+                  const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
+                  return (
+                    <div key={idx} className="flex flex-col items-center">
+                      <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
+                        <div className="w-full bg-[#D97706]" style={{ height: `${heightPct}%` }} />
+                      </div>
+                      <span className="text-[8px] font-mono text-[#626873] mt-0.5 font-semibold">
+                        {Math.abs(val) < 0.05 ? "0" : val.toFixed(1)}
+                      </span>
                     </div>
-                    <span className="text-[8px] font-mono text-[#626873] mt-0.5 font-semibold">
-                      {Math.abs(val) < 0.05 ? "0" : val.toFixed(1)}
-                    </span>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -240,23 +247,25 @@ export const RetrievalDecomposition: React.FC<RetrievalDecompositionProps> = ({
             </p>
 
             {/* Vector Profile */}
-            <div
-              className="grid gap-1 pt-1"
-              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
-            >
-              {retrievedValue.slice(0, dim).map((val, idx) => {
-                const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
-                return (
-                  <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
-                      <div className="w-full bg-[#111318]" style={{ height: `${heightPct}%` }} />
+            <div className="overflow-x-auto pb-1">
+              <div
+                className="min-w-[200px] grid gap-1 pt-1"
+                style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+              >
+                {retrievedValue.slice(0, dim).map((val, idx) => {
+                  const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(1));
+                  return (
+                    <div key={idx} className="flex flex-col items-center">
+                      <div className="w-full bg-[#EAEBE5] h-10 flex items-end justify-center">
+                        <div className="w-full bg-[#111318]" style={{ height: `${heightPct}%` }} />
+                      </div>
+                      <span className="text-[8px] font-mono text-[#111318] mt-0.5 font-bold">
+                        {Math.abs(val) < 0.05 ? "0" : val.toFixed(1)}
+                      </span>
                     </div>
-                    <span className="text-[8px] font-mono text-[#111318] mt-0.5 font-bold">
-                      {Math.abs(val) < 0.05 ? "0" : val.toFixed(1)}
-                    </span>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

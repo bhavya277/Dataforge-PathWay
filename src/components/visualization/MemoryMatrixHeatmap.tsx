@@ -74,20 +74,20 @@ export const MemoryMatrixHeatmap: React.FC<MemoryMatrixHeatmapProps> = ({
           </div>
 
           {/* State Indicators */}
-          <div className="flex items-center space-x-4 text-xs font-mono bg-[#FFFFFF] px-4 py-2 border border-[#D9DCE1] shadow-sm">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-mono bg-[#FFFFFF] px-3 sm:px-4 py-2 border border-[#D9DCE1] shadow-sm">
             <div>
               <span className="text-[#8A909A] block text-[10px]">TIME t</span>
               <span className="font-bold text-[#111318]">t = {t}</span>
             </div>
-            <div className="border-l border-[#E2E4E8] pl-3">
+            <div className="border-l border-[#E2E4E8] pl-2.5 sm:pl-3">
               <span className="text-[#8A909A] block text-[10px]">DIM d</span>
               <span className="font-bold text-[#111318]">d = {d}</span>
             </div>
-            <div className="border-l border-[#E2E4E8] pl-3">
+            <div className="border-l border-[#E2E4E8] pl-2.5 sm:pl-3">
               <span className="text-[#8A909A] block text-[10px]">DECAY λ</span>
               <span className="font-bold text-[#111318]">λ = {decay.toFixed(2)}</span>
             </div>
-            <div className="border-l border-[#E2E4E8] pl-3">
+            <div className="border-l border-[#E2E4E8] pl-2.5 sm:pl-3">
               <span className="text-[#8A909A] block text-[10px]">RANK BOUND</span>
               <span className="font-bold text-[#0284C7]">Rank ≤ {d}</span>
             </div>
@@ -98,22 +98,20 @@ export const MemoryMatrixHeatmap: React.FC<MemoryMatrixHeatmapProps> = ({
       {/* Large Matrix Hero Display Area */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2">
         {/* The Matrix Hero (70% visual prominence) */}
-        <div className="lg:col-span-8 flex flex-col items-center justify-center p-6 bg-[#FFFFFF] border border-[#D9DCE1] shadow-sm">
-          <div className="text-xs font-mono text-[#8A909A] mb-2 uppercase tracking-wider">
+        <div className="lg:col-span-8 flex flex-col items-center justify-center p-3 sm:p-6 bg-[#FFFFFF] border border-[#D9DCE1] shadow-sm overflow-hidden">
+          <div className="text-[11px] sm:text-xs font-mono text-[#8A909A] mb-2 uppercase tracking-wider text-center">
             ← Key Column Index (1..{d}) →
           </div>
 
-          <div className="flex items-center">
-            <div className="text-xs font-mono text-[#8A909A] mr-3 -rotate-90 origin-center whitespace-nowrap uppercase tracking-wider">
+          <div className="flex items-center justify-center w-full max-w-full">
+            <div className="hidden sm:block text-xs font-mono text-[#8A909A] mr-2 sm:mr-3 -rotate-90 origin-center whitespace-nowrap uppercase tracking-wider">
               ← Value Row Index (1..{d}) →
             </div>
 
             <div
-              className="grid gap-[2px] bg-[#090B0F] p-3 border border-[#1E232E] shadow-inner"
+              className="grid gap-[2px] bg-[#090B0F] p-2 sm:p-3 border border-[#1E232E] shadow-inner w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[460px] aspect-square"
               style={{
                 gridTemplateColumns: `repeat(${d}, minmax(0, 1fr))`,
-                width: d <= 8 ? "360px" : d <= 12 ? "420px" : "480px",
-                height: d <= 8 ? "360px" : d <= 12 ? "420px" : "480px",
               }}
             >
               {matrix.map((row, r) =>
@@ -131,7 +129,7 @@ export const MemoryMatrixHeatmap: React.FC<MemoryMatrixHeatmapProps> = ({
                       style={{ backgroundColor: getCellColor(val) }}
                     >
                       {d <= 8 && (
-                        <span className="text-[10px] font-mono font-bold text-white/95 select-none drop-shadow">
+                        <span className="text-[9px] sm:text-[10px] font-mono font-bold text-white/95 select-none drop-shadow">
                           {displayVal === 0 ? "0" : displayVal.toFixed(1)}
                         </span>
                       )}
@@ -143,8 +141,8 @@ export const MemoryMatrixHeatmap: React.FC<MemoryMatrixHeatmapProps> = ({
           </div>
 
           {/* Matrix Weights Legend */}
-          <div className="w-full flex items-center justify-between mt-4 pt-3 border-t border-[#E2E4E8] text-xs font-mono">
-            <div className="flex items-center space-x-4 text-[11px] text-[#626873]">
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-2 mt-4 pt-3 border-t border-[#E2E4E8] text-xs font-mono">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] text-[#626873]">
               <span className="flex items-center space-x-1.5">
                 <span className="w-3 h-3 bg-[#00E5FF]" />
                 <span>+ Weight</span>
@@ -161,13 +159,13 @@ export const MemoryMatrixHeatmap: React.FC<MemoryMatrixHeatmapProps> = ({
               </span>
             </div>
 
-            <div className="text-xs font-mono font-bold text-[#111318]">
+            <div className="text-xs font-mono font-bold text-[#111318] text-center sm:text-right">
               {hovered ? (
                 <span>
                   S[{hovered.r + 1}, {hovered.c + 1}] = {hovered.val.toFixed(4)}
                 </span>
               ) : (
-                <span className="text-[#8A909A] font-normal">Hover cell for exact weight</span>
+                <span className="text-[#8A909A] font-normal">Hover or tap cell for exact weight</span>
               )}
             </div>
           </div>

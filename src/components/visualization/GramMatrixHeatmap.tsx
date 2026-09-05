@@ -40,24 +40,22 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
 
       {/* Main Grid: Left Primary Gram Matrix | Right Observed Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Primary Gram Matrix Visualization (8 cols) */}
-        <div className="lg:col-span-8 bg-[#FFFFFF] border border-[#D9DCE1] p-6 shadow-sm space-y-4">
-          <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-2">
+        {/* Left Column: The N x N Heatmap (8 cols) */}
+        <div className="lg:col-span-8 bg-[#FFFFFF] border border-[#D9DCE1] p-3 sm:p-6 shadow-sm space-y-4 overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 border-b border-[#E2E4E8] pb-2">
             <span className="text-xs font-bold text-[#111318] uppercase tracking-wider">
-              GRAM MATRIX G = K Kᵀ ∈ ℝ^({N}×{N})
+              Pairwise Key Inner Products G = K Kᵀ
             </span>
-            <span className="text-xs font-mono text-[#D97706] font-bold">
+            <span className="text-[11px] font-mono text-[#D97706] font-semibold">
               CONTROLLED KEY CORRELATION ρ = {correlationParam.toFixed(2)}
             </span>
           </div>
 
-          <div className="flex flex-col items-center my-2">
+          <div className="flex flex-col items-center my-2 w-full">
             <div
-              className="grid gap-[2px] bg-[#090B0F] p-3 border border-[#1E232E] shadow-inner"
+              className="grid gap-[2px] bg-[#090B0F] p-2 sm:p-3 border border-[#1E232E] shadow-inner w-full max-w-[280px] sm:max-w-[340px] md:max-w-[380px] aspect-square"
               style={{
                 gridTemplateColumns: `repeat(${N}, minmax(0, 1fr))`,
-                width: N <= 6 ? "260px" : N <= 10 ? "320px" : "380px",
-                height: N <= 6 ? "260px" : N <= 10 ? "320px" : "380px",
               }}
             >
               {gramMatrix.map((row, i) =>
@@ -87,7 +85,7 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
                     >
                       {N <= 8 && (
                         <span
-                          className={`text-[10px] font-mono font-bold select-none ${
+                          className={`text-[9px] sm:text-[10px] font-mono font-bold select-none ${
                             isDiag ? "text-slate-950 font-bold" : "text-white drop-shadow"
                           }`}
                         >
@@ -102,7 +100,7 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
           </div>
 
           {/* Interactive Inspection Tooltip */}
-          <div className="pt-3 border-t border-[#E2E4E8] text-xs font-mono min-h-[28px] flex items-center justify-between">
+          <div className="pt-3 border-t border-[#E2E4E8] text-xs font-mono min-h-[28px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
             {hovered ? (
               hovered.i === hovered.j ? (
                 <span className="text-[#0284C7] font-bold">
@@ -114,7 +112,7 @@ export const GramMatrixHeatmap: React.FC<GramMatrixHeatmapProps> = ({
                 </span>
               )
             ) : (
-              <span className="text-[#8A909A]">Hover cell to inspect pairwise inner product kᵢᵀ kⱼ</span>
+              <span className="text-[#8A909A]">Hover or tap cell to inspect pairwise inner product kᵢᵀ kⱼ</span>
             )}
           </div>
         </div>

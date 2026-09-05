@@ -135,7 +135,7 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
         {/* Side-by-Side: GROUND TRUTH vs RETRIEVED FROM S_t */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-1">
           {/* Ground Truth Vector */}
-          <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-5 shadow-sm space-y-3">
+          <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-5 shadow-sm space-y-3">
             <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-2">
               <span className="text-xs font-bold text-[#0284C7] uppercase tracking-wider">
                 GROUND TRUTH (v_{selectedQueryIdx + 1})
@@ -143,32 +143,34 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
               <span className="text-[11px] font-mono text-[#8A909A]">||v|| = 1.00</span>
             </div>
 
-            <div
-              className="grid gap-2 pt-2"
-              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
-            >
-              {groundTruthValue.slice(0, dim).map((val, idx) => {
-                const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(2));
-                const displayVal = Math.abs(val) < 0.01 ? 0 : val;
-                return (
-                  <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#F0F1ED] h-16 flex items-end justify-center border border-[#E2E4E8]">
-                      <div
-                        className="w-full bg-[#0284C7]"
-                        style={{ height: `${heightPct}%` }}
-                      />
+            <div className="overflow-x-auto pb-1">
+              <div
+                className="min-w-[260px] grid gap-1 sm:gap-2 pt-2"
+                style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+              >
+                {groundTruthValue.slice(0, dim).map((val, idx) => {
+                  const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(2));
+                  const displayVal = Math.abs(val) < 0.01 ? 0 : val;
+                  return (
+                    <div key={idx} className="flex flex-col items-center">
+                      <div className="w-full bg-[#F0F1ED] h-14 sm:h-16 flex items-end justify-center border border-[#E2E4E8]">
+                        <div
+                          className="w-full bg-[#0284C7]"
+                          style={{ height: `${heightPct}%` }}
+                        />
+                      </div>
+                      <span className="text-[8px] sm:text-[9px] font-mono text-[#626873] mt-1 font-semibold">
+                        {displayVal === 0 ? "0" : displayVal.toFixed(1)}
+                      </span>
                     </div>
-                    <span className="text-[9px] font-mono text-[#626873] mt-1 font-semibold">
-                      {displayVal === 0 ? "0" : displayVal.toFixed(1)}
-                    </span>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
           {/* Retrieved Vector */}
-          <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-5 shadow-sm space-y-3">
+          <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-5 shadow-sm space-y-3">
             <div className="flex justify-between items-baseline border-b border-[#E2E4E8] pb-2">
               <span className="text-xs font-bold text-[#111318] uppercase tracking-wider">
                 RETRIEVED FROM Sₜ (yₜ = Sₜ q)
@@ -176,27 +178,29 @@ export const DualReadout: React.FC<DualReadoutProps> = ({
               <span className="text-[11px] font-mono text-[#8A909A]">Signal + Cross-Talk</span>
             </div>
 
-            <div
-              className="grid gap-2 pt-2"
-              style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
-            >
-              {retrievedValue.slice(0, dim).map((val, idx) => {
-                const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(2));
-                const displayVal = Math.abs(val) < 0.01 ? 0 : val;
-                return (
-                  <div key={idx} className="flex flex-col items-center">
-                    <div className="w-full bg-[#F0F1ED] h-16 flex items-end justify-center border border-[#E2E4E8]">
-                      <div
-                        className="w-full bg-[#111318]"
-                        style={{ height: `${heightPct}%` }}
-                      />
+            <div className="overflow-x-auto pb-1">
+              <div
+                className="min-w-[260px] grid gap-1 sm:gap-2 pt-2"
+                style={{ gridTemplateColumns: `repeat(${Math.min(dim, 16)}, minmax(0, 1fr))` }}
+              >
+                {retrievedValue.slice(0, dim).map((val, idx) => {
+                  const heightPct = Number(((Math.abs(val) / maxBar) * 100).toFixed(2));
+                  const displayVal = Math.abs(val) < 0.01 ? 0 : val;
+                  return (
+                    <div key={idx} className="flex flex-col items-center">
+                      <div className="w-full bg-[#F0F1ED] h-14 sm:h-16 flex items-end justify-center border border-[#E2E4E8]">
+                        <div
+                          className="w-full bg-[#111318]"
+                          style={{ height: `${heightPct}%` }}
+                        />
+                      </div>
+                      <span className="text-[8px] sm:text-[9px] font-mono text-[#626873] mt-1 font-semibold">
+                        {displayVal === 0 ? "0" : displayVal.toFixed(1)}
+                      </span>
                     </div>
-                    <span className="text-[9px] font-mono text-[#626873] mt-1 font-semibold">
-                      {displayVal === 0 ? "0" : displayVal.toFixed(1)}
-                    </span>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

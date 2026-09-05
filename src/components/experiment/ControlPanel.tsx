@@ -164,7 +164,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       </div>
 
       {/* Model Option: BDH Sparse Plasticity */}
-      <div className="pt-2 border-t border-[#E2E4E8] flex items-center justify-between">
+      <div className="pt-2 border-t border-[#E2E4E8] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <label className="flex items-center space-x-2 cursor-pointer">
           <input
             type="checkbox"

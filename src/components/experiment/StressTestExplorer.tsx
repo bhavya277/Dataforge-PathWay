@@ -89,7 +89,7 @@ export const StressTestExplorer: React.FC = () => {
       </div>
 
       {/* Experiment Controls Bar */}
-      <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-5 shadow-sm grid grid-cols-1 sm:grid-cols-4 gap-5">
+      <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-5 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         <div>
           <label className="text-xs font-medium text-[#626873] block mb-1">State Dimension d:</label>
           <select
@@ -148,18 +148,18 @@ export const StressTestExplorer: React.FC = () => {
       </div>
 
       {/* Large Clean SVG Empirical Chart */}
-      <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-6 shadow-sm space-y-4">
+      <div className="bg-[#FFFFFF] border border-[#D9DCE1] p-4 sm:p-6 shadow-sm space-y-4">
         {/* Metric Switcher */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E4E8] pb-3">
           <span className="text-xs font-bold text-[#111318] uppercase tracking-wider">
             Empirical Curve (Live Client In-Browser Computation):
           </span>
-          <div className="flex space-x-1.5">
+          <div className="flex flex-wrap gap-1.5">
             {[
               { id: "cosineError", label: "COSINE ERROR" },
               { id: "l2Error", label: "L2 ERROR" },
-              { id: "isr", label: "ISR (CROSSTALK/SIGNAL)" },
-              { id: "observedCosine", label: "KEY OVERLAP" },
+              { id: "isr", label: "INTERFERENCE RATIO" },
+              { id: "observedCosine", label: "OBSERVED COSINE" },
             ].map((m) => (
               <button
                 key={m.id}
@@ -177,8 +177,11 @@ export const StressTestExplorer: React.FC = () => {
         </div>
 
         {/* Real Empirical SVG Plot on Paper Background */}
-        <div className="overflow-x-auto py-2 flex justify-center">
-          <svg width={chartWidth} height={chartHeight} className="bg-[#F7F7F4] border border-[#E2E4E8]">
+        <div className="overflow-x-auto py-2 flex justify-center w-full">
+          <svg
+            viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+            className="w-full h-auto min-w-[280px] max-w-[760px] bg-[#F7F7F4] border border-[#E2E4E8]"
+          >
             {/* Grid & Axis Lines */}
             <line
               x1={padding}

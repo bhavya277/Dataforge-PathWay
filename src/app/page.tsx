@@ -117,7 +117,7 @@ export default function HomePage() {
                 DATAFORGE × PATHWAY 2026 • FRONTIER RESEARCH SUBSTRATE
               </div>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#111318] leading-[1.05] font-editorial">
+              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-[#111318] leading-[1.08] font-editorial break-words">
                 ASSOCIATIVE MEMORY
                 <br />
                 UNDER INTERFERENCE
@@ -150,13 +150,13 @@ export default function HomePage() {
               </div>
 
               {/* Live Baseline Status (Opens with preset already running) */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 border-t border-[#E2E4E8]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-[#E2E4E8]">
                 <div className="flex items-center space-x-2 text-xs font-mono font-bold text-[#0284C7]">
                   <span className="w-2 h-2 rounded-full bg-[#0284C7] animate-pulse" />
                   <span>BASELINE PRESET RUNNING LIVE</span>
                 </div>
 
-                <div className="flex items-center space-x-4 text-xs font-mono text-[#626873] bg-[#FFFFFF] px-4 py-2 border border-[#D9DCE1] shadow-sm">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-mono text-[#626873] bg-[#FFFFFF] px-3 sm:px-4 py-2 border border-[#D9DCE1] shadow-sm">
                   <span>d = {d}</span>
                   <span>N = {N}</span>
                   <span>ρ = {correlation.toFixed(2)}</span>
@@ -208,7 +208,7 @@ export default function HomePage() {
               </div>
 
               {/* Prominent Single Interactive Slider */}
-              <div className="bg-[#FFFFFF] border-2 border-[#111318] p-6 shadow-sm space-y-4">
+              <div className="bg-[#FFFFFF] border-2 border-[#111318] p-4 sm:p-6 shadow-sm space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E2E4E8] pb-3">
                   <div>
                     <span className="text-xs font-mono font-bold text-[#626873] uppercase tracking-wider block">
@@ -237,7 +237,7 @@ export default function HomePage() {
                     className="w-full h-3 bg-[#F0F1ED] rounded-none appearance-none cursor-pointer accent-[#111318]"
                     aria-label="Controlled key correlation rho"
                   />
-                  <div className="flex justify-between text-[11px] font-mono text-[#626873]">
+                  <div className="flex flex-col sm:flex-row justify-between gap-1 text-[10px] sm:text-[11px] font-mono text-[#626873]">
                     <span>ρ = 0.00 (Orthogonal • No Overlap)</span>
                     <span>ρ = 0.40 (Moderate Overlap)</span>
                     <span>ρ = 0.80 (Strong Overlap)</span>

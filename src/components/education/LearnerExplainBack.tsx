@@ -75,14 +75,14 @@ export const LearnerExplainBack: React.FC = () => {
               placeholder="When stored keys are not orthogonal, a query for one key has non-zero projections..."
               className="w-full p-3.5 text-sm font-sans text-[#111318] bg-[#FDFDFD] border border-[#D9DCE1] focus:border-[#111318] focus:ring-1 focus:ring-[#111318] outline-none transition-all placeholder:text-[#8A909A]"
             />
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <span className="text-xs font-mono text-[#8A909A]">
                 {response.trim().split(/\s+/).filter(Boolean).length} words entered
               </span>
               <button
                 type="submit"
                 disabled={response.trim().length === 0}
-                className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#111318] text-white text-xs font-mono font-bold tracking-wider uppercase transition-all hover:bg-[#252830] disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-2.5 bg-[#111318] text-white text-xs font-mono font-bold tracking-wider uppercase transition-all hover:bg-[#252830] disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <span>Compare with Reference Explanation</span>
                 <Send className="w-3.5 h-3.5" />
