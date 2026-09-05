@@ -6,9 +6,9 @@
 When stored keys are not orthogonal, a linear fast-weight state adds non-target contributions to retrieval; in our synthetic setup, increasing controlled key overlap increases measured cross-talk. This central falsifiable claim establishes both the algebraic mechanism of memory degradation in un-gated outer-product recurrence and an empirical observation of how key geometric alignment degrades recall in finite-dimensional state representations.
 
 ### 1. Design Motivation: The KV-Cache Bottleneck
-Conventional autoregressive Transformers compute self-attention using $\operatorname{Softmax}(Q K^T) V$, requiring continuous storage of all past key and value vectors. This Key-Value (KV) cache grows linearly with sequence length ($O(N \cdot d)$), creating memory bandwidth saturation during inference. Fast-weight architectures (Schlag et al., ICML 2021) and linear recurrent models (Beck et al., NeurIPS 2024; Gu & Dao, 2023) address this bottleneck by compressing unbounded context into a fixed-size recurrent state matrix $S_t \in \mathbb{R}^{d \times d}$.
+Conventional autoregressive Transformers compute self-attention using $\operatorname{Softmax}(Q K^T) V$, requiring continuous storage of all past key and value vectors. This Key-Value (KV) cache grows linearly with sequence length ($O(N \cdot d)$), increasing memory-bandwidth pressure during inference. Fast-weight architectures (Schlag et al., ICML 2021) and linear recurrent models (Beck et al., NeurIPS 2024; Gu & Dao, 2023) address this bottleneck by compressing unbounded context into a fixed-size recurrent state matrix $S_t \in \mathbb{R}^{d \times d}$.
 
-### 2. Technical Mechanism and Fundamental Trade-Off
+### 2. Technical Mechanism and Observed Trade-Off
 Instead of storing tokens sequentially, fast-weight memory accumulates key-value pairs $(k_t, v_t)$ via outer products decayed by retention factor $\lambda \in (0, 1]$:
 $$S_t = \lambda S_{t-1} + v_t k_t^T = \sum_{i=1}^t \lambda^{t-i} v_i k_i^T$$
 Associative retrieval is executed via a single matrix-vector product $y_t = S_t q$. For a query targeting stored association $j$ ($q = k_j$), the output decomposes algebraically into:
@@ -27,7 +27,7 @@ The core trade-off is constant $O(1)$ memory per step vs. retrieval interference
 
 ### 4. Empirical Evidence: Strengths and Weaknesses
 * **Demonstrated Advantage:** The recurrent formulation keeps an explicit state whose dimensions do not grow with the number of processed tokens, matching full causal attention on associative recall when key representations are mutually orthogonal (Schlag et al., 2021 `[BENCHMARK EVALUATION]`).
-* **Weaknesses and Untested Regimes:** On high-entropy tasks requiring precise recall of hundreds of non-orthogonal entities, un-gated linear fast weights degrade significantly due to cross-talk accumulation (Sun et al., 2024 `[EMPIRICAL OBSERVATION]`). Synthetic sweeps at $d=8$ (50 Monte Carlo trials per configuration) show mean cosine similarity dropping from $1.0000$ ($\rho=0.0$) to $0.7647$ ($\rho=0.45$), with higher synthetic memory load ($N/d = 1.5$) further elevating measured error to mean cosine similarity $0.5764$ `[SYNTHETIC BENCHMARK]`.
+* **Weaknesses and Untested Regimes:** On high-entropy tasks requiring precise recall of hundreds of non-orthogonal entities, [OUR EXPERIMENT] Synthetic sweeps at $d=8$ show measured retrieval degradation as controlled key overlap increases (see also Sun et al., 2024 for architectural discussions of recurrent hidden-state capacity). Sweeps at $d=8$ (50 Monte Carlo trials per configuration) show mean cosine similarity dropping from $1.0000$ ($\rho=0.0$) to $0.7647$ ($\rho=0.45$), with higher synthetic memory load ($N/d = 1.5$) further elevating measured error to mean cosine similarity $0.5764$ `[SYNTHETIC BENCHMARK]`.
 
 ### 5. Role of BDH and BDH-CQ
 * **Dragon Hatchling (BDH):** Proposed by Kosowski et al. (2025; arXiv:2509.26507), BDH provides a contrasting research architecture centered on sparse positive activations ($a \ge 0$) and local synaptic plasticity. This project uses a simplified single-layer abstraction to explore that conceptual contrast `[TEACHING ABSTRACTION]`.

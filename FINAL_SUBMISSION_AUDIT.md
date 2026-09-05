@@ -11,7 +11,7 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 ## 2. Tests
 
 * **Command:** `python -m unittest discover -s experiments`
-* **Result:** Ran 7 tests in 0.532s — **OK (All 7 passed)**
+* **Result:** Ran 7 tests in 0.293s — **OK (All 7 passed)**
 * **Coverage:**
   - `test_outer_product_update`: Exact Hebbian outer product accumulation
   - `test_exact_signal_crosstalk_decomposition`: Linear signal + cross-talk decomposition equivalence to float64 machine precision ($< 10^{-15}$)
@@ -36,10 +36,11 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 
 ## 4. Production Build
 
-* **Command:** `npm run build`
+* **Command:** `npm ci` & `npm run build`
 * **Next.js Version:** 15.5.7 (React 19.2.8)
+* **Clean Install Result:** `added 181 packages, and audited 182 packages in 27s (Exit Code: 0)`
 * **Compilation Result:**
-  - `✓ Compiled successfully in 5.3s`
+  - `✓ Compiled successfully in 22.9s`
   - `Linting and checking validity of types ... PASS`
   - `Generating static pages (4/4) ... PASS`
   - `Finalizing page optimization ... PASS`
@@ -52,14 +53,14 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 * **Export Command:** `npm run export:pdf` (`node scripts/export-pdfs.mjs`)
 * **Verification Command:** `node scripts/verify-pdfs.mjs`
 * **Blog Post PDF (`BLOG_POST.pdf` / `docs/BLOG_POST.pdf`):**
-  - Main Body Word Count: **733 words** (Target: 600–800 words)
+  - Total Extracted Word Count: **740 words** (Target: 600–800 words; verified strictly in 700–750 range)
   - Total Pages: **2 pages**
   - Local Path Leaks: **0**
   - Raw LaTeX Control Sequences: **0**
   - Result: **PASS**
 * **Concept Summary PDF (`CONCEPT_SUMMARY.pdf` / `docs/CONCEPT_SUMMARY.pdf`):**
-  - Word Count: **540 words** (Target: 500–950 words)
-  - Total Pages: **Exactly 1 page A4**
+  - Total Extracted Word Count: **729 words** (Target: 500–950 words)
+  - Total Pages: **Exactly 1 page A4** (strict single-page layout verified)
   - Local Path Leaks: **0**
   - Raw LaTeX Control Sequences: **0**
   - Result: **PASS**
@@ -156,19 +157,20 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 ## 14. Files Changed
 
 * `BDH_CONNECTION.md`: 3-part scope distinction, added required teaching abstraction tags and conservative phrasing.
-* `BLOG_POST.md`: Synchronized empirical numbers, locked central claim, conservative BDH connection.
-* `BLOG_POST.pdf` & `docs/BLOG_POST.pdf`: Regenerated with KaTeX SSR, 2 pages, 733 words.
+* `BLOG_POST.md`: Reduced prose to 700–750 words, synchronized empirical numbers, locked central claim, conservative BDH connection.
+* `BLOG_POST.pdf` & `docs/BLOG_POST.pdf`: Regenerated with KaTeX SSR, exactly 2 pages, 740 words total.
 * `CONCEPT_LOCK.md`: Locked central claim, removed sparsity guarantee claims, conservative learner variables.
-* `CONCEPT_SUMMARY.md`: Strict single-page layout, 540 words, updated architectural comparison table.
-* `CONCEPT_SUMMARY.pdf` & `docs/CONCEPT_SUMMARY.pdf`: Regenerated with KaTeX SSR, exactly 1 page A4.
+* `CONCEPT_SUMMARY.md`: Strict single-page layout, updated to "Observed Trade-Off", separated TTT citation, 729 words in PDF.
+* `CONCEPT_SUMMARY.pdf` & `docs/CONCEPT_SUMMARY.pdf`: Regenerated with KaTeX SSR, exactly 1 page A4, 729 words.
 * `EVIDENCE.md`: Corrected BDH misconception text, distinguished literature vs. toy abstraction.
 * `JUDGE_QUESTIONS.md`: Answers 7, 10, 16, 20 refined with conservative mathematical phrasing.
 * `LICENSES.md`: Synchronized with exact resolved versions in `package-lock.json`, removed unused CDN references.
-* `README.md`: Verified all 27 requirements, refined command instructions (`npm ci`), audited fonts.
+* `PATHWAY_STRATEGY.md`: Updated to exact locked central claim, removed `<15ms` and `instant` claims.
+* `README.md`: Replaced `instantaneously` with `live in the browser`, updated $N/d$ diagnostic wording.
 * `SOURCES.md`: Full TTT author listing, refined research descriptions.
-* `data/experiment_benchmarks.json` & `public/data/experiment_benchmarks.json`: Regenerated with 50 trials/config.
+* `data/experiment_benchmarks.json` & `public/data/experiment_benchmarks.json`: Regenerated with 50 trials/config, updated $N > d$ phrasing.
 * `experiments/associative_memory.py`: Refined low-overlap baseline comments.
-* `experiments/generate_experiment_data.py`: Updated preset subtitles and lessons to conservative wording.
+* `experiments/generate_experiment_data.py`: Updated preset subtitles and $N > d$ lessons to conservative wording.
 * `experiments/interference_sweep.py`: Refined low-overlap baseline comments.
 * `src/app/layout.tsx`: Updated metadata description.
 * `src/components/bdh/BDHComparisonExplorer.tsx`: UI labels updated to conservative phrasing.
@@ -177,13 +179,13 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 * `src/components/experiment/ControlPanel.tsx`: Responsive flex-wrap for BDH option footer.
 * `src/components/experiment/DualReadout.tsx`: Mobile-friendly vector profile containers with horizontal overflow scroll.
 * `src/components/experiment/RetrievalDecomposition.tsx`: Responsive vertical down-arrows on mobile, wrapping energy ratio meters, scrollable vector profiles.
-* `src/components/experiment/StressTestExplorer.tsx`: Fluid responsive SVG with viewBox and responsive 1/2/4-column control grid.
+* `src/components/experiment/StressTestExplorer.tsx`: Fluid responsive SVG with viewBox, responsive controls grid, and correlation sweep phrasing.
 * `src/components/ui/Header.tsx`: Responsive compact badges and navigation tags for mobile screens down to 320px.
 * `src/components/visualization/GramMatrixHeatmap.tsx`: Fluid responsive aspect-square scaling and wrapping inspection cards.
 * `src/components/visualization/MemoryMatrixHeatmap.tsx`: Fluid responsive aspect-square matrix layout and wrapping legend.
 * `src/app/page.tsx`: Responsive hero title scaling and slider label wrapping.
 * `src/lib/math-engine.ts`: Refined low-overlap baseline comments.
-* `src/lib/presets.ts`: Presets 1 and 3 updated with conservative subtitles and lessons.
+* `src/lib/presets.ts`: Presets 1 and 3 updated with conservative subtitles and $N > d$ lessons.
 
 ---
 

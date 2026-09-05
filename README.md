@@ -110,7 +110,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 * **Gram Matrix Evaluation:** Full pairwise inner-product matrix $G_{ij} = k_i^T k_j$ and statistical distributions (mean, std, min, max) computed on the fly.
 * **Target vs. Cross-Talk Decomposition:** Exact algebraic separation of target signal and cross-talk interference vectors.
 * **Residual Verification:** Dynamic live $L_2$ difference $\|y_t - (\text{target} + \text{crosstalk})\|_2$ computed live in browser.
-* **Interactive Sandbox Controls:** Sliders ($d, N, \rho, \lambda$) re-evaluate the full computational engine instantaneously.
+* **Interactive Sandbox Controls:** Sliders ($d, N, \rho, \lambda$) re-evaluate the full computational engine live in the browser.
 
 ---
 
@@ -135,7 +135,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 * **Gram Matrix Evaluation:** Full pairwise inner-product matrix $G_{ij} = k_i^T k_j$ and statistical distributions (mean, std, min, max) computed on the fly.
 * **Target vs. Cross-Talk Decomposition:** Exact algebraic separation of target signal and cross-talk interference vectors.
 * **Residual Verification:** Dynamic live $L_2$ difference $\|y_t - (\text{target} + \text{crosstalk})\|_2$ computed live in browser.
-* **Interactive Sandbox Controls:** Sliders ($d, N, \rho, \lambda$) re-evaluate the full computational engine instantaneously.
+* **Interactive Sandbox Controls:** Sliders ($d, N, \rho, \lambda$) re-evaluate the full computational engine live in the browser.
 
 ---
 
@@ -182,7 +182,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 1. **Synthetic Key Distribution:** Keys use isotropic Gaussian vectors; real linguistic tokens lie on structured, non-uniform natural language manifolds.
 2. **Single-Layer Low-Dimensional Scale:** State dimension $d \in [4, 16]$ enables visible matrix cell inspection in browser, but lacks the multi-head, multi-layer depth of production LLMs ($d \ge 2048$).
 3. **No Learned Projections:** Keys and values are evaluated directly without trained linear projection weight matrices ($W_Q, W_K, W_V$).
-4. **Diagnostic, Not Theorem:** $N/d$ is an empirical diagnostic ratio for finite-state saturation, not a universal capacity theorem.
+4. **Diagnostic, Not Theorem:** $N/d$ is an empirical memory-load diagnostic for the synthetic experiment, not a universal capacity theorem.
 
 ---
 

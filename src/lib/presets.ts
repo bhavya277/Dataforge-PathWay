@@ -45,7 +45,7 @@ export const PROTOCOL_PRESETS: ProtocolPreset[] = [
     subtitle: "Higher synthetic memory load: N/d = 1.5",
     question: "What happens when the number of stored memories N exceeds state dimension d?",
     scientificLesson:
-      "When N > d, keys cannot all be mutually orthogonal. This creates non-zero off-diagonal projections; in this synthetic configuration, those contributions increase the measured retrieval error.",
+      "When N > d, nonzero keys in R^d cannot all be mutually orthogonal. In our synthetic configuration, the resulting non-zero off-diagonal projections contribute to higher measured retrieval error.",
     d: 8,
     N: 12,
     correlation: 0.2,

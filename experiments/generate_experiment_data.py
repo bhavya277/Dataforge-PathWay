@@ -113,7 +113,7 @@ def generate_preset_protocols() -> Dict[str, Any]:
         "title": "PROTOCOL 03: LOAD STRESS",
         "subtitle": "Higher synthetic memory load: N/d = 1.5",
         "question": "What happens when the number of associations exceeds state dimension?",
-        "scientificLesson": "When N > d, keys cannot all be mutually orthogonal. This creates non-zero off-diagonal projections; in this synthetic configuration, those contributions increase the measured retrieval error.",
+        "scientificLesson": "When N > d, nonzero keys in R^d cannot all be mutually orthogonal. In our synthetic configuration, the resulting non-zero off-diagonal projections contribute to higher measured retrieval error.",
         "d": d3,
         "N": N3,
         "correlation": rho3,

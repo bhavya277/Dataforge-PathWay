@@ -26,12 +26,12 @@ Our primary operational directive is:
 
 | Requirement from PDF | Planned Implementation | Evidence / Demonstration | Status |
 |---|---|---|---|
-| **1. One-Sentence Falsifiable Claim** | "In a linear fast-weight associative memory, retrieving one stored value also receives contributions from other stored key-value pairs; increasing key similarity or memory load therefore increases interference under the stated retrieval setup." | Interactive capacity curve + token interference probe directly testing and falsifying the boundary. | Completed |
+| **1. One-Sentence Falsifiable Claim** | "When stored keys are not orthogonal, a linear fast-weight state adds non-target contributions to retrieval; in our synthetic setup, increasing controlled key overlap increases measured cross-talk." | Interactive capacity curve + token interference probe directly testing and falsifying the boundary. | Completed |
 | **2. Real Computational Substrate** | Vectorized pure TypeScript/Python mathematical engine executing exact state updates ($S_t = \lambda S_{t-1} + v_t k_t^T$). | Live matrix arithmetic running in-browser with deterministic seeds; inspected step-by-step. | Completed |
 | **3. Visible Internal State** | Real-time 2D matrix visualization of the Recurrent Memory Matrix $S_t$ showing exact Float64 weights and rank bounds. | Interactive matrix view showing dimensions, rank bounds, and per-cell weight inspection. | Completed |
 | **4. Ground Truth vs Model Output** | Simultaneous dual-readout display: Ground Truth target vector vs Model retrieved output vector + Cosine Error / L2 distance / ISR. | Side-by-side discrepancy metric rendered at every query probe with exact algebraic breakdown. | Completed |
-| **5. Few, Meaningful Controls** | Controls strictly mapped to physical/conceptual variables: State Dimension ($d$), Retention ($\lambda$), Associations ($N$), and Controlled Key Correlation ($\rho$). | Slider changes immediately re-evaluate the state equations and re-render in <15ms. | Completed |
-| **6. Presets (Baseline, Phenomenon, Failure, Extreme)** | 5 curated 1-click presets: (1) Baseline Orthogonal, (2) Key Interference, (3) High-Load Stress Case, (4) Temporal Decay, (5) Sparse Plasticity. | 1-click instant scenario switching updating all visualizers and mathematical breakdowns. | Completed |
+| **5. Few, Meaningful Controls** | Controls strictly mapped to physical/conceptual variables: State Dimension ($d$), Retention ($\lambda$), Associations ($N$), and Controlled Key Correlation ($\rho$). | Slider changes immediately re-evaluate the state equations and update interactively in the browser. | Completed |
+| **6. Presets (Baseline, Phenomenon, Failure, Extreme)** | 5 curated 1-click presets: (1) Baseline Orthogonal, (2) Key Interference, (3) High-Load Stress Case, (4) Temporal Decay, (5) Sparse Plasticity. | Scenario switching that updates all visualizers and mathematical breakdowns live in the browser. | Completed |
 | **7. Integrated BDH / BDH-CQ Module** | Architectural derivation exploring how BDH's sparse positive activations and local plasticity provide an alternative to dense linear recurrent states. | Interactive side-by-side BDH Hebbian synapse update equation vs Linear Attention recurrent update. | Completed |
 | **8. >=3 Recent Primary Papers (2022–2026)** | Mamba (Gu & Dao, 2023), xLSTM (Beck et al., 2024), Fast Weights (Sun et al., 2024 / Schlag et al., 2021), Dragon Hatchling (Kosowski et al., 2025), BDH-CQ (Engdahl et al., 2026). | Detailed citations beside every technical assertion and interactive equation element. | Completed |
 | **9. Complete Disclosures & Open Artifacts** | `AI_DISCLOSURE.md`, `LICENSES.md`, `SOURCES.md`, public GitHub repo, zero-auth live deployment. | Markdown records tracking all tools, licenses, datasets, and code provenance. | Completed |
@@ -45,7 +45,7 @@ Our primary operational directive is:
 * **Risk:** Mathematical simplification misleads the learner or fails judge scrutiny.
   * *Mitigation:* Explicitly display both the continuous closed-form equation and the discrete simulation matrix; label every simplification with a formal "Scientific Simplification Disclaimer" detailing exact dimensionality tradeoffs.
 * **Risk:** In-browser client latency when computing sequence rollouts.
-  * *Mitigation:* Implement high-performance vectorized JavaScript/TypeScript kernels for live parameter sweeps (<15ms) and precalculate high-dimensional baselines with clear "LIVE" vs "PRECOMPUTED" status badges.
+  * *Mitigation:* Implement high-performance vectorized JavaScript/TypeScript kernels that recompute the mathematical state live in the browser and precalculate high-dimensional baselines with clear "LIVE" vs "PRECOMPUTED" status badges.
 
 ### Pedagogical & UI Risks
 * **Risk:** The "Dashboard Problem" (too many dials, learner gets lost without understanding).
