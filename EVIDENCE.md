@@ -39,7 +39,7 @@ This document classifies every claim and technical mechanism in our project acco
    * **Classification:** `[TEACHING SIMPLIFICATION]`
    * **Boundary Note:** Real production LLMs utilize multi-layer stacked blocks with $d \in [2048, 8192]$. We isolate the single-layer fast-weight update to make matrix cell activations visually inspectable.
 
-6. **"BDH eliminates all memory interference."**
+6. **Misconception: Sparsity eliminates all memory interference.**
    * **Classification:** `[DISALLOWED CLAIM / FALSE PSEUDOSCIENCE]`
    * **Correction:** The project does not claim that BDH eliminates memory interference. BDH's sparse-positive activations and synaptic-plasticity mechanisms motivate our teaching abstraction, which explores how restricting active interactions can alter interference patterns. We clearly distinguish published BDH research (scale-free neural architecture with sparse-positive activations and local synaptic plasticity), our conceptual interpretation (associative memory under sparse support constraints), and our toy implementation (a single-layer teaching model with ReLU outer products and connection gating).
 

@@ -14,7 +14,7 @@
 * **The Fundamental Dilemma:** Unlike full KV caching which stores all history faithfully, a fixed-size recurrent state MUST continuously superimpose outer products:
   $$S_t = \lambda S_{t-1} + v_t k_t^T$$
   This creates a fundamental trade-off between **memory load** and **cross-talk interference**.
-* **The BDH Connection:** Dragon Hatchling (BDH) explores replacing dense linear superposition with sparse positive activations and localized synaptic plasticity, providing an architectural alternative to dense linear recurrent states.
+* **The BDH Connection:** BDH explores a brain-inspired architecture built around sparse positive activations and localized synaptic plasticity, providing a contrasting architectural context for the dense linear recurrent state studied here.
 
 ---
 
@@ -25,7 +25,7 @@
   1. Derive the mathematical duality: $\text{Linear Attention } (Q K^T V) \equiv \text{Recurrent State } S_t = \lambda S_{t-1} + v_t k_t^T$.
   2. Directly visualize the $d \times d$ Fast-Weight Memory Matrix storing key-value associations.
   3. Measure cross-talk interference by varying the controlled key correlation parameter $\rho$.
-  4. Observe retrieval behavior as memory load ratio $N/d$ increases beyond subspace rank $\text{Rank}(S) \le d$.
+  4. Observe retrieval behavior as the number of stored associations increases relative to the state dimension, using N/d as a synthetic memory-load diagnostic.
   5. Understand how BDH's sparse positive activations and Hebbian plasticity provide a contrasting approach to memory storage.
 
 ---
@@ -88,4 +88,5 @@
 2. **Sun, Y., et al. (2024).** *Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT).* arXiv:2407.04620.
 3. **Beck, M., et al. (2024).** *xLSTM: Extended Long Short-Term Memory.* NeurIPS 2024.
 4. **Gu, A., & Dao, T. (2023).** *Mamba: Linear-Time Sequence Modeling with Selective State Spaces.* arXiv:2312.00752.
-5. **Pathway Research Team (2024–2025).** *Dragon Hatchling (BDH): Brain-Inspired Sparse Associative Architectures.* Technical Whitepaper & BDH-CQ Specification.
+5. **Kosowski, A., Uznański, P., Chorowski, J., Stamirowska, Z., & Bartoszkiewicz, M. (2025).** *The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain.* arXiv:2509.26507.
+6. **Engdahl, B., Kosowski, A., Chorowski, J., Stamirowska, Z., Uznański, P., et al. (2026).** *BDH-CQ: In-Context Learning with Recurrent Latent Reasoning.* arXiv:2608.09888.

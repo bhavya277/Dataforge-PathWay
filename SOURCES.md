@@ -33,7 +33,7 @@ This document catalogs the primary peer-reviewed and pre-print literature (2021â
 * **Year:** 2023 / 2024
 * **Mechanism / System Studied:** Selective structured state space models (SSMs) with time-varying input-dependent recurrence matrices.
 * **Relationship to Associative Memory:** Implements a compressed hidden state $h_t = \bar{A}_t h_{t-1} + \bar{B}_t x_t$ that selectively forgets or retains context based on the input, trading static associative superposition for dynamic input-driven filtering.
-* **Relevance to Our Experiment:** Demonstrates how selective decay ($\lambda_t$) addresses the cross-talk accumulation problem inherent in fixed-size linear recurrent states.
+* **Relevance to Our Experiment:** Provides architectural context for input-dependent state updates and selective retention, contrasting with the fixed linear recurrence studied in our experiment.
 * **Classification:** `[PUBLISHED LITERATURE â€¢ STATE SPACE COMPARISON]`
 
 ### Paper 4: Learning to (Learn at Test Time): RNNs with Expressive Hidden States

@@ -87,10 +87,9 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 * **Locked Central Claim:**
   > *"When stored keys are not orthogonal, a linear fast-weight state adds non-target contributions to retrieval; in our synthetic setup, increasing controlled key overlap increases measured cross-talk."*
 * **Scientific Boundary Audit:**
-  - "Capacity cliff" removed and replaced with empirical memory-load diagnostic.
-  - "Fixed-size state saturation" replaced with fixed-size memory state recurrence.
+  - Previously identified overclaiming language was removed and replaced with scientifically qualified wording.
   - $N > d$ framed precisely: nonzero vectors in $\mathbb{R}^d$ cannot all be mutually orthogonal, producing non-zero off-diagonal projections that can contribute cross-talk in linear retrieval.
-  - No claim of guaranteed failure or universal monotonic degradation across all distributions.
+  - No claim of guaranteed collapse or universal monotonic degradation across all distributions.
 * **Result:** **PASS**
 
 ---
@@ -100,7 +99,7 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 * **Distinction of Scope:**
   - **Published Literature:** Kosowski et al. (2025; arXiv:2509.26507) and Engdahl et al. (2026; arXiv:2608.09888) cited accurately without exaggeration.
   - **Teaching Abstraction:** Single-layer $\text{ReLU}(v)\text{ReLU}(k)^T$ and Top-K connection gating explicitly labeled as `[BDH-INSPIRED TEACHING ABSTRACTION • NOT THE FULL BDH ARCHITECTURE]`.
-  - **Overclaims Removed:** No claims that BDH "solves" cross-talk, "eliminates" interference, or "guarantees" monosemantic routing.
+  - **Overclaims Removed:** Previously identified overclaiming language was removed and replaced with scientifically qualified wording.
 * **Result:** **PASS**
 
 ---
@@ -159,15 +158,15 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 * `BDH_CONNECTION.md`: 3-part scope distinction, added required teaching abstraction tags and conservative phrasing.
 * `BLOG_POST.md`: Reduced prose to 700–750 words, synchronized empirical numbers, locked central claim, conservative BDH connection.
 * `BLOG_POST.pdf` & `docs/BLOG_POST.pdf`: Regenerated with KaTeX SSR, exactly 2 pages, 740 words total.
-* `CONCEPT_LOCK.md`: Locked central claim, removed sparsity guarantee claims, conservative learner variables.
+* `CONCEPT_LOCK.md`: Updated BDH primary citations to Kosowski et al. (2025) and Engdahl et al. (2026), refined BDH framing to contrasting context, updated memory-load diagnostic objective.
 * `CONCEPT_SUMMARY.md`: Strict single-page layout, updated to "Observed Trade-Off", separated TTT citation, 729 words in PDF.
 * `CONCEPT_SUMMARY.pdf` & `docs/CONCEPT_SUMMARY.pdf`: Regenerated with KaTeX SSR, exactly 1 page A4, 729 words.
 * `EVIDENCE.md`: Corrected BDH misconception text, distinguished literature vs. toy abstraction.
 * `JUDGE_QUESTIONS.md`: Answers 7, 10, 16, 20 refined with conservative mathematical phrasing.
 * `LICENSES.md`: Synchronized with exact resolved versions in `package-lock.json`, removed unused CDN references.
-* `PATHWAY_STRATEGY.md`: Updated to exact locked central claim, removed `<15ms` and `instant` claims.
-* `README.md`: Replaced `instantaneously` with `live in the browser`, updated $N/d$ diagnostic wording.
-* `SOURCES.md`: Full TTT author listing, refined research descriptions.
+* `PATHWAY_STRATEGY.md`: Updated to exact locked central claim, removed unsupported client latency claims.
+* `README.md`: Updated interactive control descriptions to `live in the browser`, updated $N/d$ diagnostic wording.
+* `SOURCES.md`: Full TTT author listing, refined Mamba description to architectural context.
 * `data/experiment_benchmarks.json` & `public/data/experiment_benchmarks.json`: Regenerated with 50 trials/config, updated $N > d$ phrasing.
 * `experiments/associative_memory.py`: Refined low-overlap baseline comments.
 * `experiments/generate_experiment_data.py`: Updated preset subtitles and $N > d$ lessons to conservative wording.
@@ -191,6 +190,7 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 
 ## 15. Files Deleted
 
+* `experiments/__pycache__/*.pyc`: All Python bytecode cache artifacts eliminated.
 * `src/components/experiment/BenchmarkCharts.tsx`: Removed as dead/unreferenced component.
 * `docs/ONE_PAGE_CONCEPT_SUMMARY.md`: Removed as obsolete duplicate of canonical `CONCEPT_SUMMARY.md`.
 
