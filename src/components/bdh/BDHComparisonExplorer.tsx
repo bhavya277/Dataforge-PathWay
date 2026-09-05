@@ -16,7 +16,7 @@ export const BDHComparisonExplorer: React.FC = () => {
             BRIDGING LINEAR RECURRENCE &amp; DRAGON HATCHLING
           </h2>
           <p className="text-sm text-[#626873] mt-1 max-w-2xl">
-            Exploring how biological sparse positive activations and synaptic plasticity address continuous superposition limits.
+            Exploring conceptual connections between continuous linear superposition and sparse positive synaptic plasticity.
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export const BDHComparisonExplorer: React.FC = () => {
           </p>
 
           <div className="p-3 bg-[#F0F1ED] border border-[#E2E4E8] text-xs font-mono text-[#111318]">
-            <strong>Superposition Limit:</strong> Off-diagonal inner products accumulate additively across all stored associations.
+            <strong>Additive Superposition:</strong> Off-diagonal inner products accumulate additively across all non-orthogonal stored associations.
           </div>
         </div>
 
@@ -67,7 +67,7 @@ export const BDHComparisonExplorer: React.FC = () => {
           </div>
 
           <p className="text-xs text-[#626873] leading-relaxed">
-            Scale-free biologically-grounded neural architecture featuring non-negative sparse neuron particles, local synaptic plasticity, and monosemantic routing.
+            Brain-inspired architecture investigating non-negative sparse activations (a ≥ 0), local synaptic plasticity, and sparse routing.
           </p>
 
           <div className="p-3 bg-[#F0F1ED] border border-[#E2E4E8] text-xs font-mono text-[#111318]">

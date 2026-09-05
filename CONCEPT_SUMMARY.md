@@ -13,7 +13,7 @@ Instead of storing tokens sequentially, fast-weight memory accumulates key-value
 $$S_t = \lambda S_{t-1} + v_t k_t^T = \sum_{i=1}^t \lambda^{t-i} v_i k_i^T$$
 Associative retrieval is executed via a single matrix-vector product $y_t = S_t q$. For a query targeting stored association $j$ ($q = k_j$), the output decomposes algebraically into:
 $$y_t = \underbrace{\lambda^{t-j} v_j (k_j^T q)}_{\text{Target Contribution}} + \underbrace{\sum_{i \ne j} \lambda^{t-i} v_i (k_i^T q)}_{\text{Cross-Talk Contribution}}$$
-The core trade-off is constant $O(1)$ memory per step vs. capacity interference: because the state matrix has algebraic rank bounded by $d$ ($\operatorname{Rank}(S) \le d$), stored items cannot all occupy orthogonal subspaces once sequence length $N > d$. Overlapping keys produce non-zero projections ($k_i^T q \ne 0$), injecting non-target values additively into the readout.
+The core trade-off is constant $O(1)$ memory per step vs. retrieval interference: because the state matrix has algebraic rank bounded by $d$ ($\operatorname{Rank}(S) \le d$), stored items cannot all occupy orthogonal subspaces once sequence length $N > d$. Overlapping keys produce non-zero projections ($k_i^T q \ne 0$), injecting non-target values additively into the readout.
 
 ### 3. Comparison Across Architectural Paradigms
 
@@ -23,15 +23,15 @@ The core trade-off is constant $O(1)$ memory per step vs. capacity interference:
 | **Inference Step Compute** | $O(N \cdot d)$ compute per token | $O(d^2)$ matrix-vector product | $O(k \cdot d)$ sparse activations ($k \ll d$) |
 | **Cross-Talk Behavior** | Suppressed exponentially by softmax | Additive linear superposition | Suppressed via non-negative sparsity ($a \ge 0$) |
 | **Interpretability** | Dense $N \times N$ token attention matrix | Superimposed continuous weights | Monosemantic sparse neural circuits |
-| **Capacity Constraint** | Hardware HBM bandwidth | State rank $\operatorname{Rank}(S) \le d$ | Sparse packing geometry bound |
+| **Scaling / Geometry Bound** | Hardware HBM bandwidth | State rank $\operatorname{Rank}(S) \le d$ | Sparse activation geometry bound |
 
 ### 4. Empirical Evidence: Strengths and Weaknesses
 * **Demonstrated Advantage:** Linear recurrence achieves strictly constant per-token inference memory and throughput independent of sequence length, matching full causal attention on long-range associative recall when key representations are nearly orthogonal (Schlag et al., 2021 `[BENCHMARK EVALUATION]`).
-* **Weaknesses and Untested Regimes:** On high-entropy tasks requiring precise recall of hundreds of non-orthogonal entities, un-gated linear fast weights degrade significantly due to cross-talk accumulation (Sun et al., 2024 `[EMPIRICAL OBSERVATION]`). Synthetic sweeps at $d=8$ show mean cosine similarity dropping from $1.000$ ($\rho=0.0$) to $0.841$ ($\rho=0.45$), with high load ratios ($N/d > 1.0$) further elevating measured error `[SYNTHETIC BENCHMARK]`.
+* **Weaknesses and Untested Regimes:** On high-entropy tasks requiring precise recall of hundreds of non-orthogonal entities, un-gated linear fast weights degrade significantly due to cross-talk accumulation (Sun et al., 2024 `[EMPIRICAL OBSERVATION]`). Synthetic sweeps at $d=8$ (50 Monte Carlo trials per configuration) show mean cosine similarity dropping from $1.0000$ ($\rho=0.0$) to $0.7647$ ($\rho=0.45$), with high load ratios ($N/d = 1.5$) further elevating measured error to mean cosine similarity $0.5764$ `[SYNTHETIC BENCHMARK]`.
 
 ### 5. Role of BDH and BDH-CQ
-* **Dragon Hatchling (BDH):** Proposed by Kosowski et al. (2025; arXiv:2509.26507), BDH replaces continuous linear superposition with brain-inspired sparse positive activations ($a \ge 0$) and local synaptic plasticity. Restricting active neurons to sparse supports reduces overlapping connections, mitigating the additive noise floor in fast-weight states. Our interactive module provides an illustrative single-layer teaching abstraction of this mechanism `[TEACHING ABSTRACTION]`.
+* **Dragon Hatchling (BDH):** Proposed by Kosowski et al. (2025; arXiv:2509.26507), BDH investigates brain-inspired sparse positive activations ($a \ge 0$) and local synaptic plasticity. Restricting active neurons to sparse supports reduces overlapping connections under suitable sparse-support regimes, altering the additive noise pattern in fast-weight states. Our interactive module provides an illustrative single-layer teaching abstraction of this mechanism `[TEACHING ABSTRACTION]`.
 * **BDH-CQ Context:** Engdahl et al. (2026; arXiv:2608.09888) explores in-context demonstration learning where input-output demonstrations update recurrent synaptic states for multi-step latent reasoning without emitting intermediate tokens `[RESEARCH CONTEXT]`.
 
 ### 6. Primary Open Limitation
-The central unanswered question in fast-weight memory is the **sparse capacity packing bound**: while non-negative sparsity suppresses cross-talk, a fixed $d \times d$ synaptic state cannot store unbounded independent facts without eventually saturating its representational geometry. Establishing exact theoretical capacity limits for sparse associative plasticity under natural language token distributions remains an open research frontier.
+The central unanswered question in fast-weight memory is the **sparse representational geometry bound**: while non-negative sparsity alters active interactions, a fixed $d \times d$ synaptic state cannot store unbounded independent facts without eventually saturating its representational geometry. Establishing exact theoretical limits for sparse associative plasticity under natural language token distributions remains an open research frontier.

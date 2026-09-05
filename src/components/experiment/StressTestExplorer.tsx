@@ -76,7 +76,7 @@ export const StressTestExplorer: React.FC = () => {
             05 / STRESS TEST
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111318] mt-1">
-            EMPIRICAL CAPACITY &amp; LOAD INVESTIGATION
+            EMPIRICAL MEMORY-LOAD INVESTIGATION
           </h2>
           <p className="text-sm text-[#626873] mt-1 max-w-2xl">
             Change memory load and key overlap. Measure what happens across the dimensionless ratio γ = N / d.

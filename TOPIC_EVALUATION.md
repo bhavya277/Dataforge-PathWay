@@ -68,7 +68,7 @@ This document rigorously evaluates the approved main topics from Page 2 of the D
 
 ### Strategic Justification
 * **Primary Reasons:**
-  1. **Direct BDH Connection:** Dragon Hatchling (BDH) explores biologically-grounded synaptic plasticity, non-negative sparse positive representations, and recurrent latent reasoning (BDH-CQ) to address the limits of continuous linear associative memory.
+  1. **Direct BDH Connection:** Dragon Hatchling (BDH) explores brain-inspired synaptic plasticity, non-negative sparse positive representations, and recurrent latent reasoning (BDH-CQ) to address the limits of continuous linear associative memory.
   2. **Mathematical Elegance:** Outer-product matrix accumulation ($S_t = S_{t-1} + v_t k_t^T$) is algebraically exact and provably identical to linear attention.
   3. **High Visual Impact:** A $d \times d$ recurrent weight matrix can be visualized live in 2D with inspectable Float64 weights.
   4. **Sharp, Clean Falsifiable Claim:** Quantifiable storage behavior under orthogonal keys, demonstrating how non-orthogonal key overlap induces cross-talk."

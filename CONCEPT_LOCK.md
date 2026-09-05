@@ -75,7 +75,7 @@
 ---
 
 ## 7. Direct BDH & BDH-CQ Grounding
-* **BDH (Dragon Hatchling):** Explores a biologically-grounded alternative where memory and computation are tied to local synaptic activity:
+* **BDH (Dragon Hatchling):** Explores a brain-inspired alternative where memory and computation are tied to local synaptic activity:
   1. *Sparse Positive Activations:* Non-negative activations reduce active overlapping connections in high dimensions.
   2. *Monosemantic Synaptic Connections:* Encourages localized, disentangled feature representations.
   3. *Local Synaptic Plasticity:* Dynamic connection updates occur during context consumption without full backpropagation.

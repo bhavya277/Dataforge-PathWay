@@ -48,7 +48,7 @@ This document prepares the team for rapid, technically rigorous oral defense dur
 **Answer:** Top-K connection pruning is a non-linear operation: $\text{TopK}(S) \ne \sum \text{TopK}(v_i k_i^T)$. Pruning zeroes out low-magnitude entries of the accumulated matrix, breaking linearity. Therefore, retrieval reflects the pruned state matrix rather than an exact sum of unpruned outer products.
 
 ### 15. What exactly is BDH in this project?
-**Answer:** The Dragon Hatchling (BDH; Kosowski et al., 2025) is a biologically-grounded architecture by Pathway featuring non-negative sparse activations and local synaptic plasticity. In our project, it serves as the research motivation for exploring how non-negative sparsity alters associative memory interference.
+**Answer:** The Dragon Hatchling (BDH; Kosowski et al., 2025) is a brain-inspired architecture by Pathway featuring non-negative sparse activations and local synaptic plasticity. In our project, it serves as the research motivation for exploring how non-negative sparsity alters associative memory interference.
 
 ### 16. What is the difference between BDH and your toy abstraction?
 **Answer:** BDH is a multi-layer neural architecture with locally interacting neuron particles, synaptic plasticity, and monosemantic routing. Our toy abstraction is a single-layer visual demonstration model applying $\text{ReLU}(v)\text{ReLU}(k)^T$ and Top-K connection gating on a small matrix to make the effect of sparse support restriction visually perceivable.

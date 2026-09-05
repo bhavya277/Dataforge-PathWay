@@ -123,7 +123,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         {/* Param 3: Key Correlation rho */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-baseline">
-            <span className="text-xs font-medium text-[#626873]">ρ — Key Correlation</span>
+            <span className="text-xs font-medium text-[#626873]">ρ — Controlled Key Overlap</span>
             <span className="text-xs font-mono font-bold text-[#D97706]">ρ = {correlation.toFixed(2)}</span>
           </div>
           <input
@@ -137,7 +137,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             aria-label="Key correlation parameter rho"
           />
           <div className="text-[10px] text-[#8A909A] font-mono">
-            {correlation === 0 ? "Orthogonal keys" : "Non-zero pairwise overlap"}
+            {correlation === 0 ? "Orthogonal keys (ρ = 0.00)" : "Controlled shared-component parameter"}
           </div>
         </div>
 

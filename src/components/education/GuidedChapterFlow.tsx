@@ -35,7 +35,7 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       step: 2,
       num: "02",
       name: "COMPRESS",
-      title: "COMPRESS: FIXED-SIZE STATE SATURATION",
+      title: "COMPRESS: FIXED-SIZE STATE RECURRENCE",
       subtitle: "Fixed parameter budget S ∈ ℝ^(d×d)",
       question: "Why does recurrent associative memory operate with O(1) inference memory?",
       formula: "S_t ∈ ℝ^(d × d) ⟹ Parameters Fixed at d²",
@@ -78,7 +78,7 @@ export const GuidedChapterFlow: React.FC<GuidedChapterFlowProps> = ({ onApplyCon
       num: "05",
       name: "STRESS",
       title: "STRESS: MEMORY LOAD RATIO (N / d > 1.0)",
-      subtitle: "State saturation beyond subspace rank",
+      subtitle: "Finite-dimensional state under increased load",
       question: "What happens when stored associations N exceed state dimension d?",
       formula: "Dimensionless Load Ratio: γ = N / d > 1.0",
       explanation:

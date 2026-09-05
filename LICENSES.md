@@ -55,13 +55,18 @@ In accordance with the official Pathway Problem Statement guidelines, the proven
 | **Next.js** | 15.5.7 | React framework & server-side generation | MIT | https://github.com/vercel/next.js |
 | **React** / **React DOM** | 19.0.0 | UI component architecture | MIT | https://github.com/facebook/react |
 | **Tailwind CSS** | 3.4.17 | Utility-first CSS layout engine | MIT | https://github.com/tailwindlabs/tailwindcss |
-| **KaTeX** | 0.16.21 | Fast, accessible mathematical LaTeX typeset rendering (`InteractiveEquation.tsx`, `ResearchNotebook.tsx`) | MIT | https://github.com/KaTeX/KaTeX |
+| **KaTeX** | 0.18.5 | Fast, accessible mathematical LaTeX typeset rendering (`InteractiveEquation.tsx`, `ResearchNotebook.tsx`, PDF export) | MIT | https://github.com/KaTeX/KaTeX |
 | **Lucide React** | 0.475.0 | Minimalist UI glyphs and icons | ISC | https://github.com/lucide-icons/lucide |
 | **Framer Motion** | 12.4.7 | UI transitions | MIT | https://github.com/framer/motion |
 
-### Verification & Export Tooling (Python)
+### PDF Export & Verification Dependencies (npm)
 | Tool | Version | Purpose | License | Provenance Link |
 |---|---|---|---|---|
-| **NumPy** | 1.26+ | Numerical equivalence & verification suite | BSD 3-Clause | https://github.com/numpy/numpy |
-| **Python-Markdown** | 3.x | Markdown to HTML conversion in PDF export | BSD | https://github.com/Python-Markdown/markdown |
-| **MathJax** | 3.x (CDN) | Client-side script loaded exclusively in `export_blog_pdf.py` for offline PDF generation | Apache 2.0 | https://github.com/mathjax/MathJax |
+| **Puppeteer** | 25.10.0 | Headless Chrome browser for deterministic PDF compilation | Apache 2.0 | https://github.com/puppeteer/puppeteer |
+| **Marked** | 18.0.11 | Markdown parsing with math span protection | MIT | https://github.com/markedjs/marked |
+| **pdf-parse** | 2.4.5 | PDF text extraction and verification test suite | MIT | https://github.com/modesty/pdf2json |
+
+### Mathematical Verification Tooling (Python)
+| Tool | Version | Purpose | License | Provenance Link |
+|---|---|---|---|---|
+| **NumPy** | 1.26+ | Numerical equivalence & recurrence verification suite | BSD 3-Clause | https://github.com/numpy/numpy |

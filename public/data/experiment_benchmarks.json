@@ -638,174 +638,174 @@
       },
       {
         "correlation_param_rho": 0.05,
-        "observed_mean_pairwise_cosine": 0.0717,
-        "mean_cosine_similarity": 0.8718,
-        "std_cosine_similarity": 0.1044,
-        "mean_cosine_error": 0.1282,
-        "mean_raw_l2_error": 0.5524,
-        "mean_interference_to_signal_ratio": 0.5524
+        "observed_mean_pairwise_cosine": 0.0739,
+        "mean_cosine_similarity": 0.8615,
+        "std_cosine_similarity": 0.1254,
+        "mean_cosine_error": 0.1385,
+        "mean_raw_l2_error": 0.5666,
+        "mean_interference_to_signal_ratio": 0.5666
       },
       {
         "correlation_param_rho": 0.1,
-        "observed_mean_pairwise_cosine": 0.1205,
-        "mean_cosine_similarity": 0.8757,
-        "std_cosine_similarity": 0.1036,
-        "mean_cosine_error": 0.1243,
-        "mean_raw_l2_error": 0.5442,
-        "mean_interference_to_signal_ratio": 0.5442
+        "observed_mean_pairwise_cosine": 0.1227,
+        "mean_cosine_similarity": 0.8661,
+        "std_cosine_similarity": 0.121,
+        "mean_cosine_error": 0.1339,
+        "mean_raw_l2_error": 0.5571,
+        "mean_interference_to_signal_ratio": 0.5571
       },
       {
         "correlation_param_rho": 0.15,
-        "observed_mean_pairwise_cosine": 0.1694,
-        "mean_cosine_similarity": 0.8742,
-        "std_cosine_similarity": 0.1053,
-        "mean_cosine_error": 0.1258,
-        "mean_raw_l2_error": 0.5499,
-        "mean_interference_to_signal_ratio": 0.5499
+        "observed_mean_pairwise_cosine": 0.1714,
+        "mean_cosine_similarity": 0.8656,
+        "std_cosine_similarity": 0.12,
+        "mean_cosine_error": 0.1344,
+        "mean_raw_l2_error": 0.5606,
+        "mean_interference_to_signal_ratio": 0.5606
       },
       {
         "correlation_param_rho": 0.2,
-        "observed_mean_pairwise_cosine": 0.2182,
-        "mean_cosine_similarity": 0.8672,
-        "std_cosine_similarity": 0.1089,
-        "mean_cosine_error": 0.1328,
-        "mean_raw_l2_error": 0.571,
-        "mean_interference_to_signal_ratio": 0.571
+        "observed_mean_pairwise_cosine": 0.2202,
+        "mean_cosine_similarity": 0.8598,
+        "std_cosine_similarity": 0.122,
+        "mean_cosine_error": 0.1402,
+        "mean_raw_l2_error": 0.5784,
+        "mean_interference_to_signal_ratio": 0.5784
       },
       {
         "correlation_param_rho": 0.25,
-        "observed_mean_pairwise_cosine": 0.2671,
-        "mean_cosine_similarity": 0.8549,
-        "std_cosine_similarity": 0.1138,
-        "mean_cosine_error": 0.1451,
-        "mean_raw_l2_error": 0.6077,
-        "mean_interference_to_signal_ratio": 0.6077
+        "observed_mean_pairwise_cosine": 0.2689,
+        "mean_cosine_similarity": 0.8489,
+        "std_cosine_similarity": 0.126,
+        "mean_cosine_error": 0.1511,
+        "mean_raw_l2_error": 0.6111,
+        "mean_interference_to_signal_ratio": 0.6111
       },
       {
         "correlation_param_rho": 0.3,
-        "observed_mean_pairwise_cosine": 0.316,
-        "mean_cosine_similarity": 0.8379,
-        "std_cosine_similarity": 0.1193,
-        "mean_cosine_error": 0.1621,
-        "mean_raw_l2_error": 0.6595,
-        "mean_interference_to_signal_ratio": 0.6595
+        "observed_mean_pairwise_cosine": 0.3176,
+        "mean_cosine_similarity": 0.8332,
+        "std_cosine_similarity": 0.1311,
+        "mean_cosine_error": 0.1668,
+        "mean_raw_l2_error": 0.6579,
+        "mean_interference_to_signal_ratio": 0.6579
       },
       {
         "correlation_param_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3648,
-        "mean_cosine_similarity": 0.817,
-        "std_cosine_similarity": 0.1255,
-        "mean_cosine_error": 0.183,
-        "mean_raw_l2_error": 0.7213,
-        "mean_interference_to_signal_ratio": 0.7213
+        "observed_mean_pairwise_cosine": 0.3664,
+        "mean_cosine_similarity": 0.8133,
+        "std_cosine_similarity": 0.1369,
+        "mean_cosine_error": 0.1867,
+        "mean_raw_l2_error": 0.7149,
+        "mean_interference_to_signal_ratio": 0.7149
       },
       {
         "correlation_param_rho": 0.4,
-        "observed_mean_pairwise_cosine": 0.4137,
-        "mean_cosine_similarity": 0.7932,
-        "std_cosine_similarity": 0.1324,
-        "mean_cosine_error": 0.2068,
-        "mean_raw_l2_error": 0.7892,
-        "mean_interference_to_signal_ratio": 0.7892
+        "observed_mean_pairwise_cosine": 0.4151,
+        "mean_cosine_similarity": 0.7902,
+        "std_cosine_similarity": 0.1435,
+        "mean_cosine_error": 0.2098,
+        "mean_raw_l2_error": 0.7787,
+        "mean_interference_to_signal_ratio": 0.7787
       },
       {
         "correlation_param_rho": 0.45,
-        "observed_mean_pairwise_cosine": 0.4625,
-        "mean_cosine_similarity": 0.7674,
-        "std_cosine_similarity": 0.1403,
-        "mean_cosine_error": 0.2326,
-        "mean_raw_l2_error": 0.8613,
-        "mean_interference_to_signal_ratio": 0.8613
+        "observed_mean_pairwise_cosine": 0.4639,
+        "mean_cosine_similarity": 0.7647,
+        "std_cosine_similarity": 0.1511,
+        "mean_cosine_error": 0.2353,
+        "mean_raw_l2_error": 0.8475,
+        "mean_interference_to_signal_ratio": 0.8475
       },
       {
         "correlation_param_rho": 0.5,
-        "observed_mean_pairwise_cosine": 0.5114,
-        "mean_cosine_similarity": 0.7406,
-        "std_cosine_similarity": 0.1494,
-        "mean_cosine_error": 0.2594,
-        "mean_raw_l2_error": 0.9363,
-        "mean_interference_to_signal_ratio": 0.9363
+        "observed_mean_pairwise_cosine": 0.5126,
+        "mean_cosine_similarity": 0.7376,
+        "std_cosine_similarity": 0.1605,
+        "mean_cosine_error": 0.2624,
+        "mean_raw_l2_error": 0.9199,
+        "mean_interference_to_signal_ratio": 0.9199
       },
       {
         "correlation_param_rho": 0.55,
-        "observed_mean_pairwise_cosine": 0.5603,
-        "mean_cosine_similarity": 0.7135,
-        "std_cosine_similarity": 0.1596,
-        "mean_cosine_error": 0.2865,
-        "mean_raw_l2_error": 1.0135,
-        "mean_interference_to_signal_ratio": 1.0135
+        "observed_mean_pairwise_cosine": 0.5613,
+        "mean_cosine_similarity": 0.7099,
+        "std_cosine_similarity": 0.1719,
+        "mean_cosine_error": 0.2901,
+        "mean_raw_l2_error": 0.9949,
+        "mean_interference_to_signal_ratio": 0.9949
       },
       {
         "correlation_param_rho": 0.6,
-        "observed_mean_pairwise_cosine": 0.6091,
-        "mean_cosine_similarity": 0.6867,
-        "std_cosine_similarity": 0.1707,
-        "mean_cosine_error": 0.3133,
-        "mean_raw_l2_error": 1.0923,
-        "mean_interference_to_signal_ratio": 1.0923
+        "observed_mean_pairwise_cosine": 0.6101,
+        "mean_cosine_similarity": 0.6823,
+        "std_cosine_similarity": 0.1847,
+        "mean_cosine_error": 0.3177,
+        "mean_raw_l2_error": 1.072,
+        "mean_interference_to_signal_ratio": 1.072
       },
       {
         "correlation_param_rho": 0.65,
-        "observed_mean_pairwise_cosine": 0.658,
-        "mean_cosine_similarity": 0.6606,
-        "std_cosine_similarity": 0.1825,
-        "mean_cosine_error": 0.3394,
-        "mean_raw_l2_error": 1.1724,
-        "mean_interference_to_signal_ratio": 1.1724
+        "observed_mean_pairwise_cosine": 0.6588,
+        "mean_cosine_similarity": 0.6554,
+        "std_cosine_similarity": 0.1982,
+        "mean_cosine_error": 0.3446,
+        "mean_raw_l2_error": 1.1506,
+        "mean_interference_to_signal_ratio": 1.1506
       },
       {
         "correlation_param_rho": 0.7,
-        "observed_mean_pairwise_cosine": 0.7068,
-        "mean_cosine_similarity": 0.6357,
-        "std_cosine_similarity": 0.1944,
-        "mean_cosine_error": 0.3643,
-        "mean_raw_l2_error": 1.2536,
-        "mean_interference_to_signal_ratio": 1.2536
+        "observed_mean_pairwise_cosine": 0.7076,
+        "mean_cosine_similarity": 0.6296,
+        "std_cosine_similarity": 0.2116,
+        "mean_cosine_error": 0.3704,
+        "mean_raw_l2_error": 1.2305,
+        "mean_interference_to_signal_ratio": 1.2305
       },
       {
         "correlation_param_rho": 0.75,
-        "observed_mean_pairwise_cosine": 0.7557,
-        "mean_cosine_similarity": 0.612,
-        "std_cosine_similarity": 0.206,
-        "mean_cosine_error": 0.388,
-        "mean_raw_l2_error": 1.3356,
-        "mean_interference_to_signal_ratio": 1.3356
+        "observed_mean_pairwise_cosine": 0.7563,
+        "mean_cosine_similarity": 0.605,
+        "std_cosine_similarity": 0.2243,
+        "mean_cosine_error": 0.395,
+        "mean_raw_l2_error": 1.3114,
+        "mean_interference_to_signal_ratio": 1.3114
       },
       {
         "correlation_param_rho": 0.8,
-        "observed_mean_pairwise_cosine": 0.8046,
-        "mean_cosine_similarity": 0.5898,
-        "std_cosine_similarity": 0.217,
-        "mean_cosine_error": 0.4102,
-        "mean_raw_l2_error": 1.4183,
-        "mean_interference_to_signal_ratio": 1.4183
+        "observed_mean_pairwise_cosine": 0.805,
+        "mean_cosine_similarity": 0.5819,
+        "std_cosine_similarity": 0.2359,
+        "mean_cosine_error": 0.4181,
+        "mean_raw_l2_error": 1.3931,
+        "mean_interference_to_signal_ratio": 1.3931
       },
       {
         "correlation_param_rho": 0.85,
-        "observed_mean_pairwise_cosine": 0.8534,
-        "mean_cosine_similarity": 0.5688,
-        "std_cosine_similarity": 0.2272,
-        "mean_cosine_error": 0.4312,
-        "mean_raw_l2_error": 1.5017,
-        "mean_interference_to_signal_ratio": 1.5017
+        "observed_mean_pairwise_cosine": 0.8538,
+        "mean_cosine_similarity": 0.5602,
+        "std_cosine_similarity": 0.2465,
+        "mean_cosine_error": 0.4398,
+        "mean_raw_l2_error": 1.4755,
+        "mean_interference_to_signal_ratio": 1.4755
       },
       {
         "correlation_param_rho": 0.9,
-        "observed_mean_pairwise_cosine": 0.9023,
-        "mean_cosine_similarity": 0.5493,
-        "std_cosine_similarity": 0.2365,
-        "mean_cosine_error": 0.4507,
-        "mean_raw_l2_error": 1.5855,
-        "mean_interference_to_signal_ratio": 1.5855
+        "observed_mean_pairwise_cosine": 0.9025,
+        "mean_cosine_similarity": 0.5398,
+        "std_cosine_similarity": 0.256,
+        "mean_cosine_error": 0.4602,
+        "mean_raw_l2_error": 1.5585,
+        "mean_interference_to_signal_ratio": 1.5585
       },
       {
         "correlation_param_rho": 0.95,
-        "observed_mean_pairwise_cosine": 0.9511,
-        "mean_cosine_similarity": 0.531,
-        "std_cosine_similarity": 0.2449,
-        "mean_cosine_error": 0.469,
-        "mean_raw_l2_error": 1.6697,
-        "mean_interference_to_signal_ratio": 1.6697
+        "observed_mean_pairwise_cosine": 0.9513,
+        "mean_cosine_similarity": 0.5208,
+        "std_cosine_similarity": 0.2645,
+        "mean_cosine_error": 0.4792,
+        "mean_raw_l2_error": 1.642,
+        "mean_interference_to_signal_ratio": 1.642
       }
     ],
     "experiment_c_load_sweep": [
@@ -825,209 +825,209 @@
         "d": 8,
         "load_ratio_N_over_d": 0.25,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3015,
-        "mean_cosine_similarity": 0.9427,
-        "mean_cosine_error": 0.0573,
-        "mean_raw_l2_error": 0.3298,
-        "mean_interference_to_signal_ratio": 0.3298
+        "observed_mean_pairwise_cosine": 0.3428,
+        "mean_cosine_similarity": 0.9336,
+        "mean_cosine_error": 0.0664,
+        "mean_raw_l2_error": 0.3598,
+        "mean_interference_to_signal_ratio": 0.3598
       },
       {
         "N": 3,
         "d": 8,
         "load_ratio_N_over_d": 0.375,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3498,
-        "mean_cosine_similarity": 0.8754,
-        "mean_cosine_error": 0.1246,
-        "mean_raw_l2_error": 0.5496,
-        "mean_interference_to_signal_ratio": 0.5496
+        "observed_mean_pairwise_cosine": 0.3451,
+        "mean_cosine_similarity": 0.8718,
+        "mean_cosine_error": 0.1282,
+        "mean_raw_l2_error": 0.546,
+        "mean_interference_to_signal_ratio": 0.546
       },
       {
         "N": 4,
         "d": 8,
         "load_ratio_N_over_d": 0.5,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3659,
-        "mean_cosine_similarity": 0.8009,
-        "mean_cosine_error": 0.1991,
-        "mean_raw_l2_error": 0.6903,
-        "mean_interference_to_signal_ratio": 0.6903
+        "observed_mean_pairwise_cosine": 0.3589,
+        "mean_cosine_similarity": 0.8091,
+        "mean_cosine_error": 0.1909,
+        "mean_raw_l2_error": 0.7022,
+        "mean_interference_to_signal_ratio": 0.7022
       },
       {
         "N": 5,
         "d": 8,
         "load_ratio_N_over_d": 0.625,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3579,
-        "mean_cosine_similarity": 0.7546,
-        "mean_cosine_error": 0.2454,
-        "mean_raw_l2_error": 0.8387,
-        "mean_interference_to_signal_ratio": 0.8387
+        "observed_mean_pairwise_cosine": 0.3486,
+        "mean_cosine_similarity": 0.7677,
+        "mean_cosine_error": 0.2323,
+        "mean_raw_l2_error": 0.8362,
+        "mean_interference_to_signal_ratio": 0.8362
       },
       {
         "N": 6,
         "d": 8,
         "load_ratio_N_over_d": 0.75,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3581,
-        "mean_cosine_similarity": 0.7199,
-        "mean_cosine_error": 0.2801,
-        "mean_raw_l2_error": 0.877,
-        "mean_interference_to_signal_ratio": 0.877
+        "observed_mean_pairwise_cosine": 0.3566,
+        "mean_cosine_similarity": 0.7274,
+        "mean_cosine_error": 0.2726,
+        "mean_raw_l2_error": 0.8949,
+        "mean_interference_to_signal_ratio": 0.8949
       },
       {
         "N": 7,
         "d": 8,
         "load_ratio_N_over_d": 0.875,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3456,
-        "mean_cosine_similarity": 0.7127,
-        "mean_cosine_error": 0.2873,
-        "mean_raw_l2_error": 0.9861,
-        "mean_interference_to_signal_ratio": 0.9861
+        "observed_mean_pairwise_cosine": 0.3429,
+        "mean_cosine_similarity": 0.7141,
+        "mean_cosine_error": 0.2859,
+        "mean_raw_l2_error": 0.986,
+        "mean_interference_to_signal_ratio": 0.986
       },
       {
         "N": 8,
         "d": 8,
         "load_ratio_N_over_d": 1.0,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3447,
-        "mean_cosine_similarity": 0.6835,
-        "mean_cosine_error": 0.3165,
-        "mean_raw_l2_error": 1.0776,
-        "mean_interference_to_signal_ratio": 1.0776
+        "observed_mean_pairwise_cosine": 0.3494,
+        "mean_cosine_similarity": 0.6806,
+        "mean_cosine_error": 0.3194,
+        "mean_raw_l2_error": 1.0869,
+        "mean_interference_to_signal_ratio": 1.0869
       },
       {
         "N": 9,
         "d": 8,
         "load_ratio_N_over_d": 1.125,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3546,
-        "mean_cosine_similarity": 0.6275,
-        "mean_cosine_error": 0.3725,
-        "mean_raw_l2_error": 1.1341,
-        "mean_interference_to_signal_ratio": 1.1341
+        "observed_mean_pairwise_cosine": 0.3576,
+        "mean_cosine_similarity": 0.6335,
+        "mean_cosine_error": 0.3665,
+        "mean_raw_l2_error": 1.1601,
+        "mean_interference_to_signal_ratio": 1.1601
       },
       {
         "N": 10,
         "d": 8,
         "load_ratio_N_over_d": 1.25,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.358,
-        "mean_cosine_similarity": 0.6106,
-        "mean_cosine_error": 0.3894,
-        "mean_raw_l2_error": 1.224,
-        "mean_interference_to_signal_ratio": 1.224
+        "observed_mean_pairwise_cosine": 0.3594,
+        "mean_cosine_similarity": 0.6067,
+        "mean_cosine_error": 0.3933,
+        "mean_raw_l2_error": 1.2283,
+        "mean_interference_to_signal_ratio": 1.2283
       },
       {
         "N": 11,
         "d": 8,
         "load_ratio_N_over_d": 1.375,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3458,
-        "mean_cosine_similarity": 0.6128,
-        "mean_cosine_error": 0.3872,
-        "mean_raw_l2_error": 1.2921,
-        "mean_interference_to_signal_ratio": 1.2921
+        "observed_mean_pairwise_cosine": 0.345,
+        "mean_cosine_similarity": 0.6109,
+        "mean_cosine_error": 0.3891,
+        "mean_raw_l2_error": 1.2641,
+        "mean_interference_to_signal_ratio": 1.2641
       },
       {
         "N": 12,
         "d": 8,
         "load_ratio_N_over_d": 1.5,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3433,
-        "mean_cosine_similarity": 0.5795,
-        "mean_cosine_error": 0.4205,
-        "mean_raw_l2_error": 1.3485,
-        "mean_interference_to_signal_ratio": 1.3485
+        "observed_mean_pairwise_cosine": 0.3445,
+        "mean_cosine_similarity": 0.5764,
+        "mean_cosine_error": 0.4236,
+        "mean_raw_l2_error": 1.359,
+        "mean_interference_to_signal_ratio": 1.359
       },
       {
         "N": 13,
         "d": 8,
         "load_ratio_N_over_d": 1.625,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3494,
-        "mean_cosine_similarity": 0.5689,
-        "mean_cosine_error": 0.4311,
-        "mean_raw_l2_error": 1.444,
-        "mean_interference_to_signal_ratio": 1.444
+        "observed_mean_pairwise_cosine": 0.3486,
+        "mean_cosine_similarity": 0.5617,
+        "mean_cosine_error": 0.4383,
+        "mean_raw_l2_error": 1.4013,
+        "mean_interference_to_signal_ratio": 1.4013
       },
       {
         "N": 14,
         "d": 8,
         "load_ratio_N_over_d": 1.75,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3514,
-        "mean_cosine_similarity": 0.5473,
-        "mean_cosine_error": 0.4527,
-        "mean_raw_l2_error": 1.5784,
-        "mean_interference_to_signal_ratio": 1.5784
+        "observed_mean_pairwise_cosine": 0.3548,
+        "mean_cosine_similarity": 0.5456,
+        "mean_cosine_error": 0.4544,
+        "mean_raw_l2_error": 1.5429,
+        "mean_interference_to_signal_ratio": 1.5429
       },
       {
         "N": 15,
         "d": 8,
         "load_ratio_N_over_d": 1.875,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3537,
-        "mean_cosine_similarity": 0.5238,
-        "mean_cosine_error": 0.4762,
-        "mean_raw_l2_error": 1.568,
-        "mean_interference_to_signal_ratio": 1.568
+        "observed_mean_pairwise_cosine": 0.3512,
+        "mean_cosine_similarity": 0.5294,
+        "mean_cosine_error": 0.4706,
+        "mean_raw_l2_error": 1.5637,
+        "mean_interference_to_signal_ratio": 1.5637
       },
       {
         "N": 16,
         "d": 8,
         "load_ratio_N_over_d": 2.0,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3537,
-        "mean_cosine_similarity": 0.5197,
-        "mean_cosine_error": 0.4803,
-        "mean_raw_l2_error": 1.5486,
-        "mean_interference_to_signal_ratio": 1.5486
+        "observed_mean_pairwise_cosine": 0.3553,
+        "mean_cosine_similarity": 0.5193,
+        "mean_cosine_error": 0.4807,
+        "mean_raw_l2_error": 1.6054,
+        "mean_interference_to_signal_ratio": 1.6054
       },
       {
         "N": 17,
         "d": 8,
         "load_ratio_N_over_d": 2.125,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3476,
-        "mean_cosine_similarity": 0.5015,
-        "mean_cosine_error": 0.4985,
-        "mean_raw_l2_error": 1.6342,
-        "mean_interference_to_signal_ratio": 1.6342
+        "observed_mean_pairwise_cosine": 0.3485,
+        "mean_cosine_similarity": 0.4995,
+        "mean_cosine_error": 0.5005,
+        "mean_raw_l2_error": 1.6485,
+        "mean_interference_to_signal_ratio": 1.6485
       },
       {
         "N": 18,
         "d": 8,
         "load_ratio_N_over_d": 2.25,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3508,
-        "mean_cosine_similarity": 0.4829,
-        "mean_cosine_error": 0.5171,
-        "mean_raw_l2_error": 1.6906,
-        "mean_interference_to_signal_ratio": 1.6906
+        "observed_mean_pairwise_cosine": 0.351,
+        "mean_cosine_similarity": 0.4925,
+        "mean_cosine_error": 0.5075,
+        "mean_raw_l2_error": 1.6599,
+        "mean_interference_to_signal_ratio": 1.6599
       },
       {
         "N": 19,
         "d": 8,
         "load_ratio_N_over_d": 2.375,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3471,
-        "mean_cosine_similarity": 0.4845,
-        "mean_cosine_error": 0.5155,
-        "mean_raw_l2_error": 1.6632,
-        "mean_interference_to_signal_ratio": 1.6632
+        "observed_mean_pairwise_cosine": 0.3485,
+        "mean_cosine_similarity": 0.4775,
+        "mean_cosine_error": 0.5225,
+        "mean_raw_l2_error": 1.7237,
+        "mean_interference_to_signal_ratio": 1.7237
       },
       {
         "N": 20,
         "d": 8,
         "load_ratio_N_over_d": 2.5,
         "controlled_correlation_rho": 0.35,
-        "observed_mean_pairwise_cosine": 0.3508,
-        "mean_cosine_similarity": 0.461,
-        "mean_cosine_error": 0.539,
-        "mean_raw_l2_error": 1.7349,
-        "mean_interference_to_signal_ratio": 1.7349
+        "observed_mean_pairwise_cosine": 0.3514,
+        "mean_cosine_similarity": 0.4637,
+        "mean_cosine_error": 0.5363,
+        "mean_raw_l2_error": 1.7844,
+        "mean_interference_to_signal_ratio": 1.7844
       }
     ],
     "experiment_d_dimension_sweep": [
@@ -1036,90 +1036,90 @@
         "N": 8,
         "load_ratio_N_over_d": 2.0,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.5861,
-        "mean_cosine_error": 0.4139,
-        "mean_raw_l2_error": 1.2819,
-        "mean_interference_to_signal_ratio": 1.2819
+        "mean_cosine_similarity": 0.5609,
+        "mean_cosine_error": 0.4391,
+        "mean_raw_l2_error": 1.2847,
+        "mean_interference_to_signal_ratio": 1.2847
       },
       {
         "d": 6,
         "N": 8,
         "load_ratio_N_over_d": 1.333,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.6263,
-        "mean_cosine_error": 0.3737,
-        "mean_raw_l2_error": 1.1525,
-        "mean_interference_to_signal_ratio": 1.1525
+        "mean_cosine_similarity": 0.6407,
+        "mean_cosine_error": 0.3593,
+        "mean_raw_l2_error": 1.1599,
+        "mean_interference_to_signal_ratio": 1.1599
       },
       {
         "d": 8,
         "N": 8,
         "load_ratio_N_over_d": 1.0,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.6926,
-        "mean_cosine_error": 0.3074,
-        "mean_raw_l2_error": 1.0954,
-        "mean_interference_to_signal_ratio": 1.0954
+        "mean_cosine_similarity": 0.6802,
+        "mean_cosine_error": 0.3198,
+        "mean_raw_l2_error": 1.1142,
+        "mean_interference_to_signal_ratio": 1.1142
       },
       {
         "d": 12,
         "N": 8,
         "load_ratio_N_over_d": 0.667,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.6974,
-        "mean_cosine_error": 0.3026,
-        "mean_raw_l2_error": 1.07,
-        "mean_interference_to_signal_ratio": 1.07
+        "mean_cosine_similarity": 0.6979,
+        "mean_cosine_error": 0.3021,
+        "mean_raw_l2_error": 1.0544,
+        "mean_interference_to_signal_ratio": 1.0544
       },
       {
         "d": 16,
         "N": 8,
         "load_ratio_N_over_d": 0.5,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.6987,
-        "mean_cosine_error": 0.3013,
-        "mean_raw_l2_error": 1.0368,
-        "mean_interference_to_signal_ratio": 1.0368
+        "mean_cosine_similarity": 0.7022,
+        "mean_cosine_error": 0.2978,
+        "mean_raw_l2_error": 0.9863,
+        "mean_interference_to_signal_ratio": 0.9863
       },
       {
         "d": 24,
         "N": 8,
         "load_ratio_N_over_d": 0.333,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.7134,
-        "mean_cosine_error": 0.2866,
-        "mean_raw_l2_error": 1.0159,
-        "mean_interference_to_signal_ratio": 1.0159
+        "mean_cosine_similarity": 0.7119,
+        "mean_cosine_error": 0.2881,
+        "mean_raw_l2_error": 1.0086,
+        "mean_interference_to_signal_ratio": 1.0086
       },
       {
         "d": 32,
         "N": 8,
         "load_ratio_N_over_d": 0.25,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.7269,
-        "mean_cosine_error": 0.2731,
-        "mean_raw_l2_error": 0.9275,
-        "mean_interference_to_signal_ratio": 0.9275
+        "mean_cosine_similarity": 0.7237,
+        "mean_cosine_error": 0.2763,
+        "mean_raw_l2_error": 0.9384,
+        "mean_interference_to_signal_ratio": 0.9384
       },
       {
         "d": 48,
         "N": 8,
         "load_ratio_N_over_d": 0.167,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.72,
-        "mean_cosine_error": 0.28,
-        "mean_raw_l2_error": 0.9631,
-        "mean_interference_to_signal_ratio": 0.9631
+        "mean_cosine_similarity": 0.723,
+        "mean_cosine_error": 0.277,
+        "mean_raw_l2_error": 0.952,
+        "mean_interference_to_signal_ratio": 0.952
       },
       {
         "d": 64,
         "N": 8,
         "load_ratio_N_over_d": 0.125,
         "controlled_correlation_rho": 0.35,
-        "mean_cosine_similarity": 0.7253,
-        "mean_cosine_error": 0.2747,
-        "mean_raw_l2_error": 0.9566,
-        "mean_interference_to_signal_ratio": 0.9566
+        "mean_cosine_similarity": 0.7285,
+        "mean_cosine_error": 0.2715,
+        "mean_raw_l2_error": 0.9419,
+        "mean_interference_to_signal_ratio": 0.9419
       }
     ]
   }

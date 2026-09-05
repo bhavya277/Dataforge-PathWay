@@ -37,7 +37,7 @@ This document catalogs the primary peer-reviewed and pre-print literature (2021â
 * **Classification:** `[PUBLISHED LITERATURE â€¢ STATE SPACE COMPARISON]`
 
 ### Paper 4: Learning to (Learn at Test Time): RNNs with Expressive Hidden States
-* **Citation:** Sun, Yu, Xinhao Li, Karan Dalal, Jiarui Xu, Arjun Vikram, Genghan Zhang, Yann Dubois, Noah D. Goodman, Sanjeev Arora, and Alexei A. Efros (2024). "Learning to (Learn at Test Time): RNNs with Expressive Hidden States." *arXiv preprint*. [arXiv:2407.04620](https://arxiv.org/abs/2407.04620).
+* **Citation:** Sun, Yu, Xinhao Li, Karan Dalal, Jiarui Xu, Arjun Vikram, Genghan Zhang, Yann Dubois, Xinlei Chen, Xiaolong Wang, Sanmi Koyejo, Tatsunori Hashimoto, and Carlos Guestrin (2024). "Learning to (Learn at Test Time): RNNs with Expressive Hidden States." *arXiv preprint*. [arXiv:2407.04620](https://arxiv.org/abs/2407.04620).
 * **Year:** 2024
 * **Mechanism / System Studied:** Test-Time Training (TTT) layers where recurrent state transitions are formulated as gradient descent steps on a self-supervised objective.
 * **Relationship to Associative Memory:** Reinterprets the linear associative state $W_t$ as the weights of an internal linear model trained on the sequence history at test time, directly extending classical Hebbian fast weights.

@@ -18,7 +18,7 @@ This project teaches the geometric and algebraic mechanics of **associative memo
 When a fixed-size recurrent matrix state stores key-value associations through outer products ($v_t k_t^T$), querying with a stored key retrieves not only the target value, but also an additive linear superposition of non-target values whenever stored keys are not mutually orthogonal. The project demonstrates:
 1. How outer-product recurrence acts as the exact sequential dual of un-softmaxed linear attention.
 2. How increasing controlled key overlap ($\rho$) causes non-target associations to bleed additively into retrieval.
-3. How this fundamental superposition limitation connects to the sparse-positive plasticity ideas investigated in Dragon Hatchling (BDH).
+3. How this linear superposition limitation connects to the sparse-positive plasticity ideas investigated in Dragon Hatchling (BDH).
 
 ---
 
@@ -106,7 +106,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 ## 9. What is Computed Live
 
 * **Matrix Recurrence Updates:** Sequential calculation of $S_t = \lambda S_{t-1} + v_t k_t^T$ computed live on every user parameter change.
-* **Associative Retrieval:** Exact matrix-vector multiplication $y_t = S_t q$ executed in real time (<15 ms).
+* **Associative Retrieval:** Exact matrix-vector multiplication $y_t = S_t q$ executed in real time in-browser.
 * **Gram Matrix Evaluation:** Full pairwise inner-product matrix $G_{ij} = k_i^T k_j$ and statistical distributions (mean, std, min, max) computed on the fly.
 * **Target vs. Cross-Talk Decomposition:** Exact algebraic separation of target signal and cross-talk interference vectors.
 * **Residual Verification:** Dynamic live $L_2$ difference $\|y_t - (\text{target} + \text{crosstalk})\|_2$ computed live in browser.
@@ -119,7 +119,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 | Component / Subsystem | Classification | Implementation Details |
 |---|---|---|
 | **Recurrent Outer-Product State Update ($S_t$)** | **Live Computation** | Vectorized Float64 linear algebra in `src/lib/math-engine.ts` evaluated on every user interaction. |
-| **Associative Query Readout ($y_t = S_t q_t$)** | **Live Computation** | Exact matrix-vector multiplication executed in browser (<15 ms latency). |
+| **Associative Query Readout ($y_t = S_t q_t$)** | **Live Computation** | Exact matrix-vector multiplication executed in-browser in real time. |
 | **Target vs. Cross-Talk Decomposition** | **Live Computation** | Exact algebraic separation with live float64 residual badge ($\|y_t - (\text{target} + \text{crosstalk})\|_2 < 10^{-14}$). |
 | **Pairwise Key Gram Matrix ($G = K K^T$)** | **Live Computation** | Full inner-product matrix and observed statistics ($\mu, \sigma, \min, \max$) evaluated on the fly. |
 | **Learner Explain-Back Reflection Checkpoint** | **Live Interactive UI** | In-memory reflection prompt with concept hint tags and reference model answer reveal. |
@@ -131,7 +131,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 ## 11. What is Computed Live (Engine Summary)
 
 * **Matrix Recurrence Updates:** Sequential calculation of $S_t = \lambda S_{t-1} + v_t k_t^T$ computed live on every parameter change.
-* **Associative Retrieval:** Exact matrix-vector multiplication $y_t = S_t q$ executed in real time (<15 ms).
+* **Associative Retrieval:** Exact matrix-vector multiplication $y_t = S_t q$ executed in real time in-browser.
 * **Gram Matrix Evaluation:** Full pairwise inner-product matrix $G_{ij} = k_i^T k_j$ and statistical distributions (mean, std, min, max) computed on the fly.
 * **Target vs. Cross-Talk Decomposition:** Exact algebraic separation of target signal and cross-talk interference vectors.
 * **Residual Verification:** Dynamic live $L_2$ difference $\|y_t - (\text{target} + \text{crosstalk})\|_2$ computed live in browser.
@@ -233,7 +233,7 @@ npm run export:pdf
 3. **Schlag, I., Irie, K., & Schmidhuber, J. (2021).** *Linear Transformers Are Secretly Fast Weight Programmers.* ICML 2021. [arXiv:2102.11174](https://arxiv.org/abs/2102.11174).
 4. **Beck, M., et al. (2024).** *xLSTM: Extended Long Short-Term Memory.* NeurIPS 2024. [arXiv:2405.04517](https://arxiv.org/abs/2405.04517).
 5. **Gu, A., & Dao, T. (2023).** *Mamba: Linear-Time Sequence Modeling with Selective State Spaces.* [arXiv:2312.00752](https://arxiv.org/abs/2312.00752).
-6. **Sun, Y., et al. (2024).** *Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT).* [arXiv:2407.04620](https://arxiv.org/abs/2407.04620).
+6. **Sun, Y., Li, X., Dalal, K., Xu, J., Vikram, A., Zhang, G., Dubois, Y., Chen, X., Wang, X., Koyejo, S., Hashimoto, T., & Guestrin, C. (2024).** *Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT).* [arXiv:2407.04620](https://arxiv.org/abs/2407.04620).
 7. **Elhage, N., et al. (Anthropic, 2022).** *Toy Models of Superposition.* Transformer Circuits Thread.
 
 ---

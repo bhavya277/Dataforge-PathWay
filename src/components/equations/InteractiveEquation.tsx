@@ -30,7 +30,7 @@ export const InteractiveEquation: React.FC = () => {
       title: "Signal + Cross-Talk Decomposition",
       math: "y_t = \\underbrace{\\lambda^{t-j} v_j (k_j^T q_j)}_{\\text{Target Signal}} + \\underbrace{\\sum_{i \\ne j} \\lambda^{t-i} v_i (k_i^T q_j)}_{\\text{Cross-Talk Interference}}",
       explanation:
-        "The fundamental algebraic mechanism of memory degradation: querying key k_j retrieves target value v_j plus an additive linear superposition of non-target values weighted by their pairwise key inner products k_iᵀ q_j.",
+        "The algebraic mechanism of cross-talk in this linear model: querying key k_j retrieves target value v_j plus an additive linear superposition of non-target values weighted by their pairwise key inner products k_iᵀ q_j.",
       dimension: "y_t \\in \\mathbb{R}^d",
       note: "If all stored keys are mutually orthogonal (k_iᵀ k_j = 0 for i ≠ j), cross-talk evaluates to zero.",
     },

@@ -34,10 +34,10 @@ If all keys are strictly orthonormal ($k_i^T k_j = 0$ for $i \ne j$), the cross-
 To quantify this, our empirical benchmark sweeps (evaluated across 50 Monte Carlo trials per configuration at $d=8$) measured retrieval degradation as a function of controlled key correlation $\rho$ (controlling the shared component of the synthetic key distribution):
 
 1. **Orthogonal Baseline ($\rho = 0.0, N = 4$):** Mean Cosine Similarity $= 1.0000$, Mean L2 Error $= 0.0000$.
-2. **Moderate Correlation ($\rho = 0.45, N = 4$):** Mean Cosine Similarity drops to $0.8412$, Mean L2 Error rises to $0.4821$.
-3. **Memory Pressure ($N = 12 > d = 8, \rho = 0.20$):** Mean Cosine Similarity degrades to $0.6934$, with Interference-to-Signal Ratio (ISR) exceeding $0.62$.
+2. **Moderate Correlation ($\rho = 0.45, N = 4$):** Mean Cosine Similarity drops to $0.7647$, Mean L2 Error rises to $0.8475$.
+3. **Memory Pressure ($N = 12 > d = 8, \rho = 0.35$):** Mean Cosine Similarity degrades to $0.5764$, with Mean L2 Error rising to $1.3590$ (Interference-to-Signal Ratio $\text{ISR} = 1.3590$).
 
-*Our Interpretation:* The linear state matrix $S_t$ has algebraic rank bounded by $d$ ($\text{rank}(S) \le \min(d, N)$). When $N > d$, keys in $\mathbb{R}^d$ cannot be mutually orthogonal, and non-zero pairwise projections contribute additive cross-talk during retrieval under our synthetic setup.
+*Our Interpretation:* The linear state matrix $S_t$ has algebraic rank bounded by $d$ ($\text{rank}(S) \le \min(d, N)$). When $N > d$, nonzero vectors in $\mathbb{R}^d$ cannot all be mutually orthogonal. In our synthetic setup, higher memory load is associated with increased measured cross-talk.
 
 ---
 
@@ -63,7 +63,7 @@ Furthermore, **BDH-CQ** (Engdahl et al., 2026) provides broader research context
 
 ### Open Questions and Boundaries
 
-*Limitation:* While non-negative sparsity substantially suppresses cross-talk, it does not provide an infinite memory guarantee. Under finite dimension $d$, memory capacity remains fundamentally constrained by the sparse packing bound. Understanding the exact trade-off between synaptic sparsity and representational expressivity remains an open research frontier.
+*Limitation:* While non-negative sparsity substantially suppresses cross-talk, it does not provide an infinite memory guarantee. Under finite dimension $d$, memory representation remains fundamentally constrained by finite-dimensional geometric bounds. Understanding the exact trade-off between synaptic sparsity and representational expressivity remains an open research frontier.
 
 ---
 
@@ -71,6 +71,6 @@ Furthermore, **BDH-CQ** (Engdahl et al., 2026) provides broader research context
 1. **Schlag, I., Irie, K., & Schmidhuber, J. (2021).** *Linear Transformers Are Secretly Fast Weight Programmers.* ICML 2021. [arXiv:2102.11174](https://arxiv.org/abs/2102.11174).
 2. **Beck, M., et al. (2024).** *xLSTM: Extended Long Short-Term Memory.* NeurIPS 2024. [arXiv:2405.04517](https://arxiv.org/abs/2405.04517).
 3. **Gu, A., & Dao, T. (2023).** *Mamba: Linear-Time Sequence Modeling with Selective State Spaces.* [arXiv:2312.00752](https://arxiv.org/abs/2312.00752).
-4. **Sun, Y., et al. (2024).** *Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT).* [arXiv:2407.04620](https://arxiv.org/abs/2407.04620).
+4. **Sun, Y., Li, X., Dalal, K., Xu, J., Vikram, A., Zhang, G., Dubois, Y., Chen, X., Wang, X., Koyejo, S., Hashimoto, T., & Guestrin, C. (2024).** *Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT).* [arXiv:2407.04620](https://arxiv.org/abs/2407.04620).
 5. **Kosowski, A., Uznański, P., Chorowski, J., Stamirowska, Z., & Bartoszkiewicz, M. (2025).** *The Dragon Hatchling: The Missing Link between the Transformer and Models of the Brain.* [arXiv:2509.26507](https://arxiv.org/abs/2509.26507).
 6. **Engdahl, B., Kosowski, A., Chorowski, J., Stamirowska, Z., Uznański, P., et al. (2026).** *BDH-CQ: In-Context Learning with Recurrent Latent Reasoning.* [arXiv:2608.09888](https://arxiv.org/abs/2608.09888).

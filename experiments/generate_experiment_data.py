@@ -205,11 +205,11 @@ def export_full_benchmark_dataset():
     os.makedirs("data", exist_ok=True)
     os.makedirs("public/data", exist_ok=True)
     
-    print("Generating comprehensive empirical datasets with isotropic distributions...")
+    print("Generating comprehensive empirical datasets with isotropic distributions (50 trials/config)...")
     exp_a = run_experiment_a_orthogonal_baseline()
-    exp_b = run_experiment_b_correlation_sweep(steps=20, num_trials=30)
-    exp_c = run_experiment_c_load_sweep(d=8, max_N=20, rho=0.35, num_trials=30)
-    exp_d = run_experiment_d_dimension_sweep(N=8, dimensions=[4, 6, 8, 12, 16, 24, 32, 48, 64], rho=0.35, num_trials=30)
+    exp_b = run_experiment_b_correlation_sweep(steps=20, num_trials=50)
+    exp_c = run_experiment_c_load_sweep(d=8, max_N=20, rho=0.35, num_trials=50)
+    exp_d = run_experiment_d_dimension_sweep(N=8, dimensions=[4, 6, 8, 12, 16, 24, 32, 48, 64], rho=0.35, num_trials=50)
     presets = generate_preset_protocols()
     
     dataset = {
