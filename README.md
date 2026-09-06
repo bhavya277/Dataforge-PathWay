@@ -5,7 +5,7 @@
 
 ### Required Submission Deliverables & Artifacts
 * **Public Interactive Web Application:** [https://dataforge-pathway-iota.vercel.app/](https://dataforge-pathway-iota.vercel.app/)
-* **One-Page Concept Summary PDF:** [`CONCEPT_SUMMARY.pdf`](CONCEPT_SUMMARY.pdf) (Repository Root; ~686 words, single-page A4)
+* **One-Page Concept Summary PDF:** [`CONCEPT_SUMMARY.pdf`](CONCEPT_SUMMARY.pdf) (Repository Root; 727 words via PDF text extraction, single-page A4)
 * **Research Blog Post PDF:** [`BLOG_POST.pdf`](BLOG_POST.pdf) (Repository Root; publication layout with KaTeX typesetting)
 * **Public Source Repository:** [https://github.com/bhavya277/Dataforge-PathWay.git](https://github.com/bhavya277/Dataforge-PathWay.git)
 

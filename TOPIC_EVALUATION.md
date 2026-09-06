@@ -55,10 +55,6 @@ This document rigorously evaluates the approved main topics from Page 2 of the D
 | 21. Potential for 60-second "OH!" Moment | 5 | 4 | 4 | 4 |
 | 22. Reusable Educational Tooling Value | 5 | 4 | 4 | 4 |
 | **TOTAL SCORE (out of 110)** | **109** | **91** | **94** | **87** |
-| 11. Failure-Case Potential | 5 (High-load stress case) | 4 (Decay collapse) | 4 (Dead units) | 4 (Drift) |
-| 12. "60-Second OH!" Factor | 5 (Visible matrix contamination) | 4 (Gating curves) | 3 (Slow drift) | 3 (State charts) |
-| 13. Blog Topic Natural Fit | 5 (Blog Topic 2: Associative Memory) | 4 (Topic 3) | 3 (Topic 1) | 3 (Topic 4) |
-| **Total Score (out of 65)** | **63** | **53** | **45** | **47** |
 
 ---
 

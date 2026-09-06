@@ -6,7 +6,7 @@ In compliance with the DataForge 2026 Pathway Track regulations, this document t
 ---
 
 ## 1. AI Assistance Disclosure
-* **Tool:** AI coding assistant.
+* **Tool:** Antigravity AI coding assistant.
 * **Scope of Assistance:** AI-assisted coding, documentation, and design support was used during development.
 * **Technical Ownership:** The team provided the project direction, reviewed generated work, verified mathematical behavior, and retains responsibility for the final implementation, empirical findings, and scientific claims.
 

@@ -59,7 +59,7 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
   - Raw LaTeX Control Sequences: **0**
   - Result: **PASS**
 * **Concept Summary PDF (`CONCEPT_SUMMARY.pdf` / `docs/CONCEPT_SUMMARY.pdf`):**
-  - Total Extracted Word Count: **727 words** (Target: 500–950 words)
+  - Total Extracted Word Count: **727 words** via PDF text extraction (`pdf-parse`, excluding non-text math glyphs; Target: 500–950 words)
   - Total Pages: **Exactly 1 page A4** (strict single-page layout verified)
   - Local Path Leaks: **0**
   - Raw LaTeX Control Sequences: **0**
