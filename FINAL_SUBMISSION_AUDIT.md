@@ -72,13 +72,14 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 
 * **Canonical Generator:** `experiments/generate_experiment_data.py`
 * **Canonical Datasets:** `data/experiment_benchmarks.json` and `public/data/experiment_benchmarks.json` (verified byte-identical)
-* **Configuration Count:** **60 parameter configurations**
-  - `experiment_a_orthogonal`: 11 configurations
-  - `experiment_b_correlation_sweep`: 20 configurations
-  - `experiment_c_load_sweep`: 20 configurations
-  - `experiment_d_dimension_sweep`: 9 configurations
-  - **Total**: $11 + 20 + 20 + 9 = 60$ parameter configurations
-* **Trial Count Standard:** **50 Monte Carlo trials** per configuration across sweeps
+* **Configuration Count:** **50 benchmark configurations**
+  - The benchmark dataset contains 50 configurations: 1 deterministic orthogonal baseline, plus 20 correlation-sweep, 20 load-sweep, and 9 dimension-sweep configurations. The three sweep experiments use 50 Monte Carlo trials per configuration.
+  - `experiment_a_orthogonal`: 1 deterministic baseline configuration
+  - `experiment_b_correlation_sweep`: 20 configurations (50 Monte Carlo trials/configuration)
+  - `experiment_c_load_sweep`: 20 configurations (50 Monte Carlo trials/configuration)
+  - `experiment_d_dimension_sweep`: 9 configurations (50 Monte Carlo trials/configuration)
+  - **Total**: $1 + 20 + 20 + 9 = 50$ benchmark configurations
+* **Trial Count Standard:** 50 Monte Carlo trials per configuration across the three sweep experiments (49 sweep configurations total; Experiment A is a deterministic baseline)
 * **Key Generation Parameter Setup:**
   - Isotropic Gaussian sampling on unit sphere with controlled shared latent component: $k_i \propto \sqrt{\rho} u_0 + \sqrt{1 - \rho} \xi_i$
   - Orthogonal baseline ($\rho=0.00, N=4, d=8$): Mean Cosine Similarity $= 1.0000$, Mean L2 Error $= 0.0000$
