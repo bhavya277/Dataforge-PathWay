@@ -10,22 +10,22 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 
 ## 2. Tests
 
-* **Command:** `python -m unittest discover -s experiments`
-* **Result:** Ran 7 tests in 0.293s — **OK (All 7 passed)**
+* **Command:** `python -B -m unittest discover -s experiments`
+* **Result:** Ran 7 tests in 1.245s — **OK (All 7 passed)**
 * **Coverage:**
-  - `test_outer_product_update`: Exact Hebbian outer product accumulation
-  - `test_exact_signal_crosstalk_decomposition`: Linear signal + cross-talk decomposition equivalence to float64 machine precision ($< 10^{-15}$)
-  - `test_orthogonal_keys_zero_crosstalk`: Exact zero cross-talk under orthonormal keys
-  - `test_decay_attenuation`: Exponential retention decay discounting earlier associations
-  - `test_rank_bound`: State matrix rank bounded by state dimension $d$
-  - `test_bdh_sparsity_gating`: Non-negative projection and Top-K connection gating
-  - `test_full_linear_attention_equivalence`: Multi-token equivalence between recurrent state and causal linear attention
+  - `test_outer_product_shape_and_values`: Exact Hebbian outer product accumulation
+  - `test_signal_crosstalk_decomposition_multi_decay`: Linear signal + cross-talk decomposition equivalence across decay values
+  - `test_perfect_orthogonal_retrieval`: Exact zero cross-talk under orthonormal keys
+  - `test_gram_matrix_properties`: Gram matrix symmetry and unit diagonal properties
+  - `test_decay_factor_recency`: Exponential retention decay discounting earlier associations
+  - `test_recurrence_vs_direct_summation_arbitrary_decay`: Direct summation equivalence across arbitrary decay rates
+  - `test_exact_linear_decomposition_residual_invariant`: Exact linear decomposition residual invariant ($< 10^{-12}$) across diverse parameter configurations
 
 ---
 
 ## 3. Recurrence Verification
 
-* **Command:** `python experiments/verify_recurrence.py`
+* **Command:** `python -B experiments/verify_recurrence.py`
 * **Total Configurations Tested:** 125 randomized parameter sweeps ($d \in [4, 16], N \in [2, 16], \rho \in [0.0, 0.8], \lambda \in [0.6, 1.0]$)
 * **Max State Matrix Discrepancy:** $7.77 \times 10^{-16}$
 * **Max Retrieval Output Discrepancy:** $1.33 \times 10^{-15}$
@@ -37,10 +37,10 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 ## 4. Production Build
 
 * **Command:** `npm ci` & `npm run build`
-* **Next.js Version:** 15.5.7 (React 19.2.8)
-* **Clean Install Result:** `added 181 packages, and audited 182 packages in 27s (Exit Code: 0)`
+* **Next.js Version:** 15.5.7 (React 19.0.0)
+* **Clean Install Result:** `added 181 packages, and audited 182 packages in 48s (Exit Code: 0)`
 * **Compilation Result:**
-  - `✓ Compiled successfully in 22.9s`
+  - `✓ Compiled successfully in 40s`
   - `Linting and checking validity of types ... PASS`
   - `Generating static pages (4/4) ... PASS`
   - `Finalizing page optimization ... PASS`
@@ -59,7 +59,7 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
   - Raw LaTeX Control Sequences: **0**
   - Result: **PASS**
 * **Concept Summary PDF (`CONCEPT_SUMMARY.pdf` / `docs/CONCEPT_SUMMARY.pdf`):**
-  - Total Extracted Word Count: **729 words** (Target: 500–950 words)
+  - Total Extracted Word Count: **727 words** (Target: 500–950 words)
   - Total Pages: **Exactly 1 page A4** (strict single-page layout verified)
   - Local Path Leaks: **0**
   - Raw LaTeX Control Sequences: **0**
@@ -71,14 +71,20 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 ## 6. Experimental Data
 
 * **Canonical Generator:** `experiments/generate_experiment_data.py`
-* **Canonical Datasets:** `data/experiment_benchmarks.json` and `public/data/experiment_benchmarks.json`
-* **Trial Count Standard:** **50 Monte Carlo trials** per configuration across all parameter sweeps
+* **Canonical Datasets:** `data/experiment_benchmarks.json` and `public/data/experiment_benchmarks.json` (verified byte-identical)
+* **Configuration Count:** **60 parameter configurations**
+  - `experiment_a_orthogonal`: 11 configurations
+  - `experiment_b_correlation_sweep`: 20 configurations
+  - `experiment_c_load_sweep`: 20 configurations
+  - `experiment_d_dimension_sweep`: 9 configurations
+  - **Total**: $11 + 20 + 20 + 9 = 60$ parameter configurations
+* **Trial Count Standard:** **50 Monte Carlo trials** per configuration across sweeps
 * **Key Generation Parameter Setup:**
-  - Isotropic Gaussian sampling on unit sphere with shared latent component: $k_i \propto \sqrt{\rho} u_0 + \sqrt{1 - \rho} \xi_i$
+  - Isotropic Gaussian sampling on unit sphere with controlled shared latent component: $k_i \propto \sqrt{\rho} u_0 + \sqrt{1 - \rho} \xi_i$
   - Orthogonal baseline ($\rho=0.00, N=4, d=8$): Mean Cosine Similarity $= 1.0000$, Mean L2 Error $= 0.0000$
   - Moderate key correlation ($\rho=0.45, N=4, d=8$): Mean Cosine Similarity $= 0.7647$, Mean L2 Error $= 0.8475$
   - High synthetic memory load ($N=12, d=8, \rho=0.35$): Mean Cosine Similarity $= 0.5764$, Mean L2 Error $= 1.3590$, $\text{ISR} = 1.3590$
-* **Result:** **PASS** — All numbers in documentation, blog, summary, and presets are synchronized with the canonical JSON.
+* **Result:** **PASS** — All numbers across documentation, blog, summary, presets, and benchmarks are synchronized with the canonical JSON.
 
 ---
 
@@ -184,9 +190,9 @@ Every submission requirement, scientific claim boundary, mathematical assertion,
 * `src/components/visualization/MemoryMatrixHeatmap.tsx`: Fluid responsive aspect-square matrix layout and wrapping legend.
 * `src/app/page.tsx`: Responsive hero title scaling and slider label wrapping.
 * `src/lib/math-engine.ts`: Refined low-overlap baseline comments.
-* `src/lib/presets.ts`: Presets 1 and 3 updated with conservative subtitles and $N > d$ lessons.
+* `src/components/equations/InteractiveEquation.tsx`: Teaching abstraction description updated with conservative phrasing.
+* `TOPIC_EVALUATION.md`: Renamed concept to Sparse Positive Activations & Synaptic Plasticity and updated research context framing.
 
----
 
 ## 15. Files Deleted
 

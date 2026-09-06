@@ -44,7 +44,7 @@ $$\text{Input Tokens } \{x_1, \dots, x_N\} \xrightarrow{\text{Projection}} \{(k_
 | **01. Orthogonal Baseline** | $N=4, d=8, \rho=0.0, \lambda=1.0$ | $\text{Error} = 0.000$, clean retrieval | With orthogonal keys, memory retrieval has zero cross-talk for $N \le d$. |
 | **02. Key Interference** | $N=4, d=8, \rho=0.45, \lambda=1.0$ | Observed $\text{Error} > 0.0$, noisy output vector | Non-orthogonal keys bleed value components across memory slots. |
 | **03. High-Load Stress Case** | $N=12, d=8, \rho=0.45, \lambda=1.0$ | Observed higher $\text{Error}$ | When $N > d$ and keys correlate, additive cross-talk degrades output. |
-| **04. BDH Sparse Plasticity** | $N=12, d=8, \rho=0.45, \text{BDH}=\text{True}$ | Reduced cross-talk in toy model | Non-negative sparse activations suppress off-diagonal interference in this teaching abstraction. |
+| **04. BDH Sparse Plasticity** | $N=12, d=8, \rho=0.45, \text{BDH}=\text{True}$ | Altered cross-talk in toy model | Non-negative sparse activations change off-diagonal interference patterns in this teaching abstraction. |
 
 ---
 

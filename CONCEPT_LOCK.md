@@ -13,7 +13,7 @@
 * **The Post-Transformer Pivot:** Standard Transformers scale quadratically with context length ($O(N^2)$). Post-Transformer architectures (Linear Attention, RWKV, RetNet, Mamba, xLSTM, BDH) compress context into a recurrent hidden state $S_t \in \mathbb{R}^{d_{key} \times d_{val}}$.
 * **The Fundamental Dilemma:** Unlike full KV caching which stores all history faithfully, a fixed-size recurrent state MUST continuously superimpose outer products:
   $$S_t = \lambda S_{t-1} + v_t k_t^T$$
-  This creates a fundamental trade-off between **memory load** and **cross-talk interference**.
+  This creates a trade-off between fixed state size and retrieval interference that we investigate empirically under a controlled synthetic setup.
 * **The BDH Connection:** BDH explores a brain-inspired architecture built around sparse positive activations and localized synaptic plasticity, providing a contrasting architectural context for the dense linear recurrent state studied here.
 
 ---

@@ -26,7 +26,7 @@ Our primary operational directive is:
 
 | Requirement from PDF | Planned Implementation | Evidence / Demonstration | Status |
 |---|---|---|---|
-| **1. One-Sentence Falsifiable Claim** | "When stored keys are not orthogonal, a linear fast-weight state adds non-target contributions to retrieval; in our synthetic setup, increasing controlled key overlap increases measured cross-talk." | Interactive capacity curve + token interference probe directly testing and falsifying the boundary. | Completed |
+| **1. One-Sentence Falsifiable Claim** | "When stored keys are not orthogonal, a linear fast-weight state adds non-target contributions to retrieval; in our synthetic setup, increasing controlled key overlap increases measured cross-talk." | Interactive memory-load curve + token interference probe directly testing and falsifying the boundary. | Completed |
 | **2. Real Computational Substrate** | Vectorized pure TypeScript/Python mathematical engine executing exact state updates ($S_t = \lambda S_{t-1} + v_t k_t^T$). | Live matrix arithmetic running in-browser with deterministic seeds; inspected step-by-step. | Completed |
 | **3. Visible Internal State** | Real-time 2D matrix visualization of the Recurrent Memory Matrix $S_t$ showing exact Float64 weights and rank bounds. | Interactive matrix view showing dimensions, rank bounds, and per-cell weight inspection. | Completed |
 | **4. Ground Truth vs Model Output** | Simultaneous dual-readout display: Ground Truth target vector vs Model retrieved output vector + Cosine Error / L2 distance / ISR. | Side-by-side discrepancy metric rendered at every query probe with exact algebraic breakdown. | Completed |

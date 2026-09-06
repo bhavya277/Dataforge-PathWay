@@ -102,7 +102,7 @@ export const BDHComparisonExplorer: React.FC = () => {
           BDH-CQ: In-Context Learning with Recurrent Latent Reasoning
         </span>
         <p className="text-xs text-[#626873] leading-relaxed">
-          BDH-CQ extends Dragon Hatchling to multi-step reasoning over recurrent latent state trajectories. In-context demonstrations continuously update recurrent synaptic memory, allowing the query to be solved through iterative latent computation without requiring explicit written token Chain-of-Thought (CoT).
+          BDH-CQ extends Dragon Hatchling to multi-step reasoning over recurrent latent state trajectories. In-context demonstrations continuously update recurrent synaptic memory, allowing the query to be evaluated through iterative latent computation without requiring explicit written token Chain-of-Thought (CoT).
         </p>
       </div>
 

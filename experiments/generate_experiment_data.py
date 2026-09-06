@@ -184,7 +184,7 @@ def generate_preset_protocols() -> Dict[str, Any]:
         "title": "PROTOCOL 05: SPARSE ABSTRACTION",
         "subtitle": "BDH-inspired non-negative sparse projection [TEACHING ABSTRACTION]",
         "question": "Can non-negative sparse representations reduce overlap in a toy recurrent state?",
-        "scientificLesson": "Non-negative sparse activations can reduce active overlapping connections under suitable sparse-support regimes, suppressing pairwise inner products. (Teaching simplification; not the full BDH architecture).",
+        "scientificLesson": "Non-negative sparse activations can reduce the number of active pairwise interactions in this teaching abstraction, changing the pattern of pairwise inner products. (Teaching simplification; not the full BDH architecture).",
         "d": 8,
         "N": 12,
         "correlation": 0.35,

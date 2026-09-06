@@ -41,7 +41,7 @@ In accordance with the official Pathway Problem Statement guidelines, the proven
 | **CODE** | Original / Open Source | Core mathematical engine, state recurrence updates, interactive visualizers, and Python verification scripts are original work under the MIT License. |
 | **DATA** | Synthetic Only | No external private or proprietary datasets used. All key-value vectors are generated synthetically in-memory via controlled isotropic Gaussian sampling (`src/lib/math-engine.ts`, `experiments/associative_memory.py`). |
 | **MODEL WEIGHTS** | None | No pre-trained proprietary or third-party neural network model weights are bundled or utilized. All state matrices ($S \in \mathbb{R}^{d \times d}$) are computed deterministically from first principles. |
-| **GRAPHICS** | Original / Programmatic | All heatmaps, vector bars, capacity curves, and decomposition diagrams are rendered programmatically via inline HTML5 SVG/Canvas elements. |
+| **GRAPHICS** | Original / Programmatic | All heatmaps, vector bars, memory-load curves, and decomposition diagrams are rendered programmatically via inline HTML5 SVG/Canvas elements. |
 | **FONTS** | System / Bundled | Standard system sans-serif font stack; mathematical symbols rendered via KaTeX bundled font assets. No external font CDNs or remote dependencies. |
 | **REUSED COMPONENTS** | Permissive Open Source | See third-party dependency manifest below. |
 

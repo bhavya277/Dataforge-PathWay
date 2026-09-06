@@ -123,7 +123,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 | **Target vs. Cross-Talk Decomposition** | **Live Computation** | Exact algebraic separation with live float64 residual badge ($\|y_t - (\text{target} + \text{crosstalk})\|_2 < 10^{-14}$). |
 | **Pairwise Key Gram Matrix ($G = K K^T$)** | **Live Computation** | Full inner-product matrix and observed statistics ($\mu, \sigma, \min, \max$) evaluated on the fly. |
 | **Learner Explain-Back Reflection Checkpoint** | **Live Interactive UI** | In-memory reflection prompt with concept hint tags and reference model answer reveal. |
-| **Monte Carlo Benchmark Distributions** | **Precomputed / Cached** | 50 trials per step across 25 parameter configurations stored in `data/experiment_benchmarks.json` as baseline curves. |
+| **Monte Carlo Benchmark Distributions** | **Precomputed / Cached** | 50 trials per configuration across 60 parameter configurations stored in `data/experiment_benchmarks.json` as baseline curves. |
 | **BDH Sparse Plasticity Block** | **Teaching Abstraction** | Simplified single-layer $\text{ReLU}(v)\text{ReLU}(k)^T$ with Top-K pruning; illustrates sparse gating, not full BDH model. |
 
 ---
@@ -141,7 +141,7 @@ $$y_t = \underbrace{\lambda^{t-j} \eta \cdot v_j (k_j^T q_j)}_{\text{Target Cont
 
 ## 12. What is Precomputed
 
-* **Statistical Benchmark Sweeps:** Large-scale Monte Carlo reference distributions (50 trials per step across 25 parameter configurations) saved in `data/experiment_benchmarks.json`. These provide statistical baseline reference curves on the Stress Test tab. No live UI simulation passes off precomputed traces as real-time computation.
+* **Statistical Benchmark Sweeps:** Large-scale Monte Carlo reference distributions (50 trials per configuration across 60 parameter configurations) saved in `data/experiment_benchmarks.json`. These provide statistical baseline reference curves on the Stress Test tab. No live UI simulation passes off precomputed traces as real-time computation.
 
 ---
 

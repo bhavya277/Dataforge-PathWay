@@ -72,6 +72,6 @@ This document catalogs the primary peer-reviewed and pre-print literature (2021â
 * **Citation:** Elhage, Nelson, Tristan Hume, Catherine Olsson, Nicholas Schiefer, Tom Henighan, Shauna Kravec, Zac Hatfield-Dodds, Robert Lasenby, Scott Johnston, Christopher Olah, et al. (Anthropic, 2022). "Toy Models of Superposition." *Transformer Circuits Thread*.
 * **Year:** 2022
 * **Mechanism / System Studied:** Geometric packing of features into lower-dimensional vector spaces via non-orthogonal superposition.
-* **Relationship to Associative Memory:** Explains mathematically why non-orthogonal vectors create non-zero dot products ($k_i^T k_j \ne 0$) and how non-negative sparse constraints allow more distinct features to be packed before cross-talk overwhelms readout.
+* **Relationship to Associative Memory:** Discusses how non-orthogonal feature representations can produce superposition and interference, providing geometric context for our key-overlap experiment.
 * **Relevance to Our Experiment:** Directly informs our geometric framing of key overlap ($\rho$), Gram matrix inspection, and the sparse positive contrast.
 * **Classification:** `[PUBLISHED LITERATURE â€¢ REPRESENTATION GEOMETRY]`

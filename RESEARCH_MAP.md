@@ -12,7 +12,7 @@ This document establishes the scientific grounding for the project, categorizing
 | **2. Recurrent State Algebraic Rank Bound** | Standard Linear Algebra | Linear Algebra Property | Exact Matrix Bound | $\text{Rank}(S_t) \le d$ for $S_t \in \mathbb{R}^{d \times d}$ | Geometric bound on state subspace |
 | **3. Test-Time Parameter Update as Memory** | Sun et al. (*TTT / Test-Time Training*) | arXiv:2407.04620 (2024) | Published Experiment | $\theta_t = \theta_{t-1} - \eta \nabla \ell(\theta_{t-1}; x_t)$ | Fast Weight vs Test-Time Weight Adaptation |
 | **4. Selective State-Space Gating vs Recurrence** | Gu & Dao (*Mamba*) | arXiv:2312.00752 (2023) | Published Experiment | $h_t = (I - \Delta_t A) h_{t-1} + \Delta_t B_t x_t$ | Comparison baseline in Sandbox |
-| **5. Sparse Monosemantic Plasticity** | Kosowski et al. (*Dragon Hatchling / BDH*) | arXiv:2509.26507 (2025) | Published Pre-print | $a_t \ge 0$, local synaptic updates | BDH Research Connection & Toy Abstraction |
+| **5. Sparse Synaptic Plasticity** | Kosowski et al. (*Dragon Hatchling / BDH*) | arXiv:2509.26507 (2025) | Published Pre-print | $a_t \ge 0$, local synaptic updates | BDH Research Connection & Toy Abstraction |
 | **6. Latent Demonstration Reasoning** | Engdahl et al. (*BDH-CQ*) | arXiv:2608.09888 (2026) | Published Pre-print | In-context learning via recurrent latent reasoning | BDH-CQ Contextual Extension |
 
 ---

@@ -19,7 +19,7 @@ This document rigorously evaluates the approved main topics from Page 2 of the D
 8. **Layer Normalization Dynamics in Post-Transformer Recurrence** (RMSNorm / GroupNorm stabilization in xLSTM/RWKV).
 
 ### Cluster C: Sparsity and Interpretability
-9. **Sparse Positive Activations & Monosemantic Synapses** (ReLU/Top-K induced non-negative polysemanticity reduction vs dense superposition).
+9. **Sparse Positive Activations & Synaptic Plasticity** (ReLU/Top-K induced non-negative activation gating vs dense superposition).
 10. **Scale-Free Neural Networks & Sparse Topology**.
 
 ### Cluster D: Architectural Directions
@@ -30,7 +30,7 @@ This document rigorously evaluates the approved main topics from Page 2 of the D
 
 ## 2. Multi-Dimensional Scoring Framework (1 to 5 scale per criterion, Max Score = 110)
 
-| Evaluation Criterion | Linear Attention & Associative Fast Weights | Neural SSMs (Mamba / S4) | Sparse Positive Activations & Monosemantic Synapses | Recurrent Latent Reasoning |
+| Evaluation Criterion | Linear Attention & Associative Fast Weights | Neural SSMs (Mamba / S4) | Sparse Positive Activations & Synaptic Plasticity | Recurrent Latent Reasoning |
 |---|:---:|:---:|:---:|:---:|
 | 1. Technical Depth | 5 | 5 | 4 | 5 |
 | 2. Research Relevance (2022–2026) | 5 | 5 | 5 | 5 |
@@ -73,8 +73,8 @@ This document rigorously evaluates the approved main topics from Page 2 of the D
   3. **High Visual Impact:** A $d \times d$ recurrent weight matrix can be visualized live in 2D with inspectable Float64 weights.
   4. **Sharp, Clean Falsifiable Claim:** Quantifiable storage behavior under orthogonal keys, demonstrating how non-orthogonal key overlap induces cross-talk."
 
-### TOP 2: Sparse Positive Activations & Monosemantic Synapses in Post-Transformers (Score: 94/110)
-* **Concept:** How non-negative Top-K / ReLU activation constraints force polysemantic superposition collapse into isolated, monosemantic circuits.
+### TOP 2: Sparse Positive Activations & Synaptic Plasticity in Post-Transformers (Score: 94/110)
+* **Concept:** How non-negative sparse activation and connection gating can change interaction patterns relative to dense superposition, using BDH as research context.
 * **Pros:** Deep aesthetic appeal, direct BDH relevance (sparse positive firing).
 * **Cons:** Harder to provide an immediate 60-second quantitative ground-truth error comparison without training large SAE dictionaries.
 

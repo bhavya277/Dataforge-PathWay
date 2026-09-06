@@ -46,7 +46,7 @@ export const InteractiveEquation: React.FC = () => {
       title: "BDH-Inspired Sparse Plasticity Abstraction",
       math: "W_t = \\operatorname{TopK}\\left(\\lambda W_{t-1} + \\eta \\cdot \\operatorname{ReLU}(v_t) \\operatorname{ReLU}(k_t)^T\\right)",
       explanation:
-        "A simplified teaching abstraction inspired by mechanisms discussed in Dragon Hatchling (BDH): non-negative sparse projections reduce active overlapping connections, suppressing cross-talk in this toy model.",
+        "A simplified teaching abstraction inspired by mechanisms discussed in Dragon Hatchling (BDH): non-negative sparse projections reduce the number of active connections in this teaching abstraction, allowing learners to inspect how sparse support changes the cross-talk pattern.",
       dimension: "W_t \\in \\mathbb{R}^{d \\times d} \\text{ (Sparse Non-Negative)}",
       note: "[BDH-INSPIRED TEACHING ABSTRACTION • NOT THE FULL BDH ARCHITECTURE]",
     },
